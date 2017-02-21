@@ -1,0 +1,237 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package servers;
+
+
+import com.sysware.concesionario.App;
+import com.sysware.concesionario.entitie.Entitie;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ *
+ * @author andre
+ * Este servlet responde al llamado del cliente para solicitar los rangos de cilindrajes que se debe escojer 
+ * seleccionar el tipo de vehiculo,
+ * 
+ * Esta en modificacion. 
+ */
+public class ClaseVehiculoClientView extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        response.setContentType("text/html;charset=UTF-8");
+        try{
+            if(request.getSession().getAttribute("session").equals("true")){
+                
+                String var = request.getParameter("variable");
+                if(var.equals("none")){
+                    Entitie tipo = new Entitie(App.TABLE_TIPOVEH);
+                    ArrayList<Entitie> tipos = tipo.getEntities();
+                    try (PrintWriter out = response.getWriter()) {
+                        for(Entitie i: tipos){
+                            //DecimalFormat formateador = new DecimalFormat("###,###.##");
+                            //formateador.format(Integer.parseInt(i.getDataOfLabel("CILINDRAJE"))) 
+                            String s="";
+                            if(i.getDataOfLabel("DESCRIPCION").contains("MOTO")){
+                                s="selected";
+                            }
+                            out.println("<option value=\""+i.getId()+"\" "+s+">" 
+                                    + i.getDataOfLabel("DESCRIPCION")+"</option>");
+                        }
+                    }
+                }
+                if(var.equals("clase")){
+                    Entitie clase = new Entitie(App.TABLE_CLASEVEHI);
+                    String tipo = request.getParameter("tipo");
+                    ArrayList<Entitie> clases = clase.getEntitieParam("TIPO", tipo);
+                    try (PrintWriter out = response.getWriter()) {
+                        for(Entitie i: clases){
+                            String s="";
+                            if(i.getDataOfLabel("DESCRIPCION").equals("MOTOCICLETA")){
+                                s="selected";
+                            }
+                            out.println("<option value=\""+i.getId()+"\" "+s+">" 
+                                    + i.getDataOfLabel("DESCRIPCION")+"</option>");
+                        }
+                    }
+                    
+                }
+                if(var.equals("tipo")){
+                    Entitie clase = new Entitie(App.TABLE_TIPOVEHSOAT);
+                    ArrayList<Entitie> clases = clase.getEntities();
+                    try (PrintWriter out = response.getWriter()) {
+                        for(Entitie i: clases){
+                            out.println("<option value=\""+i.getId()+"\">" 
+                                    + i.getDataOfLabel("DESCRIPCION")+"</option>");
+                        }
+                    }
+                    
+                }
+                if(var.equals("especifico")){
+                    Entitie soat = new Entitie(App.TABLE_SOAT);
+                    String clase = request.getParameter("clase");
+                    ArrayList<Entitie> valores= soat.getEntitieParam("TIPOVEH",clase );
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println("{");
+                        out.println("\"clases\": {");
+                        out.println("   \"option\": [");
+                        for(Entitie t : valores){
+                            out.println("       {\"value\": \""+t.getId()+"\",\"name\": \""+t.getDataOfLabel("DESCRIPCION")+"\"}, ");
+                        }
+                        out.println("       {\"value\": \"0\",\"name\": \"--\"}");
+                        out.println("       ]");
+                        out.println("   },");
+                        String valor="0";
+                        if(!valores.isEmpty()){
+                            valor= valores.get(0).getDataOfLabel("VALOR");
+                        }
+                        out.println("\"valor\": \""+valor+"\",");
+                        out.println("\"andiazher\": \"andiazher.com\"");
+                        out.println("}");
+                        
+                    }
+                }
+                if(var.equals("concesionario")){
+                    String usuario =(String) request.getSession().getAttribute("user");
+                    Entitie user = new Entitie(App.TABLE_USUARIO);
+                    user=user.getEntitieParam("USUARIO", usuario).get(0);
+                    Entitie canal = new Entitie(App.TABLE_CANALES);
+                    canal.getEntitieID(user.getDataOfLabel("ID_CANAL"));
+                    Entitie concesionario = new Entitie(App.TABLE_CONCESIONARIO);
+                    concesionario.getEntitieID(canal.getDataOfLabel("ID_CONCESIONARIO"));
+                    
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println("{");
+                        out.println("\"valor\": \""+concesionario.getDataOfLabel("SALDO")+"\",");
+                        out.println("\"minimo\": \""+concesionario.getDataOfLabel("MINIMO")+"\",");
+                        out.println("\"nombre\": \""+concesionario.getDataOfLabel("NOMBRE")+"\",");
+                        out.println("\"andiazher\": \"andiazher.com\"");
+                        out.println("}");
+                        
+                    }
+                }
+                if(var.equals("valor")){
+                    Entitie soat = new Entitie(App.TABLE_SOAT);
+                    String tarifa = request.getParameter("clase");
+                    soat.getEntitieID(tarifa);
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println(soat.getDataOfLabel("VALOR"));
+                    }
+                }
+                if(var.equals("marca")){
+                    Entitie marca = new Entitie(App.TABLE_MARCA);
+                    String tipo = request.getParameter("marca");
+                    ArrayList<Entitie> marcas = marca.getEntities();
+                    try (PrintWriter out = response.getWriter()) {
+                        for(Entitie i: marcas){
+                            String s="";
+                            if(i.getDataOfLabel("DESCRIPCION").equals("AUTECO")){
+                                s="selected";
+                            }
+                            out.println("<option value=\""+i.getId()+"\" "+s+">" 
+                                    + i.getDataOfLabel("DESCRIPCION")+"</option>");
+                        }
+                    }
+                    
+                }
+                
+                
+                if(var.equals("aseguradora")){
+                    Entitie aseguradora = new Entitie(App.TABLE_ASEGURADORAS);
+                    ArrayList<Entitie> aseguradoras = new ArrayList<>();
+                    aseguradoras = aseguradora.getEntities();
+                    try (PrintWriter out = response.getWriter()) {
+                        for(Entitie i: aseguradoras){
+                            out.println("<option value=\""+i.getId()+"\">" 
+                                    + i.getDataOfLabel("DESCRIPCION")+"</option>");
+                        }
+                    }
+                }
+                
+            }
+            else{
+                response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales");
+            }
+        } catch(NullPointerException a){
+            try (PrintWriter out = response.getWriter()) {
+                out.println("<script type=\"text/javascript\">\n" +
+                    "    swal(\n" +
+                    "        'Error:',\n" +
+                    "        'No se puede cargar el contenido',\n" +
+                    "        'error'\n" +
+                    "    )\n" +
+                    "</script>");
+            }
+        }
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ClaseVehiculoClientView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ClaseVehiculoClientView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+}
