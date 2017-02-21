@@ -183,7 +183,7 @@
                                         <div class="row">
                                             <div class="form-group form-button nav-center">
                                                     <label>
-                                                        <input type="checkbox" name="optionsCheckboxes"> Guardar sin cambiar estado
+                                                        <input type="checkbox" name="optionsave"> Guardar sin cambiar estado
                                                         <span class="checkbox-material"><span class="check"></span></span>
                                                     </label>
                                                 <input type="submit" class="btn btn-fill btn-success" value="Guardar" >

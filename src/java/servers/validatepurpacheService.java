@@ -49,6 +49,7 @@ public class validatepurpacheService extends HttpServlet {
                 String numeroPoliza="0000000000000";
                 String observaciones="";
                 String valor="";
+                String optionsave= "";
                 try{
                     odetalle.getEntitieID(request.getParameter("id"));
                     valor = request.getParameter("valor");
@@ -56,6 +57,7 @@ public class validatepurpacheService extends HttpServlet {
                     estado = request.getParameter("var");
                     numeroPoliza = request.getParameter("soat");
                     observaciones = request.getParameter("obser");
+                    optionsave= request.getParameter("optionsave");
                     System.out.println("Aqui llegue: "+estado);
                 }catch(NullPointerException s){
                     System.out.println("Error: "+s);
