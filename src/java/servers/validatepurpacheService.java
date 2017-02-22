@@ -58,45 +58,21 @@ public class validatepurpacheService extends HttpServlet {
                     numeroPoliza = request.getParameter("soat");
                     observaciones = request.getParameter("obser");
                     optionsave= request.getParameter("optionsave");
-                    System.out.println("Aqui llegue: "+estado);
                 }catch(NullPointerException s){
                     System.out.println("Error: "+s);
                 }
                 try (PrintWriter out = response.getWriter()) {
                     try{
-                        Entitie ve = new Entitie(App.TABLE_VEHICULO);
-                        ve.getEntitieID(orden.getDataOfLabel("VEHICULO"));
-                        ve.getData().set(ve.getColums().indexOf("TIPO"), request.getParameter("tipo"));
-                        ve.getData().set(ve.getColums().indexOf("CLASE"), request.getParameter("clase"));
-                        ve.getData().set(ve.getColums().indexOf("MARCA"), request.getParameter("marca"));
-                        ve.getData().set(ve.getColums().indexOf("MODELO"), request.getParameter("modelo"));
-                        ve.getData().set(ve.getColums().indexOf("COLOR"), request.getParameter("color"));
-                        ve.getData().set(ve.getColums().indexOf("CILINDRAJE"), request.getParameter("cilindraje"));
-                        ve.getData().set(ve.getColums().indexOf("SERVICIO"), request.getParameter("servicio"));
-                        ve.getData().set(ve.getColums().indexOf("NO_MOTOR"), request.getParameter("motor"));
-                        ve.getData().set(ve.getColums().indexOf("NO_CHASIS"), request.getParameter("chasis"));
-                        ve.getData().set(ve.getColums().indexOf("NO_VIN"), request.getParameter("vin"));
-                        Entitie p = new Entitie(App.TABLE_PROPIETARIO);
-                        p.getEntitieID(ve.getDataOfLabel("PROPIETARIO"));
-                        p.getData().set(p.getColums().indexOf("CEDULA"),request.getParameter("cedula"));
-                        p.getData().set(p.getColums().indexOf("NOMBRE"),request.getParameter("nombre"));
-                        p.getData().set(p.getColums().indexOf("SNOMBRE"),request.getParameter("snombre"));
-                        p.getData().set(p.getColums().indexOf("APELLIDO"),request.getParameter("apellido"));
-                        p.getData().set(p.getColums().indexOf("SAPELLIDO"),request.getParameter("sapellido"));
-                        p.getData().set(p.getColums().indexOf("SNOMBRE"),request.getParameter("snombre"));
-                        p.getData().set(p.getColums().indexOf("DIRECCION"),request.getParameter("direccion"));
-                        p.getData().set(p.getColums().indexOf("CELULAR"),request.getParameter("celular"));
-                        p.getData().set(p.getColums().indexOf("CORREO"),request.getParameter("correo"));
-                        ve.getData().set(ve.getColums().indexOf("PROPIETARIO"), p.getId());
-                        
-                        //UPDATE DATA OF PERSON AND VEHICLE
-                        p.update();
-                        ve.update();
-                    }catch(IndexOutOfBoundsException s){
-                            System.out.println("Error1: "+s);
-                            estado="1";
+                        if(optionsave.equals("on")){
+                            //saveDataPerOnly(orden, request, estado);
+                            estado="0";
+                        }
+                    }catch(NullPointerException s){
+                        System.out.println("Error2_ "+s);
                     }
                     
+                    //start transacction
+                    saveDataPerOnly(orden, request, estado);
                     if(estado.equals("2")){
                         String mensaje="Se ha tramitado el servicio";
                         try{
@@ -241,6 +217,16 @@ public class validatepurpacheService extends HttpServlet {
                             "</script>");
                         System.out.println("Error4: Ninguno de los dos estados predeterminados");
                     }
+                    if(estado.equals("0")){
+                        out.println("<script type=\"text/javascript\">\n" +
+                            "    swal(\n" +
+                            "        'Guardado',\n" +
+                            "        'Los datos han sido guardados, pero no se modifico el estado del servicio',\n" +
+                            "        'success'\n" +
+                            "    )\n" +
+                            "</script>");
+                        System.out.println("Error4: Ninguno de los dos estados predeterminados");
+                    }
                 }
                 
             }
@@ -325,6 +311,42 @@ public class validatepurpacheService extends HttpServlet {
             return true;
         }
         return false;
+    }
+
+    private void saveDataPerOnly(Entitie orden, HttpServletRequest request, String estado) throws SQLException {
+        try{
+            Entitie ve = new Entitie(App.TABLE_VEHICULO);
+            ve.getEntitieID(orden.getDataOfLabel("VEHICULO"));
+            ve.getData().set(ve.getColums().indexOf("TIPO"), request.getParameter("tipo"));
+            ve.getData().set(ve.getColums().indexOf("CLASE"), request.getParameter("clase"));
+            ve.getData().set(ve.getColums().indexOf("MARCA"), request.getParameter("marca"));
+            ve.getData().set(ve.getColums().indexOf("MODELO"), request.getParameter("modelo"));
+            ve.getData().set(ve.getColums().indexOf("COLOR"), request.getParameter("color"));
+            ve.getData().set(ve.getColums().indexOf("CILINDRAJE"), request.getParameter("cilindraje"));
+            ve.getData().set(ve.getColums().indexOf("SERVICIO"), request.getParameter("servicio"));
+            ve.getData().set(ve.getColums().indexOf("NO_MOTOR"), request.getParameter("motor"));
+            ve.getData().set(ve.getColums().indexOf("NO_CHASIS"), request.getParameter("chasis"));
+            ve.getData().set(ve.getColums().indexOf("NO_VIN"), request.getParameter("vin"));
+            Entitie p = new Entitie(App.TABLE_PROPIETARIO);
+            p.getEntitieID(ve.getDataOfLabel("PROPIETARIO"));
+            p.getData().set(p.getColums().indexOf("CEDULA"),request.getParameter("cedula"));
+            p.getData().set(p.getColums().indexOf("NOMBRE"),request.getParameter("nombre"));
+            p.getData().set(p.getColums().indexOf("SNOMBRE"),request.getParameter("snombre"));
+            p.getData().set(p.getColums().indexOf("APELLIDO"),request.getParameter("apellido"));
+            p.getData().set(p.getColums().indexOf("SAPELLIDO"),request.getParameter("sapellido"));
+            p.getData().set(p.getColums().indexOf("SNOMBRE"),request.getParameter("snombre"));
+            p.getData().set(p.getColums().indexOf("DIRECCION"),request.getParameter("direccion"));
+            p.getData().set(p.getColums().indexOf("CELULAR"),request.getParameter("celular"));
+            p.getData().set(p.getColums().indexOf("CORREO"),request.getParameter("correo"));
+            ve.getData().set(ve.getColums().indexOf("PROPIETARIO"), p.getId());
+            
+            //UPDATE DATA OF PERSON AND VEHICLE
+            p.update();
+            ve.update();
+        }catch(IndexOutOfBoundsException s){
+            System.out.println("Error1: "+s);
+            estado="1";
+        }
     }
 
 }
