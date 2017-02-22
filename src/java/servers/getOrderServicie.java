@@ -78,7 +78,8 @@ public class getOrderServicie extends HttpServlet {
                         out.println("<tr>");
                         String a="";
                         
-                        out.println("<td><a href=\"#SERVICE"+i.getId()+"\" class=\"\" "+a+">"+i.getId()+"</a></td>");
+                        out.println("<td>"+i.getId()+"</td>");
+                        //out.println("<td><a href=\"#SERVICE"+i.getId()+"\" class=\"\" "+a+">"+i.getId()+"</a></td>");
                         out.println("<td>"+orden.getId()+"</td>");
                         Entitie servicio = new Entitie(App.TABLE_SERVICIOS);
                         servicio.getEntitieID(i.getDataOfLabel("SERVICIO"));
@@ -87,7 +88,12 @@ public class getOrderServicie extends HttpServlet {
                         out.println("<td class=\"text-right\">$"+formateador.format(Integer.parseInt(i.getDataOfLabel("VALOR")))+"</td>");
                         Entitie estado = new Entitie(App.TABLE_ESTADO);
                         estado.getEntitieID(i.getDataOfLabel("ESTADO"));
-                        out.println("<td>"+estado.getDataOfLabel("DESCRIPCION")+"</td>");
+                        if(estado.getId().equals("3")){
+                            out.println("<td><a href=\"#revert\" onclick=\"revertService('"+i.getId()+"')\" >"+estado.getDataOfLabel("DESCRIPCION")+"<a/></td>");
+                        }
+                        else{
+                            out.println("<td>"+estado.getDataOfLabel("DESCRIPCION")+"</td>");
+                        }
                         out.println("<td>"+i.getDataOfLabel("OBSERVACIONES")+"</td>");
                         out.println("</tr>");
                     }

@@ -67,6 +67,14 @@
             $("#formViewService").html(data);
         });
     }
+    function revertService(id){
+        var service=id;
+        var menu="<%=session.getAttribute("menu")%>";
+        $.post("revertService", { variable: service, variablem : menu }, function(data){
+            openViewOrderService(data);
+            console.log("SERVICIO REVERTIDO os"+data)
+        });   
+    }
     
     
 </script>
