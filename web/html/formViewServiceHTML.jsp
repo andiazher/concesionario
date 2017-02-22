@@ -188,7 +188,7 @@
                                                     </label>
                                                 <!--<input type="submit" class="btn btn-fill btn-success" value="Guardar" >-->
                                                 <button type="submit" class="btn btn-success btn-fill" id="buttonsubmit">
-                                                Guardar2
+                                                Guardar
                                                 </button>
                                                 <a class="btn btn-fill btn-default" onclick="load(<%=session.getAttribute("menu")%>)">Cancelar</a>
                                             </div>    
