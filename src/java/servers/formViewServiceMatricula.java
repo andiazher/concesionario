@@ -41,7 +41,18 @@ public class formViewServiceMatricula extends HttpServlet {
                 String param= request.getParameter("param");
                 if(param.equals("list")){
                     try (PrintWriter out = response.getWriter()) {
+                        String param2= request.getParameter("ids");
                         Entitie secretaria = new Entitie(App.TABLE_SECRETARIAST);
+                        Entitie deos = new Entitie(App.TABLE_OSDETALLE);
+                        deos.getEntitieID(param2);
+                        Entitie os = new Entitie(App.TABLE_ORDENSERVICIO);
+                        os.getEntitieID(deos.getDataOfLabel("OS"));
+                        Entitie canal = new Entitie(App.TABLE_CANALES);
+                        canal.getEntitieID(os.getDataOfLabel("ID_CANAL"));
+                        Entitie conesionario = new Entitie(App.TABLE_CONCESIONARIO);
+                        conesionario.getEntitieID(canal.getDataOfLabel("ID_CONCESIONARIO"));
+                        secretaria.getEntitieID(conesionario.getDataOfLabel("SECRETARIA"));
+                        
                         ArrayList<Entitie> secretarias = secretaria.getEntities();
                         Entitie gestoria = new Entitie(App.TABLE_GESTORIASMATR);
                         ArrayList<Entitie> gestorias =  gestoria.getEntities();
@@ -64,7 +75,12 @@ public class formViewServiceMatricula extends HttpServlet {
                         out.println("\"secretaria\": {");
                         out.println("   \"option\": [");
                         for(Entitie t : secretarias){
-                            out.println("       {\"value\": \""+t.getId()+"\",\"name\": \""+t.getDataOfLabel("DESCRIPCION")+"\"}, ");
+                            if(t.getId().equals(secretaria.getId())){
+                                out.println("       {\"value\": \""+t.getId()+"\",\"name\": \""+t.getDataOfLabel("DESCRIPCION")+"\",\"selected\":\"selected\" },");
+                            }
+                            else{
+                                out.println("       {\"value\": \""+t.getId()+"\",\"name\": \""+t.getDataOfLabel("DESCRIPCION")+"\"}, ");
+                            }
                         }
                         out.println("       {\"value\": \"0\",\"name\": \"--\"}");
                         out.println("       ]");

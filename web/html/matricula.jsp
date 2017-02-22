@@ -13,7 +13,7 @@
     <p class="col-md-1">SECRETARIA TRANSITO:</p>
     <div class="col-md-4">
         <select class="select-with-transition" data-style="btn btn-default"  title="Single Select" data-size="7" name="secretaria" id="secretaria" required="true" onchange="loadvalue()">
-            <option disabled selected="">--</option>
+            <!--<option disabled selected="">SELECCINAR SECRETARIA</option>-->
         </select>                                                
     </div>
     <p class="col-md-1 text-right">FACTURA:</p>
@@ -175,7 +175,8 @@
         var fecha =anoActual+"/"+mes+"/"+dia;
         $("#fecha").attr("value",fecha);
         var name = "list";
-        $.post("formViewServiceMatricula", { param: name }, function(data){
+        var service = document.getElementById('id').value;
+        $.post("formViewServiceMatricula", { param: name, ids: service }, function(data){
             var valores = JSON.parse(data);
             console.log(data);
             console.log(valores);
