@@ -61,7 +61,7 @@ public class loadSaldoConcesionario extends HttpServlet {
                 //CREATE REGISTER
                 Entitie reg= new Entitie(App.TABLE_REGMOVBOLSA);
                 for(String s: reg.getColums()){
-                    reg.getData().add("");
+                    reg.getData().add("0");
                 }
                 reg.getData().set(reg.getColums().indexOf("CONCESIONARIO"), concesionario.getId());
                 Calendar fecha = new GregorianCalendar();

@@ -43,7 +43,7 @@
                                             <div class="row">
                                                 <p class="col-md-1 text-right">PLACA</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="placa" value="" placeholder="AAA222" id="placa" required="true">
+                                                    <input type="text" class="form-control" name="placa" value="" id="placa" required="true">
                                                 </div>
                                                 <p class="col-md-1 text-right">TIPO VEHÍCULO</p>
                                                 <div class="col-md-3">
@@ -76,7 +76,7 @@
                                             <div class="row">
                                                 <p class="col-md-1 text-right">CILINDRAJE</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="cilindraje" value="" placeholder="1200" id="cilindraje" required="true" number="true" onkeypress="return numeros2(event)">
+                                                    <input type="text" class="form-control" name="cilindraje" value="" id="cilindraje" required="true" number="true" onkeypress="return numeros2(event)">
                                                     <script type="text/javascript">
                                                             function numeros2(e){
                                                                 var key = window.Event ? e.which : e.keyCode;
@@ -86,7 +86,7 @@
                                                 </div>
                                                 <p class="col-md-1 text-right">COLOR</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="color" value="" placeholder="AZUL" id="color" required="true">
+                                                    <input type="text" class="form-control" name="color" value="" id="color" required="true">
                                                 </div>
                                                 <p class="col-md-1 text-right">SERVICIO</p>
                                                 <div class="col-md-3">
@@ -98,26 +98,26 @@
                                             <div class="row">
                                                 <p class="col-md-1 text-right">N MOTOR</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="motor" value="" placeholder="877382" id="motor" required="true">
+                                                    <input type="text" class="form-control" name="motor" value="" id="motor" required="true">
                                                 </div>
                                                 <p class="col-md-1 text-right">N CHASIS</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="chasis" value="" placeholder="877382" id="chasis" required="true">
+                                                    <input type="text" class="form-control" name="chasis" value=""  id="chasis" required="true">
                                                 </div>
                                                 <p class="col-md-1 text-right">N VIN</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="vin" value="" placeholder="NA" id="vin">
+                                                    <input type="text" class="form-control" name="vin" value="" id="vin" required="true">
                                                 </div>
                                             </div>
                                             <p><b>DATOS DEL PROPIETARIO</b></p>
                                             <div class="row">
                                                 <p class="col-md-1 text-right">CEDULA NIT</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="cedula" value="" placeholder="1067982" id="cedula" required="true">
+                                                    <input type="text" class="form-control" name="cedula" value="" id="cedula" required="true">
                                                 </div>
                                                 <p class="col-md-1 text-right">PRIMER NOMBRE</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="nombre" value="" placeholder="PEPE" id="nombre" required="true">
+                                                    <input type="text" class="form-control" name="nombre" value="" id="nombre" required="true">
                                                 </div>
                                                 <p class="col-md-1 text-right">SEGUNDO NOMBRE</p>
                                                 <div class="col-md-3">
@@ -128,31 +128,31 @@
                                             <div class="row">
                                                 <p class="col-md-1 text-right">PRIMER APELLIDO</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="apellido" value="" placeholder="PEREZ" id="apellido" required="true">
+                                                    <input type="text" class="form-control" name="apellido" value="" id="apellido" required="true">
                                                 </div>
                                                 <p class="col-md-1 text-right">SEGUNDO APELLIDO</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="sapellido" value="" placeholder="PEREZ" id="sapellido" >
+                                                    <input type="text" class="form-control" name="sapellido" value="" id="sapellido" >
                                                 </div>
                                                 <p class="col-md-1 text-right">DIRECCION</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="direccion" value="" placeholder="CLL12#2-2" id="direccion" required="true">
+                                                    <input type="text" class="form-control" name="direccion" value="" id="direccion" required="true">
                                                 </div>
                                                 
                                             </div>
                                             <div class="row">
                                                 <p class="col-md-1 text-right">CELULAR</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="celular" value="" placeholder="3100000000" id="celular">
+                                                    <input type="text" class="form-control" name="celular" value="" id="celular">
                                                 </div>
                                                 <p class="col-md-1 text-right">TELEFONO:</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="telefono" value="" placeholder="7777777" id="telefono">
+                                                    <input type="text" class="form-control" name="telefono" value="" id="telefono">
                                                 </div>
                                                 <p class="col-md-1 text-right">CORREO</p>
                                                 <div class="col-md-3">
                                                     <!--<input type="email" class="form-control" name="correo" value="" placeholder="mail@mail.com" id="correo">-->
-                                                    <input type="text" class="form-control" name="correo" value="-" placeholder="mail@mail.com" id="correo">
+                                                    <input type="text" class="form-control" name="correo" value="" id="correo">
                                                 </div>
                                             </div>
                                         </div>
@@ -164,7 +164,7 @@
                                             <div class="row">
                                                 <p class="col-md-2 text-right">VALOR SERVICIO: </p>
                                                 <div class="col-md-10">
-                                                    <input type="text" class="form-control text-right" name="total" placeholder="$0" required="true" id="total" readonly="true" value="$0.00" style="font-size:36px;" >
+                                                    <input type="text" class="form-control text-right" name="total" required="true" id="total" readonly="true" value="$0.00" style="font-size:36px;" >
                                                 </div>
                                             </div>
                                         </div>

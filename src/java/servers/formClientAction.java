@@ -59,7 +59,7 @@ public class formClientAction extends HttpServlet {
                     }
                     else{
                         for(int i=0; i<propietario.getColums().size(); i++){
-                            propietario.getData().add("--");
+                            propietario.getData().add("");
                         }
                         int s= propietario.getColums().indexOf("CEDULA");
                         propietario.getData().set(s, identificaction);
@@ -114,7 +114,7 @@ public class formClientAction extends HttpServlet {
                     }
                     else{
                         for(String i: vehiculo.getColums()){
-                            vehiculo.getData().add("--");
+                            vehiculo.getData().add("");
                         }
                         vehiculo.getData().set(vehiculo.getColums().indexOf("PLACA"), placa);
                         vehiculo.getData().set(vehiculo.getColums().indexOf("PROPIETARIO"), propietario.getId());
