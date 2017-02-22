@@ -186,7 +186,10 @@
                                                         <input type="checkbox" name="optionsave"> Guardar sin cambiar estado
                                                         <span class="checkbox-material"><span class="check"></span></span>
                                                     </label>
-                                                <input type="submit" class="btn btn-fill btn-success" value="Guardar" >
+                                                <!--<input type="submit" class="btn btn-fill btn-success" value="Guardar" >-->
+                                                <button type="submit" class="btn btn-success btn-fill" id="buttonsubmit">
+                                                Guardar2
+                                                </button>
                                                 <a class="btn btn-fill btn-default" onclick="load(<%=session.getAttribute("menu")%>)">Cancelar</a>
                                             </div>    
                                         </div>
@@ -197,10 +200,12 @@
     function changevalue(id){
         $("#vari").attr( "value", id);
         if(id==2){
-            $("#observaciones").removeAttr("required");    
+            $("#observaciones").removeAttr("required");
+            loadParamsFormClient();
         }
         else{
-            $("#observaciones").attr("required","true");    
+            $("#observaciones").attr("required","true"); 
+            $("#loadAprobe").html("NO DATA REQUIRED");
         }
     }
     //changevalue(2);
@@ -315,7 +320,7 @@
             }
         }
     }
-
+    
     $(document).ready(function(){
         $("#form").submit(function(){
                 $.ajax({
@@ -332,6 +337,7 @@
                 return false;
         });
     });
+    
 </script>
 
 </html>
