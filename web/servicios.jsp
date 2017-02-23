@@ -26,7 +26,9 @@
                                 </div>
                                 <div class="card-content" id="formViewService">
                                     <h4 class="card-title" id="titleContend"> Cargando Servicios </h4>
-
+                                    <div>
+                                        
+                                    </div>
                                     <div class="table-responsive">
                                         <table class="table">
                                             <thead class="">
