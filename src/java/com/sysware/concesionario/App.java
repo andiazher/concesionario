@@ -81,7 +81,7 @@ public class App {
             connectionMysql.conectar();
         }
         ResultSet resultSet = connectionMysql.consultar(sql);
-        System.out.println("SQL: "+sql);
+        //System.out.println("SQL: "+sql);
         //connectionMysql.desconectar();
         
         return resultSet;
