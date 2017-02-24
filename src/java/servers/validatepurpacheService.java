@@ -96,6 +96,42 @@ public class validatepurpacheService extends HttpServlet {
                                 observaciones+="<b>FACTURA No:</b>"+factura+" <b>TRAMITE:</b> "+gestoria.getDataOfLabel("DESCRIPCION");
                                 DecimalFormat formateador = new DecimalFormat("###,###.##");
                                 mensaje="El servicio has sido tramitado por valor de $ "+formateador.format(Integer.parseInt(valor));
+                                Entitie r = new Entitie(App.TABLE_REGISTROMATRICULA);
+                                for(String s :r.getColums() ){
+                                    r.getData().add("0");
+                                }
+                                Entitie ve = new Entitie(App.TABLE_VEHICULO);
+                                ve.getEntitieID(orden.getDataOfLabel("VEHICULO"));
+                                Entitie p = new Entitie(App.TABLE_PROPIETARIO);
+                                p.getEntitieID(ve.getDataOfLabel("PROPIETARIO"));
+                                String pro = p.getDataOfLabel("NOMBRE")+" "+p.getDataOfLabel("SNOMBRE")+" "+p.getDataOfLabel("APELLIDO");
+                                
+                                
+                                Entitie concesionario = new Entitie(App.TABLE_CONCESIONARIO);
+                                Entitie canal = new Entitie(App.TABLE_CANALES);
+                                canal.getEntitieID(orden.getDataOfLabel("ID_CANAL"));
+                                concesionario.getEntitieID(canal.getDataOfLabel("ID_CONCESIONARIO"));
+                                int saldo = Integer.parseInt(concesionario.getDataOfLabel("SALDO"));
+                                int valors = Integer.parseInt(valor);
+                                int nuevo = saldo - valors;
+                                        
+                                r.getData().set(r.getColums().indexOf("FACTURA"), factura);
+                                r.getData().set(r.getColums().indexOf("FECHA"), request.getParameter("fecha"));
+                                r.getData().set(r.getColums().indexOf("PROPIETARIO"),pro);
+                                r.getData().set(r.getColums().indexOf("PLACA"), ve.getDataOfLabel("PLACA"));
+                                r.getData().set(r.getColums().indexOf("CLASE"), ve.getDataOfLabel("CLASE"));
+                                r.getData().set(r.getColums().indexOf("GESTORIA"), gestoria.getDataOfLabel("DESCRIPCION"));
+                                r.getData().set(r.getColums().indexOf("MATRICULA"),request.getParameter("matricula"));
+                                r.getData().set(r.getColums().indexOf("RUNT"),request.getParameter("runt"));
+                                r.getData().set(r.getColums().indexOf("PAPELERIA"),request.getParameter("papelerias"));
+                                r.getData().set(r.getColums().indexOf("MENSAJERIA"),request.getParameter("mensajeria"));
+                                r.getData().set(r.getColums().indexOf("IMPUESTOS"),request.getParameter("impuesto"));
+                                r.getData().set(r.getColums().indexOf("OTROS"),request.getParameter("otros"));
+                                r.getData().set(r.getColums().indexOf("RETEFUENTE"),request.getParameter("retefuente"));
+                                r.getData().set(r.getColums().indexOf("HONORARIO"),request.getParameter("honorarios"));
+                                r.getData().set(r.getColums().indexOf("TOTAL"),valor);
+                                r.getData().set(r.getColums().indexOf("SALDO"), nuevo+"");
+                                r.create();
                             }
                         }
                         catch(IndexOutOfBoundsException s){

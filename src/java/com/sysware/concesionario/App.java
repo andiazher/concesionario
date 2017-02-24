@@ -35,6 +35,7 @@ public class App {
     public static String TABLE_TIPOVEH="tipo_vehiculo";
     public static String TABLE_ASEGURADORAS="aseguradoras";
     public static String TABLE_REGISTRORECEP="registrodisp";
+    public static String TABLE_REGISTROMATRICULA="registromatri";
     public static String TABLE_CONCESIONARIO="concesionario";
     public static String TABLE_RECEPTORES="receptor";
     public static String TABLE_SERVICIOVEHI="serviciovehiculo";

@@ -22,7 +22,7 @@
     </div>
     <p class="col-md-1 text-right">FECHA:</p>
     <div class="col-md-2">
-        <input type="text" class="form-control text-center" name="fecha"  required="true" placeholder="2017/02/15" id="fecha" onclick="date()">
+        <input type="text" class="form-control text-center" name="fecha"  required="true" placeholder="2017-02-24" id="fecha" onclick="date()">
     </div>
 </div>
 <div class="row">
@@ -34,11 +34,11 @@
     </div>
     <p class="col-md-1 text-right">VALOR MATRICLULA:</p>
     <div class="col-md-3">
-        <input type="text" class="form-control text-right" name="matricula" required="true" placeholder="0" onchange="sumarValor()" id="matricula" disabled>
+        <input type="text" class="form-control text-right" name="matricula" required="true" placeholder="0" onchange="sumarValor()" id="matricula" readonly="">
     </div>
     <p class="col-md-1 text-right">VALOR RUNT:</p>
     <div class="col-md-3">
-        <input type="text" class="form-control text-right" name="runt" required="true" placeholder="0" onchange="sumarValor()" id="runt" disabled="true">
+        <input type="text" class="form-control text-right" name="runt" required="true" placeholder="0" onchange="sumarValor()" id="runt" readonly="">
     </div>
 </div>
 <div class="row">
@@ -75,7 +75,7 @@
 <div class="row">
     <p class="col-md-1">HONORARIOS:</p>
     <div class="col-md-3">
-        <input type="text" class="form-control text-right" name="honorarios" required="true" placeholder="0" id="honorarios" onchange="sumarValor()" value="0" disabled="">
+        <input type="text" class="form-control text-right" name="honorarios" required="true" placeholder="0" id="honorarios" onchange="sumarValor()" value="0" readonly="">
     </div> 
     <p class="col-md-1">H.ANTES IVA:</p>
     <div class="col-md-2">
@@ -172,7 +172,7 @@
         var anoActual = f.getFullYear();
         var mes= f.getMonth()+1;
         var dia = f.getDate();
-        var fecha =anoActual+"/"+mes+"/"+dia;
+        var fecha =anoActual+"-"+mes+"-"+dia;
         $("#fecha").attr("value",fecha);
         var name = "list";
         var service = document.getElementById('id').value;
