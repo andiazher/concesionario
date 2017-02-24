@@ -58,7 +58,7 @@ public class getOrderServicie extends HttpServlet {
                     
                 }catch(NullPointerException s){}
                 try (PrintWriter out = response.getWriter()) {
-                    out.println("<h4 class=\"card-title\" id=\"titleContend\"> Servicios para la orden No. <b>"+orden.getId()+"</b> Placa:"
+                    out.println("<h4 class=\"card-title text-center\" id=\"titleContend\"> Servicios para la orden No. <b>"+orden.getId()+"</b> Placa:"
                             + " <b>"+vehiculo.getDataOfLabel("PLACA")+"</b> Cliente: <b>"
                             +propietario.getDataOfLabel("TIPODOC")+propietario.getDataOfLabel("CEDULA")+"</b></h4>");
                     out.println("<div class=\"table-responsive\">");
@@ -89,7 +89,7 @@ public class getOrderServicie extends HttpServlet {
                         Entitie estado = new Entitie(App.TABLE_ESTADO);
                         estado.getEntitieID(i.getDataOfLabel("ESTADO"));
                         if(estado.getId().equals("3")){
-                            out.println("<td><a href=\"#revert\" onclick=\"revertService('"+i.getId()+"')\" >"+estado.getDataOfLabel("DESCRIPCION")+"<a/></td>");
+                            out.println("<td>"+estado.getDataOfLabel("DESCRIPCION")+"<a href=\"#revert\" class=\"btn btn-warning btn-xs\" onclick=\"revertService('"+i.getId()+"')\" > REVERTIR <a/></td>");
                         }
                         else{
                             out.println("<td>"+estado.getDataOfLabel("DESCRIPCION")+"</td>");

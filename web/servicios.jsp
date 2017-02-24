@@ -20,16 +20,55 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
-                                <form method="post" action="validatepurpacheService" class="form-horizontal" id="form">
-                                <div class="card-header card-header-icon" data-background-color="orange">
-                                    <i class="material-icons">assignment</i>
+                                <div class="card-header " data-background-color="orange">
+                                    <h4 class="card-title text-center"> TODOS LOS SERVICIOS </h4>
                                 </div>
-                                <div class="card-content" id="formViewService">
-                                    <h4 class="card-title" id="titleContend"> Cargando Servicios </h4>
-                                    <div>
-                                        
-                                    </div>
-                                    <div class="table-responsive">
+                                <div class="card-content">
+                                    <form method="post" action="#search" id="form">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Fecha Inicial</label>
+                                                    <input type="text" class="form-control datepicker text-center" value="" id="fecha1" name="fecha1">
+                                                </div>
+                                            </div>    
+                                            <div class="col-md-2">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Fecha Final</label>
+                                                    <input type="text" class="form-control datepicker text-center" value="" id="fecha2" name="fecha2">
+                                                </div>
+                                            </div>    
+                                            <div class="col-md-2">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Placa</label>
+                                                    <input type="text" class="form-control datepicker text-center" id="placa" name="placa">
+                                                </div>
+                                            </div>    
+                                            <div class="col-md-2">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Cliente</label>
+                                                    <input type="text" class="form-control datepicker text-center" id="cliente" name="cliente">
+                                                </div>
+                                            </div>    
+                                            <div class="col-md-2">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Orden de Servicio</label>
+                                                    <input type="text" class="form-control datepicker text-center" id="os" name="os">
+                                                </div>
+                                            </div>    
+                                            <div class="col-md-2">
+                                                <button type="submit" class="btn btn-success btn-fill" id="buttonsubmit" onclick="loadtable()">
+                                                    <span class="btn-label">
+                                                        <i class="material-icons">search</i>
+                                                    </span>
+                                                    Buscar
+                                                </button>
+                                            </div>    
+
+                                        </div>
+                                    </form>
+                                    <div class="table-responsive" id="formViewService">
+                                        <h4 class="card-title text-center" id="titleContend"> Cargando Servicios </h4>
                                         <table class="table">
                                             <thead class="">
                                                 <th>No</th>
@@ -39,7 +78,7 @@
                                                 <th>Servicios</th>
                                                 <th>Canal</th>
                                             </thead>
-                                            <tbody id="serviciostable">
+                                            <tbody>
                                                 <tr>
                                                     
                                                 </tr>
@@ -47,7 +86,6 @@
                                         </table>
                                     </div>
                                 </div>
-                                </form>
                             </div>
                         </div>
                     </div>
@@ -55,13 +93,34 @@
 
 
 <script type="text/javascript">
-    function loadtableForm(){
-        var menu="<%=session.getAttribute("menu")%>";
-        $.post("todosServicios", { variable: menu }, function(data){
-            $("#serviciostable").html(data);
+    function loadparams(){
+        var f = new Date();
+        var anoActual = f.getFullYear();
+        var mes= f.getMonth()+1;
+        var dia = f.getDate();
+        var fecha =anoActual+"-"+mes+"-"+dia;
+        $("#fecha1").attr("value",fecha);
+
+        var f2 = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+        var anoActual2 = f2.getFullYear();
+        var mes2= f2.getMonth()+1;
+        var dia2 = f2.getDate();
+        var fecha2 =anoActual2+"-"+mes2+"-"+dia2;
+        $("#fecha2").attr("value",fecha2);
+        loadtableForm(fecha, fecha2);
+    }
+    loadparams();
+
+    function loadtableForm(fi1, ff1){
+        var placa1=document.getElementById('placa').value;
+        var cliente1=document.getElementById('cliente').value;
+        var os1=document.getElementById('os').value;
+        $.post("todosServicios", { fi: fi1, ff: ff1, placa:placa1, cliente:cliente1, os:os1 }, function(data){
+            console.log("Hello2"+data);
+            $("#formViewService").html(data);
         });
     }
-    loadtableForm();
+
     function openViewOrderService(id){
         var service=id;
         var menu="<%=session.getAttribute("menu")%>";
@@ -76,7 +135,23 @@
             openViewOrderService(data);
         });   
     }
-    
+    function loadtable(){
+        loadtableForm(document.getElementById('fecha1').value, document.getElementById('fecha2').value);
+    }
+
+$(document).ready(function(){
+    $("#form").submit(function(){
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function(data){
+                    
+                }
+            })
+            return false;
+    });
+});
     
 </script>
 

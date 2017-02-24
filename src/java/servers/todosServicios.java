@@ -38,20 +38,96 @@ public class todosServicios extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try{
             if(request.getSession().getAttribute("session").equals("true")){
-                Entitie menu = new Entitie(App.TABLE_MENUS);
                 String name="Sin nombre";
                 ArrayList<Entitie> servicios= new ArrayList<>();
+                String fi="";
+                String ff="";
+                String placa="";
+                String cliente="";
+                String os="";
                 try{
-                    menu.getEntitieID(request.getParameter("variable"));
+                    fi= request.getParameter("fi");
+                    ff= request.getParameter("ff");
+                    placa= request.getParameter("placa");
+                    cliente= request.getParameter("cliente");
+                    os= request.getParameter("os");
                 }catch(NullPointerException s){
                     System.out.println("Error: "+s);
                 }
                 Entitie servicio = new Entitie(App.TABLE_ORDENSERVICIO);
-                name= "TODAS LAS ORDENES DE SERVICIO";
-                servicios = servicio.getEntities();
+                name= "RESULTADOS PARA";
+                boolean nada=false;
+                ArrayList<String> param1=new ArrayList<>();
+                ArrayList<String> param2=new ArrayList<>();
+                ArrayList<String> operation=new ArrayList<>();
+                
+                if(!fi.equals("")){
+                    name+=" DESPUES DE: </b>"+fi+"<b>";
+                    param1.add("FECHA");
+                    param2.add(fi);
+                    operation.add(">=");
+                    nada=true;
+                }
+                if(!ff.equals("")){
+                    if(nada){
+                        name+=",";
+                    }
+                    name+=" ANTES DE: </b>"+ff+"<b> ";
+                    param1.add("FECHA");
+                    param2.add(ff);
+                    operation.add("<=");
+                    nada=true;
+                }
+                if(!placa.equals("")){
+                    if(nada){
+                        name+=",";
+                    }
+                    name+=" PLACA: </b>"+placa+"<b> ";
+                    Entitie vehi = new Entitie(App.TABLE_VEHICULO);
+                    vehi= vehi.getEntitieParam("PLACA", placa).get(0);
+                    param1.add("VEHICULO");
+                    param2.add(vehi.getId());
+                    operation.add("=");
+                    nada=true;
+                }
+                if(!cliente.equals("")){
+                    if(nada){
+                        name+=",";
+                    }
+                    name+=" CLIENTE: </b>"+cliente+"<b> ";
+                    Entitie client = new Entitie(App.TABLE_PROPIETARIO);
+                    client= client.getEntitieParam("CEDULA", cliente).get(0);
+                    param1.add("PROPIETARIO");
+                    param2.add(client.getId());
+                    operation.add("=");
+                    nada=true;
+                }
+                if(!os.equals("")){
+                    if(nada){
+                        name+=" Y ";
+                    }
+                    param1.add("ID");
+                    param2.add(os);
+                    operation.add("=");
+                    name+=" OS: </b>"+os+"<b> ";
+                }
+                
+                
+                servicios = servicio.getEntitieParams(param2, param2, operation);
                 
                 try (PrintWriter out = response.getWriter()) {
                     String idOrder="-1";
+                    out.println("<h4 class=\"card-title text-center\" id=\"titleContend\"> <b> "+name+" </b> </h4>");
+                    out.println("<table class=\"table\">");
+                    out.println("<thead class=\"\">\n" +
+"                                                <th>No</th>\n" +
+"                                                <th>Fecha</th>\n" +
+"                                                <th>Documento</th>\n" +
+"                                                <th>Placa</th>\n" +
+"                                                <th>Servicios</th>\n" +
+"                                                <th>Canal</th>\n" +
+"                                            </thead>");
+                    out.println("<tbody>");
                     for(Entitie i: servicios){
                         if(!idOrder.equals(i.getId())){
                             String a="";
@@ -89,14 +165,8 @@ public class todosServicios extends HttpServlet {
                         }
                         
                     }
-                    out.println("<script type=\"text/javascript\">\n" +
-                        "    $().ready(function(){\n" +
-                        "        $(\"#titleContend\").html(\""+name+"\");\n" +
-                        "    });\n" +
-                        "</script>");
-                    out.println(""
-                            + ""
-                            + "");
+                    out.println("</tbody>");
+                    out.println("</table>");
                 }
             }
             else{
