@@ -116,7 +116,17 @@ public class formEditableEntidad extends HttpServlet {
             Logger.getLogger(formEditableEntidad.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    //PARA BORRAR
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(formEditableEntidad.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * Returns a short description of the servlet.
      *

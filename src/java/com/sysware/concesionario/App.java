@@ -76,11 +76,12 @@ public class App {
         */
         //connectionMysql = new ConnectionMysql();
         //connectionMysql.conectar();
-        //System.out.println("SQL: "+sql);
+        
         if(connectionMysql.getConnection()==null){
             connectionMysql.conectar();
         }
         ResultSet resultSet = connectionMysql.consultar(sql);
+        System.out.println("SQL: "+sql);
         //connectionMysql.desconectar();
         
         return resultSet;

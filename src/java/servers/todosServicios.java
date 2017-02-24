@@ -84,7 +84,10 @@ public class todosServicios extends HttpServlet {
                     }
                     name+=" PLACA: </b>"+placa+"<b> ";
                     Entitie vehi = new Entitie(App.TABLE_VEHICULO);
-                    vehi= vehi.getEntitieParam("PLACA", placa).get(0);
+                    try{
+                        vehi= vehi.getEntitieParam("PLACA", placa).get(0);
+                    }
+                    catch(IndexOutOfBoundsException s){}
                     param1.add("VEHICULO");
                     param2.add(vehi.getId());
                     operation.add("=");
@@ -96,7 +99,10 @@ public class todosServicios extends HttpServlet {
                     }
                     name+=" CLIENTE: </b>"+cliente+"<b> ";
                     Entitie client = new Entitie(App.TABLE_PROPIETARIO);
-                    client= client.getEntitieParam("CEDULA", cliente).get(0);
+                    try{
+                        client= client.getEntitieParam("CEDULA", cliente).get(0);
+                    }
+                    catch(IndexOutOfBoundsException s){}
                     param1.add("PROPIETARIO");
                     param2.add(client.getId());
                     operation.add("=");
@@ -111,9 +117,13 @@ public class todosServicios extends HttpServlet {
                     operation.add("=");
                     name+=" OS: </b>"+os+"<b> ";
                 }
-                
-                
-                servicios = servicio.getEntitieParams(param2, param2, operation);
+                if(param1.isEmpty() && param2.isEmpty() && operation.isEmpty()){
+                    servicios = servicio.getEntities();
+                    name="TODAS LAS ORDENES DE SERVICIO";
+                }
+                else{
+                    servicios = servicio.getEntitieParams(param1, param2, operation);
+                }
                 
                 try (PrintWriter out = response.getWriter()) {
                     String idOrder="-1";
@@ -138,11 +148,17 @@ public class todosServicios extends HttpServlet {
                             try{
                                 Entitie propietario = new Entitie(App.TABLE_PROPIETARIO);
                                 propietario.getEntitieID(i.getDataOfLabel("PROPIETARIO"));
-                                out.println("<td>"+propietario.getDataOfLabel("TIPODOC")
-                                        +propietario.getDataOfLabel("CEDULA")+"</td>");
+                                out.println("<td><a href=\"#clientOpen\" onclick=\"window.open('formEditableEntidad?variable=8&entidad="+propietario.getId()+"','ventana'"
+                                        + ",'width=640,height=480,scrollbars=NO,menubar=NO,resizable=NO"
+                                        + ",titlebar=NO,status=NO');\">"
+                                        + ""+propietario.getDataOfLabel("TIPODOC")
+                                        +propietario.getDataOfLabel("CEDULA")+"</a></td>");
                                 Entitie vehiculo = new Entitie(App.TABLE_VEHICULO);
                                 vehiculo.getEntitieID(i.getDataOfLabel("VEHICULO"));
-                                out.println("<td>"+vehiculo.getDataOfLabel("PLACA")+"</td>");
+                                out.println("<td><a href=\"#vehiculoOpen\" onclick=\"window.open('formEditableEntidad?variable=9&entidad="+vehiculo.getId()+"','ventana'"
+                                        + ",'width=640,height=480,scrollbars=NO,menubar=NO,resizable=NO"
+                                        + ",titlebar=NO,status=NO');\">"
+                                        + ""+vehiculo.getDataOfLabel("PLACA")+"</a></td>");
                                 Entitie osdetalle = new Entitie(App.TABLE_OSDETALLE);
                                 ArrayList<Entitie> detalle = osdetalle.getEntitieParam("OS", i.getId());
                                 int cant=detalle.size();
