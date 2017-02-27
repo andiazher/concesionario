@@ -245,7 +245,54 @@ public class formEditableEntidad extends HttpServlet {
                                                     break;
                                             }
                                             break;
-                                            
+                                        case "concesionario":
+                                            switch(entitie.getColums().get(i)){
+                                                case "ID_MARCA":
+                                                    object = new Entitie(App.TABLE_MARCA);
+                                                    objects = object.getEntities();
+                                                    out.println("<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\""+entitie.getColums().get(i)+"\">");
+                                                    out.println("<option selected=\"\" value=\"0\">--SELECCIONAR--</option>");
+                                                    for(Entitie ob: objects){
+                                                        String selected= get.equals(ob.getId()) ? "selected":"";
+                                                        out.println("<option value=\""+ob.getId()+"\" "+selected+" >"
+                                                                +ob.getDataOfLabel("DESCRIPCION")
+                                                                + "</option>");
+                                                    }
+                                                    out.println("</select>");
+                                                    break;
+                                                case "ID_CIUDAD":
+                                                    object = new Entitie(App.TABLE_CIUDADES);
+                                                    objects = object.getEntities();
+                                                    out.println("<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\""+entitie.getColums().get(i)+"\">");
+                                                    out.println("<option selected=\"\" value=\"0\">--SELECCIONAR--</option>");
+                                                    for(Entitie ob: objects){
+                                                        String selected= get.equals(ob.getId()) ? "selected":"";
+                                                        out.println("<option value=\""+ob.getId()+"\" "+selected+" >"
+                                                                +ob.getDataOfLabel("DEPARTAMENTO")+" - "+ob.getDataOfLabel("CIUDAD")
+                                                                + "</option>");
+                                                    }
+                                                    out.println("</select>");
+                                                    break;
+                                                case "SECRETARIA":
+                                                    object = new Entitie(App.TABLE_SECRETARIAST);
+                                                    objects = object.getEntities();
+                                                    out.println("<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\""+entitie.getColums().get(i)+"\">");
+                                                    out.println("<option selected=\"\" value=\"0\">--SELECCIONAR--</option>");
+                                                    for(Entitie ob: objects){
+                                                        String selected= get.equals(ob.getId()) ? "selected":"";
+                                                        out.println("<option value=\""+ob.getId()+"\" "+selected+" >"
+                                                                +ob.getDataOfLabel("DESCRIPCION")
+                                                                + "</option>");
+                                                    }
+                                                    out.println("</select>");
+                                                    break;
+                                                default:
+                                                    out.println("<input type=\"text\" class=\"form-control\" value=\""+get+"\" "
+                                                        + "placeholder=\""+entitie.getColums().get(i)+"\" "
+                                                        + "name=\""+entitie.getColums().get(i)+"\">");
+                                                    break;
+                                            }
+                                            break;    
                                             
                                         default: 
                                             out.println("<input type=\"text\" class=\"form-control\" value=\""+get+"\" "
