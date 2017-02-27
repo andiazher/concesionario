@@ -20,7 +20,7 @@
                                     <h4 class="card-title" id="titleContend"> Registro Matrícula </h4>
 
                                     <div class="table-responsive">
-                                        <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
+                                        <table  class="table table-striped table-no-bordered table-hover " cellspacing="0" width="100%" style="width:100%">
                                             <thead class="">
                                                 <th>ID</th>
                                                 <th>Factura</th>

@@ -42,14 +42,16 @@ public class todosServicios extends HttpServlet {
                 ArrayList<Entitie> servicios= new ArrayList<>();
                 String fi="";
                 String ff="";
-                String placa="";
-                String cliente="";
+                //String placa="";
+                //String cliente="";
+                String concesionario="";
                 String os="";
                 try{
                     fi= request.getParameter("fi");
                     ff= request.getParameter("ff");
-                    placa= request.getParameter("placa");
-                    cliente= request.getParameter("cliente");
+                    //placa= request.getParameter("placa");
+                    //cliente= request.getParameter("cliente");
+                    concesionario= request.getParameter("concesionario");
                     os= request.getParameter("os");
                 }catch(NullPointerException s){
                     System.out.println("Error: "+s);
@@ -78,6 +80,7 @@ public class todosServicios extends HttpServlet {
                     operation.add("<=");
                     nada=true;
                 }
+                /**
                 if(!placa.equals("")){
                     if(nada){
                         name+=",";
@@ -108,6 +111,7 @@ public class todosServicios extends HttpServlet {
                     operation.add("=");
                     nada=true;
                 }
+                */
                 if(!os.equals("")){
                     if(nada){
                         name+=" Y ";
@@ -116,13 +120,61 @@ public class todosServicios extends HttpServlet {
                     param2.add(os);
                     operation.add("=");
                     name+=" OS: </b>"+os+"<b> ";
+                    nada=true;
                 }
-                if(param1.isEmpty() && param2.isEmpty() && operation.isEmpty()){
+                String qry="";
+                if(!concesionario.equals("")){
+                    if(nada){
+                        name+=",";
+                    }
+                    Entitie conce = new Entitie(App.TABLE_CONCESIONARIO);
+                    try{
+                        conce.getEntitieID(concesionario);
+                    }
+                    catch(IndexOutOfBoundsException s){}
+                    name+=" CONCESIONARIO: </b>"+conce.getDataOfLabel("NOMBRE")+"<b> ";
+                    Entitie canal= new Entitie(App.TABLE_CANALES);
+                    ArrayList<Entitie> canales =canal.getEntitieParam("ID_CONCESIONARIO", concesionario);
+                    if(!canales.isEmpty()){
+                        if(nada){
+                            qry=" and ";
+                        }
+                    }
+                    else{
+                        if(nada){
+                            qry=" and ID=0";
+                        }
+                        else{
+                            qry=" ID=0";
+                        }
+                        
+                    }
+                    
+                    for(int i=0; i<canales.size(); i++){
+                        if(canales.size()==1){
+                            qry+=" ID_CANAL='"+canales.get(i).getId()+"' ";
+                        }
+                        else{
+                            if(i==0){
+                                qry+="( ID_CANAL='"+canales.get(i).getId()+"' ";
+                            }
+                            if(i==canales.size()-1){
+                                qry+=" OR ID_CANAL='"+canales.get(i).getId()+"' )";
+                            }
+                            else{
+                                qry+=" OR ID_CANAL='"+canales.get(i).getId()+"' ";
+                            }
+                        }   
+                    }
+                    nada=true;
+                }
+                
+                if(param1.isEmpty() && param2.isEmpty() && operation.isEmpty() && nada==false){
                     servicios = servicio.getEntities();
                     name="TODAS LAS ORDENES DE SERVICIO";
                 }
                 else{
-                    servicios = servicio.getEntitieParams(param1, param2, operation);
+                    servicios = servicio.getEntitieParams(param1, param2, operation, qry);
                 }
                 
                 try (PrintWriter out = response.getWriter()) {

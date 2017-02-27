@@ -178,6 +178,31 @@ public class Entitie {
         }
         return entities;
     }
+    public ArrayList<Entitie> getEntitieParams(ArrayList<String> param, ArrayList<String> param2, ArrayList<String> opera, String sqlq ) throws SQLException{
+        String sql = "";
+        String params = "";
+        for(int i=0; i<param.size();i++){
+            if(i!=param.size()-1){
+                params+=param.get(i)+ " "+opera.get(i)+"'"+param2.get(i)+"' and ";
+            }
+            else{
+                params+=param.get(i)+ " "+opera.get(i)+"'"+param2.get(i)+"'";
+            }
+        }
+        params+=sqlq;
+        sql+="select * from "+App.getConnectionMysql().getDb()+"."+ name +" where "+params+";";
+        ResultSet query= App.consultar(sql);
+        ArrayList<Entitie> entities= new ArrayList<>();
+        while(query.next()){
+            Entitie entitie = new Entitie(name);
+            entitie.setId(query.getString("ID"));
+            for(int i=0; i<colums.size();i++){
+                entitie.getData().add(query.getString(colums.get(i)));
+            }
+            entities.add(entitie);
+        }
+        return entities;
+    }
     
     public ArrayList<Entitie> getEntitieParam(String param, String param2) throws SQLException{
         String sql = "";

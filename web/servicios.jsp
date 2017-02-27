@@ -37,7 +37,16 @@
                                                     <label class="control-label">Fecha Final</label>
                                                     <input type="text" class="form-control datepicker text-center" value="" id="fecha2" name="fecha2">
                                                 </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Concesionario</label>
+                                                    <select class="select-with-transition" data-style="btn btn-default" name="concesionario" id="concesionario"  onchange="">
+                                                        <option selected="" value="">--SELECCIONAR--</option>
+                                                    </select>                                                
+                                                </div>
                                             </div>    
+                                            <!--    
                                             <div class="col-md-2">
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Placa</label>
@@ -50,6 +59,7 @@
                                                     <input type="text" class="form-control datepicker text-center" id="cliente" name="cliente">
                                                 </div>
                                             </div>    
+                                            -->
                                             <div class="col-md-2">
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Orden de Servicio</label>
@@ -107,16 +117,21 @@
         var dia2 = f2.getDate();
         var fecha2 =anoActual2+"-"+mes2+"-"+dia2;
         $("#fecha2").attr("value",fecha2);
+        var menu="concesionarios";
+        $.post("ClaseVehiculoClientView", { variable: menu }, function(data){
+            $("#concesionario").append(data);
+        });
         loadtableForm(fecha, fecha2);
     }
     loadparams();
 
     function loadtableForm(fi1, ff1){
-        var placa1=document.getElementById('placa').value;
-        var cliente1=document.getElementById('cliente').value;
+        //var placa1=document.getElementById('placa').value;
+        //var cliente1=document.getElementById('cliente').value;
+        var concesionario1=document.getElementById('concesionario').value;
         var os1=document.getElementById('os').value;
-        $.post("todosServicios", { fi: fi1, ff: ff1, placa:placa1, cliente:cliente1, os:os1 }, function(data){
-            console.log("Hello2"+data);
+        //placa:placa1, cliente:cliente1,
+        $.post("todosServicios", { fi: fi1, ff: ff1, concesionario: concesionario1, os:os1 }, function(data){
             $("#formViewService").html(data);
         });
     }
@@ -146,7 +161,7 @@ $(document).ready(function(){
                 url: $(this).attr('action'),
                 data: $(this).serialize(),
                 success: function(data){
-                    
+                    //console.log("none");
                 }
             })
             return false;

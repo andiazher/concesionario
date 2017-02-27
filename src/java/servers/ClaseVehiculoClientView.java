@@ -87,6 +87,16 @@ public class ClaseVehiculoClientView extends HttpServlet {
                                     + i.getDataOfLabel("DESCRIPCION")+"</option>");
                         }
                     }
+                }
+                if(var.equals("concesionarios")){
+                    Entitie clase = new Entitie(App.TABLE_CONCESIONARIO);
+                    ArrayList<Entitie> clases = clase.getEntities();
+                    try (PrintWriter out = response.getWriter()) {
+                        for(Entitie i: clases){
+                            out.println("<option value=\""+i.getId()+"\">" 
+                                    + i.getDataOfLabel("NOMBRE")+"</option>");
+                        }
+                    }
                     
                 }
                 if(var.equals("especifico")){
