@@ -223,6 +223,7 @@ public class formEditableEntidad extends HttpServlet {
                                                         + "name=\""+entitie.getColums().get(i)+"\">");
                                                     break;
                                             }
+                                            break;
                                         case "roles":
                                             switch(entitie.getColums().get(i)){
                                                 case "MENUDEF":
