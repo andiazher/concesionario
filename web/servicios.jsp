@@ -40,6 +40,12 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="form-group label-floating">
+                                                    <label class="control-label">Orden de Servicio</label>
+                                                    <input type="text" class="form-control datepicker text-center" id="os" name="os">
+                                                </div>
+                                            </div>    
+                                            <div class="col-md-4">
+                                                <div class="form-group label-floating">
                                                     <label class="control-label">Concesionario</label>
                                                     <select class="select-with-transition" data-style="btn btn-default" name="concesionario" id="concesionario"  onchange="">
                                                         <option selected="" value="">--SELECCIONAR--</option>
@@ -60,12 +66,6 @@
                                                 </div>
                                             </div>    
                                             -->
-                                            <div class="col-md-2">
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Orden de Servicio</label>
-                                                    <input type="text" class="form-control datepicker text-center" id="os" name="os">
-                                                </div>
-                                            </div>    
                                             <div class="col-md-2">
                                                 <button type="submit" class="btn btn-success btn-fill" id="buttonsubmit" onclick="loadtable()">
                                                     <span class="btn-label">

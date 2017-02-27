@@ -105,7 +105,8 @@ public class validatepurpacheService extends HttpServlet {
                                 Entitie p = new Entitie(App.TABLE_PROPIETARIO);
                                 p.getEntitieID(ve.getDataOfLabel("PROPIETARIO"));
                                 String pro = p.getDataOfLabel("NOMBRE")+" "+p.getDataOfLabel("SNOMBRE")+" "+p.getDataOfLabel("APELLIDO");
-                                
+                                Entitie clase2 = new Entitie(App.TABLE_CLASEVEHI);
+                                clase2.getEntitieID(ve.getDataOfLabel("CLASE"));
                                 
                                 Entitie concesionario = new Entitie(App.TABLE_CONCESIONARIO);
                                 Entitie canal = new Entitie(App.TABLE_CANALES);
@@ -119,7 +120,7 @@ public class validatepurpacheService extends HttpServlet {
                                 r.getData().set(r.getColums().indexOf("FECHA"), request.getParameter("fecha"));
                                 r.getData().set(r.getColums().indexOf("PROPIETARIO"),pro);
                                 r.getData().set(r.getColums().indexOf("PLACA"), ve.getDataOfLabel("PLACA"));
-                                r.getData().set(r.getColums().indexOf("CLASE"), ve.getDataOfLabel("CLASE"));
+                                r.getData().set(r.getColums().indexOf("CLASE"), clase2.getDataOfLabel("DESCRIPCION"));
                                 r.getData().set(r.getColums().indexOf("GESTORIA"), gestoria.getDataOfLabel("DESCRIPCION"));
                                 r.getData().set(r.getColums().indexOf("MATRICULA"),request.getParameter("matricula"));
                                 r.getData().set(r.getColums().indexOf("RUNT"),request.getParameter("runt"));

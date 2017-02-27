@@ -114,7 +114,7 @@ public class todosServicios extends HttpServlet {
                 */
                 if(!os.equals("")){
                     if(nada){
-                        name+=" Y ";
+                        name+=",";
                     }
                     param1.add("ID");
                     param2.add(os);
@@ -125,7 +125,7 @@ public class todosServicios extends HttpServlet {
                 String qry="";
                 if(!concesionario.equals("")){
                     if(nada){
-                        name+=",";
+                        name+=" Y";
                     }
                     Entitie conce = new Entitie(App.TABLE_CONCESIONARIO);
                     try{
