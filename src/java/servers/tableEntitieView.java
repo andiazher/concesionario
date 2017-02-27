@@ -72,8 +72,79 @@ public class tableEntitieView extends HttpServlet {
                     for(Entitie i : entidades){
                         out.println("<tr class>");
                         out.println("<td>"+i.getId()+"</td>");
-                        for(String j: i.getData()){
-                            out.println("<td>"+j+"</td>");
+                        for(int j=0; j<i.getColums().size();j++){
+                            Entitie object;
+                            switch(i.getName()){
+                                case "vehiculos":
+                                    switch(i.getColums().get(j)){
+                                        case "PROPIETARIO":
+                                            object = new Entitie(App.TABLE_PROPIETARIO);
+                                            object.getEntitieID(i.getData().get(j));
+                                            out.println("<td>"+object.getDataOfLabel("NOMBRE")+" "+object.getDataOfLabel("APELLIDO")+"</td>");
+                                            break;
+                                        case "TIPO":
+                                            object = new Entitie(App.TABLE_TIPOVEH);
+                                            object.getEntitieID(i.getData().get(j));
+                                            out.println("<td>"+object.getDataOfLabel("DESCRIPCION")+"</td>");
+                                            break;
+                                        case "CLASE":
+                                            object = new Entitie(App.TABLE_CLASEVEHI);
+                                            object.getEntitieID(i.getData().get(j));
+                                            out.println("<td>"+object.getDataOfLabel("DESCRIPCION")+"</td>");
+                                            break;
+                                        case "MARCA":
+                                            object = new Entitie(App.TABLE_MARCA);
+                                            object.getEntitieID(i.getData().get(j));
+                                            out.println("<td>"+object.getDataOfLabel("DESCRIPCION")+"</td>");
+                                            break;
+                                        case "SERVICIO":
+                                            object = new Entitie(App.TABLE_SERVICIOVEHI);
+                                            object.getEntitieID(i.getData().get(j));
+                                            out.println("<td>"+object.getDataOfLabel("SERVICIO")+"</td>");
+                                            break;
+                                        default:
+                                            out.println("<td>"+i.getData().get(j)+"</td>");
+                                            break;
+                                    }
+                                    break;
+                                case "rol_menu":
+                                    switch(i.getColums().get(j)){
+                                        case "ROL":
+                                            object = new Entitie(App.TABLE_ROLES);
+                                            object.getEntitieID(i.getData().get(j));
+                                            out.println("<td>"+object.getDataOfLabel("ROL")+"</td>");
+                                            break;
+                                        case "MENU":
+                                            object = new Entitie(App.TABLE_MENUS);
+                                            object.getEntitieID(i.getData().get(j));
+                                            out.println("<td>"+object.getDataOfLabel("MENU")+"</td>");
+                                            break;
+                                        default:
+                                            out.println("<td>"+i.getData().get(j)+"</td>");
+                                            break;
+                                    }
+                                    break;
+                                case "usuarios":
+                                    switch(i.getColums().get(j)){
+                                        case "ID_ROL":
+                                            object = new Entitie(App.TABLE_ROLES);
+                                            object.getEntitieID(i.getData().get(j));
+                                            out.println("<td>"+object.getDataOfLabel("ROL")+"</td>");
+                                            break;
+                                        case "ID_CANAL":
+                                            object = new Entitie(App.TABLE_CANALES);
+                                            object.getEntitieID(i.getData().get(j));
+                                            out.println("<td>"+object.getDataOfLabel("NOMBRE")+"</td>");
+                                            break;
+                                        default:
+                                            out.println("<td>"+i.getData().get(j)+"</td>");
+                                            break;
+                                    }
+                                    break;
+                                    
+                                default:
+                                    out.println("<td>"+i.getData().get(j)+"</td>");
+                            }
                         }
                         out.println("<td class=\"td-actions text-right\">");
                         out.println("<button type=\"button\" rel=\"tooltip\" class=\"btn btn-success btn-round\" "

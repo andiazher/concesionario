@@ -98,7 +98,7 @@
                 success: function(data){
                     $("#submit").remove();
                     $( "#form" ).attr("action","#");
-                    loadTable();
+                    load(menu);
                     $("body,html").animate({scrollTop : 0}, 500);
                     $("#pick").html(data);
                     swal(

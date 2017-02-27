@@ -77,9 +77,161 @@ public class formEditableEntidad extends HttpServlet {
                                 out.println("<div class=\"form-group label-floating is-empty\">");
                                     out.println("<label class=\"control-label\"></label>");
                                     String get = (datos.get(i) == null) ? "" : datos.get(i);
-                                    out.println("<input type=\"text\" class=\"form-control\" value=\""+get+"\" "
+                                    Entitie object;
+                                    ArrayList<Entitie> objects;
+                                    
+                                    if(entitie.getName().equals(App.TABLE_VEHICULO)){    
+                                        switch(entitie.getColums().get(i)){
+                                            case "PROPIETARIO":
+                                                object = new Entitie(App.TABLE_PROPIETARIO);
+                                                objects = object.getEntities();
+                                                out.println("<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\""+entitie.getColums().get(i)+"\">");
+                                                out.println("<option selected=\"\" value=\"0\">--SELECCIONAR--</option>");
+                                                for(Entitie ob: objects){
+                                                    String selected= get.equals(ob.getId()) ? "selected":"";
+                                                    out.println("<option value=\""+ob.getId()+"\" "+selected+" >"
+                                                            +ob.getDataOfLabel("NOMBRE")+" "+ob.getDataOfLabel("APELLIDO")
+                                                            + "</option>");
+                                                }
+                                                out.println("</select>");
+                                                break;
+                                            case "TIPO":
+                                                object = new Entitie(App.TABLE_TIPOVEH);
+                                                objects = object.getEntities();
+                                                out.println("<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\""+entitie.getColums().get(i)+"\">");
+                                                out.println("<option selected=\"\" value=\"0\">--SELECCIONAR--</option>");
+                                                for(Entitie ob: objects){
+                                                    String selected= get.equals(ob.getId()) ? "selected":"";
+                                                    out.println("<option value=\""+ob.getId()+"\" "+selected+" >"
+                                                            +ob.getDataOfLabel("DESCRIPCION")
+                                                            + "</option>");
+                                                }
+                                                out.println("</select>");
+                                                break;
+                                            case "CLASE":
+                                                object = new Entitie(App.TABLE_CLASEVEHI);
+                                                objects = object.getEntities();
+                                                out.println("<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\""+entitie.getColums().get(i)+"\">");
+                                                out.println("<option selected=\"\" value=\"0\">--SELECCIONAR--</option>");
+                                                for(Entitie ob: objects){
+                                                    String selected= get.equals(ob.getId()) ? "selected":"";
+                                                    out.println("<option value=\""+ob.getId()+"\" "+selected+" >"
+                                                            +ob.getDataOfLabel("DESCRIPCION")
+                                                            + "</option>");
+                                                }
+                                                out.println("</select>");
+                                                break;
+                                            case "MARCA":
+                                                object = new Entitie(App.TABLE_MARCA);
+                                                objects = object.getEntities();
+                                                out.println("<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\""+entitie.getColums().get(i)+"\">");
+                                                out.println("<option selected=\"\" value=\"0\">--SELECCIONAR--</option>");
+                                                for(Entitie ob: objects){
+                                                    String selected= get.equals(ob.getId()) ? "selected":"";
+                                                    out.println("<option value=\""+ob.getId()+"\" "+selected+" >"
+                                                            +ob.getDataOfLabel("DESCRIPCION")
+                                                            + "</option>");
+                                                }
+                                                out.println("</select>");
+                                                break;
+                                            case "SERVICIO":
+                                                object = new Entitie(App.TABLE_SERVICIOVEHI);
+                                                objects = object.getEntities();
+                                                out.println("<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\""+entitie.getColums().get(i)+"\">");
+                                                out.println("<option selected=\"\" value=\"0\">--SELECCIONAR--</option>");
+                                                for(Entitie ob: objects){
+                                                    String selected= get.equals(ob.getId()) ? "selected":"";
+                                                    out.println("<option value=\""+ob.getId()+"\" "+selected+" >"
+                                                            +ob.getDataOfLabel("SERVICIO")
+                                                            + "</option>");
+                                                }
+                                                out.println("</select>");
+                                                break;
+                                            default:
+                                                out.println("<input type=\"text\" class=\"form-control\" value=\""+get+"\" "
+                                                    + "placeholder=\""+entitie.getColums().get(i)+"\" "
+                                                    + "name=\""+entitie.getColums().get(i)+"\">");
+                                                break;
+                                        }
+                                    }
+                                    
+                                    if(entitie.getName().equals(App.TABLE_ROL_MENU)){    
+                                        switch(entitie.getColums().get(i)){
+                                            case "ROL":
+                                                object = new Entitie(App.TABLE_ROLES);
+                                                objects = object.getEntities();
+                                                out.println("<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\""+entitie.getColums().get(i)+"\">");
+                                                out.println("<option selected=\"\" value=\"0\">--SELECCIONAR--</option>");
+                                                for(Entitie ob: objects){
+                                                    String selected= get.equals(ob.getId()) ? "selected":"";
+                                                    out.println("<option value=\""+ob.getId()+"\" "+selected+" >"
+                                                            +"["+ob.getId()+"] "+ob.getDataOfLabel("ROL")
+                                                            + "</option>");
+                                                }
+                                                out.println("</select>");
+                                                break;
+                                            case "MENU":
+                                                object = new Entitie(App.TABLE_MENUS);
+                                                objects = object.getEntities();
+                                                out.println("<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\""+entitie.getColums().get(i)+"\">");
+                                                out.println("<option selected=\"\" value=\"0\">--SELECCIONAR--</option>");
+                                                for(Entitie ob: objects){
+                                                    String selected= get.equals(ob.getId()) ? "selected":"";
+                                                    out.println("<option value=\""+ob.getId()+"\" "+selected+" >"
+                                                            +"["+ob.getId()+"] "+ob.getDataOfLabel("MENU")
+                                                            + "</option>");
+                                                }
+                                                out.println("</select>");
+                                                break;
+                                            default:
+                                                out.println("<input type=\"text\" class=\"form-control\" value=\""+get+"\" "
+                                                    + "placeholder=\""+entitie.getColums().get(i)+"\" "
+                                                    + "name=\""+entitie.getColums().get(i)+"\">");
+                                                break;
+                                        }
+                                    }
+                                    
+                                    if(entitie.getName().equals(App.TABLE_USUARIO)){    
+                                        switch(entitie.getColums().get(i)){
+                                            case "ID_ROL":
+                                                object = new Entitie(App.TABLE_ROLES);
+                                                objects = object.getEntities();
+                                                out.println("<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\""+entitie.getColums().get(i)+"\">");
+                                                out.println("<option selected=\"\" value=\"0\">--SELECCIONAR--</option>");
+                                                for(Entitie ob: objects){
+                                                    String selected= get.equals(ob.getId()) ? "selected":"";
+                                                    out.println("<option value=\""+ob.getId()+"\" "+selected+" >"
+                                                            +"["+ob.getId()+"] "+ob.getDataOfLabel("ROL")
+                                                            + "</option>");
+                                                }
+                                                out.println("</select>");
+                                                break;
+                                            case "ID_CANAL":
+                                                object = new Entitie(App.TABLE_CANALES);
+                                                objects = object.getEntities();
+                                                out.println("<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\""+entitie.getColums().get(i)+"\">");
+                                                out.println("<option selected=\"\" value=\"0\">--SELECCIONAR--</option>");
+                                                for(Entitie ob: objects){
+                                                    String selected= get.equals(ob.getId()) ? "selected":"";
+                                                    out.println("<option value=\""+ob.getId()+"\" "+selected+" >"
+                                                            +"["+ob.getId()+"] "+ob.getDataOfLabel("NOMBRE")
+                                                            + "</option>");
+                                                }
+                                                out.println("</select>");
+                                                break;
+                                            default:
+                                                out.println("<input type=\"text\" class=\"form-control\" value=\""+get+"\" "
+                                                    + "placeholder=\""+entitie.getColums().get(i)+"\" "
+                                                    + "name=\""+entitie.getColums().get(i)+"\">");
+                                                break;
+                                        }
+                                    }
+                                    
+                                    else{
+                                        out.println("<input type=\"text\" class=\"form-control\" value=\""+get+"\" "
                                             + "placeholder=\""+entitie.getColums().get(i)+"\" "
                                             + "name=\""+entitie.getColums().get(i)+"\">");
+                                    }
                                 out.println("</div>");
                             out.println("</div>");
                         out.println("</div>");
