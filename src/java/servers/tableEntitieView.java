@@ -141,9 +141,43 @@ public class tableEntitieView extends HttpServlet {
                                             break;
                                     }
                                     break;
-                                    
+                                case "roles":
+                                    switch(i.getColums().get(j)){
+                                        case "MENUDEF":
+                                            object = new Entitie(App.TABLE_MENUS);
+                                            object.getEntitieID(i.getData().get(j));
+                                            out.println("<td>"+object.getDataOfLabel("MENU")+"</td>");
+                                            break;
+                                        default:
+                                            out.println("<td>"+i.getData().get(j)+"</td>");
+                                            break;
+                                    }
+                                    break;
+                                case "concesionario":
+                                    switch(i.getColums().get(j)){
+                                        case "ID_MARCA":
+                                            object = new Entitie(App.TABLE_MARCA);
+                                            object.getEntitieID(i.getData().get(j));
+                                            out.println("<td>"+object.getDataOfLabel("DESCRIPCION")+"</td>");
+                                            break;
+                                        case "ID_CIUDAD":
+                                            object = new Entitie(App.TABLE_CIUDADES);
+                                            object.getEntitieID(i.getData().get(j));
+                                            out.println("<td>"+object.getDataOfLabel("CIUDAD")+"</td>");
+                                            break;
+                                        case "SECRETARIA":
+                                            object = new Entitie(App.TABLE_SECRETARIAST);
+                                            object.getEntitieID(i.getData().get(j));
+                                            out.println("<td>"+object.getDataOfLabel("DESCRIPCION")+"</td>");
+                                            break;
+                                        default:
+                                            out.println("<td>"+i.getData().get(j)+"</td>");
+                                            break;
+                                    }
+                                    break;
                                 default:
                                     out.println("<td>"+i.getData().get(j)+"</td>");
+                                    break;
                             }
                         }
                         out.println("<td class=\"td-actions text-right\">");
