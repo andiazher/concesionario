@@ -86,6 +86,15 @@ public class Informes extends HttpServlet {
                     Entitie registroR = new Entitie(App.TABLE_REGISTROMATRICULA);
                     ArrayList<Entitie> resgistros = registroR.getEntities();
                     try (PrintWriter out = response.getWriter()) {
+                        int matricula = 0;
+                        int runt = 0;
+                        int papeleria = 0;
+                        int mensajeria = 0;
+                        int impuestos = 0;
+                        int otros = 0;
+                        int retefuente = 0;
+                        int honorario = 0;
+                        int total = 0;
                         for(Entitie i: resgistros){
                             out.println("<tr>");
                             out.println("<td>"+i.getId()+"</td>");
@@ -95,6 +104,16 @@ public class Informes extends HttpServlet {
                             out.println("<td>"+i.getDataOfLabel("PLACA")+"</td>");
                             out.println("<td>"+i.getDataOfLabel("CLASE")+"</td>");
                             out.println("<td>"+i.getDataOfLabel("GESTORIA")+"</td>");
+                            
+                            matricula+=Integer.parseInt(i.getDataOfLabel("MATRICULA"));
+                            runt+=Integer.parseInt(i.getDataOfLabel("RUNT"));
+                            papeleria+=Integer.parseInt(i.getDataOfLabel("PAPELERIA"));
+                            mensajeria+=Integer.parseInt(i.getDataOfLabel("MENSAJERIA"));
+                            impuestos+=Integer.parseInt(i.getDataOfLabel("IMPUESTOS"));
+                            otros+=Integer.parseInt(i.getDataOfLabel("OTROS"));
+                            retefuente+=Integer.parseInt(i.getDataOfLabel("RETEFUENTE"));
+                            honorario+=Integer.parseInt(i.getDataOfLabel("HONORARIO"));
+                            total+=Integer.parseInt(i.getDataOfLabel("TOTAL"));
                             
                             DecimalFormat formateador = new DecimalFormat("###,###.##");
                             out.println("<td class=\"text-right\">$"+formateador.format(Integer.parseInt(i.getDataOfLabel("MATRICULA")))+"</td>");
@@ -109,6 +128,23 @@ public class Informes extends HttpServlet {
                             out.println("<td class=\"text-right\">$"+formateador.format(Integer.parseInt(i.getDataOfLabel("SALDO")))+"</td>");
                             out.println("</tr>");
                         }
+                        // TOTAL
+                            out.println("<tr>");
+                            out.println("<th colspan=\"7\" class=\"text-center \">TOTAL</th>");
+                            
+                            
+                            DecimalFormat formateador = new DecimalFormat("###,###.##");
+                            out.println("<th class=\"text-right\">$"+formateador.format(matricula)+"</th>");
+                            out.println("<th class=\"text-right\">$"+formateador.format(runt)+"</th>");
+                            out.println("<th class=\"text-right\">$"+formateador.format(papeleria)+"</th>");
+                            out.println("<th class=\"text-right\">$"+formateador.format(mensajeria)+"</th>");
+                            out.println("<th class=\"text-right\">$"+formateador.format(impuestos)+"</th>");
+                            out.println("<th class=\"text-right\">$"+formateador.format(otros)+"</th>");
+                            out.println("<th class=\"text-right\">$"+formateador.format(retefuente)+"</th>");
+                            out.println("<th class=\"text-right\">$"+formateador.format(honorario)+"</th>");
+                            out.println("<th class=\"text-right\">$"+formateador.format(total)+"</th>");
+                            out.println("<th class=\"text-right\">--</td>");
+                            out.println("</tr>");
                     }
                 }
                 

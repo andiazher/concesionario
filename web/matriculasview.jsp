@@ -17,8 +17,7 @@
                                     <i class="material-icons">assignment</i>
                                 </div>
                                 <div class="card-content" id="formViewService">
-                                    <h4 class="card-title" id="titleContend"> Registro Matrícula </h4>
-
+                                    <h4 class="card-title" id="titleContend"> Registro Matrícula <a href="#download" class="text-rigth"><i class="material-icons">file_download</i></a> </h4>
                                     <div class="table-responsive">
                                         <table  class="table table-striped table-no-bordered table-hover " cellspacing="0" width="100%" style="width:100%">
                                             <thead class="">
