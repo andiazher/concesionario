@@ -147,6 +147,53 @@ public class Informes extends HttpServlet {
                             out.println("</tr>");
                     }
                 }
+                if(entidad.contains("movimientos")){
+                    Entitie registroR = new Entitie(App.TABLE_REGMOVBOLSA);
+                    String concesionario="";
+                    ArrayList<Entitie> resgistros;
+                    try{
+                        concesionario= request.getParameter("concesionario");
+                    }catch(NullPointerException s){
+                        System.out.println("Error: "+s);
+                    }
+                    if(!concesionario.equals("")){
+                        resgistros = registroR.getEntitieParam("CONCESIONARIO", concesionario);
+                    }
+                    else{
+                        resgistros = registroR.getEntities();
+                    }
+                    try (PrintWriter out = response.getWriter()) {
+                        for(Entitie i: resgistros){
+                            out.println("<tr>");
+                            out.println("<td>"+i.getDataOfLabel("FECHA")+"</td>");
+                            if(i.getDataOfLabel("OS").equals("0")){
+                                out.println("<td>--</td>");
+                            }
+                            else{
+                                out.println("<td>"+i.getDataOfLabel("OS")+"</td>");
+                            }
+                            
+                            if(i.getDataOfLabel("SERVICIO").equals("0")){
+                                out.println("<td>--</td>");
+                            }
+                            else{
+                                Entitie servicio = new Entitie(App.TABLE_SERVICIOS);
+                                servicio.getEntitieID(i.getDataOfLabel("SERVICIO"));
+                                out.println("<td>"+servicio.getDataOfLabel("DESCRIPCION")+"</td>");
+                            }
+                            if(i.getDataOfLabel("TIPOMOV").equals("DES")){
+                                out.println("<td>-</td>");
+                            }
+                            else{
+                                out.println("<td>+</td>");
+                            }
+                            DecimalFormat formateador = new DecimalFormat("###,###.##");
+                            out.println("<td class=\"text-right\">$"+formateador.format(Integer.parseInt(i.getDataOfLabel("VALOR")))+"</td>");
+                            out.println("<td class=\"text-right\">$"+formateador.format(Integer.parseInt(i.getDataOfLabel("SALDO")))+"</td>");
+                            out.println("</tr>");
+                        }
+                    }
+                }
                 
             }
             else{

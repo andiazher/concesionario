@@ -1,8 +1,9 @@
 <%-- 
-    Document   : matriculasview
-    Created on : 24-feb-2017, 2:35:08
+    Document   : movbolsa
+    Created on : 01-mar-2017, 0:08:00
     Author     : andre
 --%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!--  DataTables.net Plugin    -->
@@ -16,45 +17,45 @@
                                     <i class="material-icons">assignment</i>
                                 </div>
                                 <div class="card-content" id="formViewService">
-                                    <h4 class="card-title" id="titleContend"> Registro Matrícula <a href="#download"> <i class="material-icons"> file_download</i></a> </h4>
+                                    <form method="post" action="#search" id="form">
+                                        <h4 class="card-title" id="titleContend"> Registro Movimientos en Bolsa 
+                                            <a href="#download"> <i class="material-icons"> file_download</i></a> 
+                                        </h4>
+                                        <div class="row">
+                                            <div class="col-sm-offset-3 col-md-4">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Concesionario</label>
+                                                    <select class="select-with-transition" data-style="btn btn-default" name="concesionario" id="concesionario"  onchange="">
+                                                        <option selected="" value="">--SELECCIONAR--</option>
+                                                    </select>                                                
+                                                </div>
+                                            </div>    
+                                            <div class="col-md-2">
+                                                <button type="submit" class="btn btn-success btn-fill" id="buttonsubmit" onclick="loadtable()">
+                                                    <span class="btn-label">
+                                                        <i class="material-icons">search</i>
+                                                    </span>
+                                                    Buscar
+                                                </button>
+                                            </div>    
+                                        </div>
+                                    </form>
                                     <div class="table-responsive">
                                         <table  class="table table-striped table-no-bordered table-hover " cellspacing="0" width="100%" style="width:100%">
                                             <thead class="">
-                                                <th>ID</th>
-                                                <th>Factura</th>
-                                                <th>Fecha</th>
-                                                <th>Propietario</th>
-                                                <th>Placa</th>
-                                                <th>Clase</th>
-                                                <th>Gestoria</th>
-                                                <th>Matricula</th>
-                                                <th>Runt</th>
-                                                <th>Papeleria</th>
-                                                <th>Mensajeria</th>
-                                                <th>Impuestos</th>
-                                                <th>Otros</th>
-                                                <th>Retefuente</th>
-                                                <th>Honorarios</th>
-                                                <th>Total</th>
-                                                <th>Saldo</th>
+                                                <th>FECHA</th>
+                                                <th>OS</th>
+                                                <th>SERVICIO</th>
+                                                <th>+/-</th>
+                                                <th>VALOR</th>
+                                                <th>SALDO</th>
                                             </thead>
                                             <tbody id="serviciostable">
                                                 <tr>
                                                     <td>00</td>
                                                     <td>--</td>
                                                     <td>--</td>
-                                                    <td>--</td>
-                                                    <td>$00</td>
-                                                    <td>$00</td>
-                                                    <td>$00</td>
-                                                    <td>00</td>
-                                                    <td>--</td>
-                                                    <td>--</td>
-                                                    <td>--</td>
-                                                    <td>$00</td>
-                                                    <td>00</td>
-                                                    <td>$00</td>
-                                                    <td>$00</td>
+                                                    <td>+</td>
                                                     <td>$00</td>
                                                     <td>$00</td>
                                                 </tr>
@@ -117,16 +118,40 @@
    
 </script>
 <script type="text/javascript">
-   
+function loadparams(){
+        var menu="concesionarios";
+        $.post("ClaseVehiculoClientView", { variable: menu }, function(data){
+            $("#concesionario").append(data);
+        });
+        loadtableForm();
+    }
+    loadparams();
+
+
     function loadtableForm(){
         var menu="<%=session.getAttribute("menu")%>";
-        $.post("Informes", { variable: menu }, function(data){
+        var concesionario1=document.getElementById('concesionario').value;
+        $.post("Informes", { variable: menu, concesionario: concesionario1 }, function(data){
             $("#serviciostable").html(data);
         });
-        loadDatatable();
     }
-    loadtableForm();
-    
+    function loadtable(){
+        loadtableForm();
+    }
+
+$(document).ready(function(){
+    $("#form").submit(function(){
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function(data){
+                    //console.log("none");
+                }
+            })
+            return false;
+    });
+});
     
 </script>
 

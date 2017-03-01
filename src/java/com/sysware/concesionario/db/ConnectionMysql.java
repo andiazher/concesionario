@@ -41,10 +41,10 @@ public class ConnectionMysql {
             System.out.println(e.toString());
         }
         try {
-            
-            this.connection = DriverManager.getConnection(
-                    "jdbc:mysql://"+host+":"+port+"/"+db+"?zeroDateTimeBehavior=convertToNull"
-                            + "&user="+user+"&password="+pass);
+            String qry= "jdbc:mysql://"+host+":"+port+"/"+db+"?zeroDateTimeBehavior=convertToNull"
+                            + "&user="+user+"&password="+pass;
+            System.out.println("Conection: "+ qry);
+            this.connection = DriverManager.getConnection(qry);
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
         }
