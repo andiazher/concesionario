@@ -150,7 +150,7 @@ public class Informes extends HttpServlet {
                 if(entidad.contains("movimientos")){
                     Entitie registroR = new Entitie(App.TABLE_REGMOVBOLSA);
                     String concesionario="";
-                    ArrayList<Entitie> resgistros;
+                    ArrayList<Entitie> resgistros = new ArrayList<>();
                     try{
                         concesionario= request.getParameter("concesionario");
                     }catch(NullPointerException s){
@@ -160,7 +160,7 @@ public class Informes extends HttpServlet {
                         resgistros = registroR.getEntitieParam("CONCESIONARIO", concesionario);
                     }
                     else{
-                        resgistros = registroR.getEntities();
+                        //resgistros = registroR.getEntities();
                     }
                     try (PrintWriter out = response.getWriter()) {
                         for(Entitie i: resgistros){

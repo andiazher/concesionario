@@ -22,21 +22,13 @@
                                             <a href="#download"> <i class="material-icons"> file_download</i></a> 
                                         </h4>
                                         <div class="row">
-                                            <div class="col-sm-offset-3 col-md-4">
+                                            <div class="col-sm-offset-4 col-md-4">
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Concesionario</label>
-                                                    <select class="select-with-transition" data-style="btn btn-default" name="concesionario" id="concesionario"  onchange="">
-                                                        <option selected="" value="">--SELECCIONAR--</option>
+                                                    <select class="select-with-transition" data-style="btn btn-default" name="concesionario" id="concesionario"  onchange="loadtable()" required="">
+                                                        <!--<option selected="" value="">--SELECCIONAR--</option>-->
                                                     </select>                                                
                                                 </div>
-                                            </div>    
-                                            <div class="col-md-2">
-                                                <button type="submit" class="btn btn-success btn-fill" id="buttonsubmit" onclick="loadtable()">
-                                                    <span class="btn-label">
-                                                        <i class="material-icons">search</i>
-                                                    </span>
-                                                    Buscar
-                                                </button>
                                             </div>    
                                         </div>
                                     </form>
@@ -122,23 +114,27 @@ function loadparams(){
         var menu="concesionarios";
         $.post("ClaseVehiculoClientView", { variable: menu }, function(data){
             $("#concesionario").append(data);
+            var x= $("select option").first();
+            x.attr("selected","true");
+            x.attr("id","option1");
+            loadtableForm(document.getElementById('option1').value);
         });
-        loadtableForm();
-    }
-    loadparams();
+        
+}
+loadparams();
 
 
-    function loadtableForm(){
-        var menu="<%=session.getAttribute("menu")%>";
-        var concesionario1=document.getElementById('concesionario').value;
-        $.post("Informes", { variable: menu, concesionario: concesionario1 }, function(data){
-            $("#serviciostable").html(data);
-        });
-    }
-    function loadtable(){
-        loadtableForm();
-    }
+function loadtableForm(value){
+    var menu="<%=session.getAttribute("menu")%>";
+    $.post("Informes", { variable: menu, concesionario: value }, function(data){
+        $("#serviciostable").html(data);
+    });
+}
 
+function loadtable(){
+        loadtableForm(document.getElementById('concesionario').value);
+    }
+    
 $(document).ready(function(){
     $("#form").submit(function(){
             $.ajax({
