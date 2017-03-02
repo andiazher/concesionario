@@ -12,6 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <!--
         <div class="content">
                 <div class="container-fluid">
                     <div class="row">
@@ -107,5 +108,6 @@
                     </div>
                 </div>
             </div>
+        -->
     </body>
 </html>

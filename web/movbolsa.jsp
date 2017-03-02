@@ -38,7 +38,6 @@
                                                 <th>FECHA</th>
                                                 <th>OS</th>
                                                 <th>SERVICIO</th>
-                                                <th>+/-</th>
                                                 <th>VALOR</th>
                                                 <th>SALDO</th>
                                             </thead>
@@ -47,7 +46,6 @@
                                                     <td>00</td>
                                                     <td>--</td>
                                                     <td>--</td>
-                                                    <td>+</td>
                                                     <td>$00</td>
                                                     <td>$00</td>
                                                 </tr>

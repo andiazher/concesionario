@@ -201,11 +201,23 @@
         $("#vari").attr( "value", id);
         if(id==2){
             $("#observaciones").removeAttr("required");
+            console.log("Cargando datos");
             loadParamsFormClient();
+            $("#color").attr("required","true");
+            $("#motor").attr("required","true");
+            $("#chasis").attr("required","true");
+            $("#vin").attr("required","true");
+            $("#direccion").attr("required","true");
         }
         else{
             $("#observaciones").attr("required","true"); 
-            $("#loadAprobe").html("NO DATA REQUIRED");
+            $("#color").removeAttr("required");
+            $("#motor").removeAttr("required");
+            $("#chasis").removeAttr("required");
+            $("#vin").removeAttr("required");
+            $("#direccion").removeAttr("required");
+            var idService= <%=request.getParameter("variable")%>;
+            $("#loadAprobe").html("<a href=\"#load\" onclick=\"openViewService("+idService+")\">Si no cargo parametros hacer clik aqui</a>");
         }
     }
     //changevalue(2);
@@ -248,7 +260,8 @@
                 minimumFractionDigits: 2,
             });
             $("#total").attr("value",formatter.format(total));
-
+            console.log("ID SERVICIO: "+valores.idServicio);
+            //$("#loadAprobe").html("Cargando...");
             if(valores.idServicio==1){
                 $.post("html/soat.jsp", { }, function(data2){
                     $("#loadAprobe").html(data2);
@@ -257,6 +270,7 @@
             if(valores.idServicio==2){
                 $.post("html/matricula.jsp", { }, function(data2){
                     $("#loadAprobe").html(data2);
+                    console.log("Cargando parametros para la matricula");
                 });
             }
             else{

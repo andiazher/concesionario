@@ -152,8 +152,8 @@ public class validatepurpacheService extends HttpServlet {
                             canal.getEntitieID(orden.getDataOfLabel("ID_CANAL"));
                             concesionario.getEntitieID(canal.getDataOfLabel("ID_CONCESIONARIO"));
                             int saldo = Integer.parseInt(concesionario.getDataOfLabel("SALDO"));
-                            int valors = Integer.parseInt(valor);
-                            int nuevo = saldo - valors;
+                            int valors = Integer.parseInt(valor) * -1;
+                            int nuevo = saldo + valors;
                             System.out.println("Nuevo"+nuevo +" valor: "+valor+ " valorInt: "+valors+" saldo"+saldo);
                             concesionario.getData().set(concesionario.getColums().indexOf("SALDO"), nuevo+"");
                             concesionario.update();
@@ -170,7 +170,7 @@ public class validatepurpacheService extends HttpServlet {
                                     " "+fecha.get(Calendar.HOUR_OF_DAY)+":"+fecha.get(Calendar.MINUTE)+":"+fecha.get(Calendar.SECOND);
                             reg.getData().set(reg.getColums().indexOf("FECHA"),f);
                             reg.getData().set(reg.getColums().indexOf("TIPOMOV"),"DES");
-                            reg.getData().set(reg.getColums().indexOf("VALOR"),valor);
+                            reg.getData().set(reg.getColums().indexOf("VALOR"),(valors)+"");
                             reg.getData().set(reg.getColums().indexOf("SALDO"),nuevo+"");
                             reg.create();
                             
