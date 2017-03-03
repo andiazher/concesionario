@@ -1,3 +1,36 @@
+<%-- 
+    Document   : index
+    Created on : 02-mar-2017, 21:28:43
+    Author     : andre
+--%>
+
+<%
+    String name="";
+    try{
+        
+        if(session.getAttribute("session").equals("true")){
+            response.sendRedirect("app.jsp");
+        }
+        
+        if(request.getParameter("logout").equals("true")){
+            session.setAttribute("session", "false");
+        }
+        
+    }
+    catch(NullPointerException s){ 
+
+    }
+    try{
+        if(!request.getParameter("validate").equals("null")){
+            name =request.getParameter("validate");
+        }
+    }catch(NullPointerException s){ }
+        
+    
+    
+    
+%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!doctype html>
 <html lang="en">
@@ -36,7 +69,6 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-
                 <a class="navbar-brand" href="index.html">Sistema Ordenes de Servicio para Vehículos</a>
             </div>
             <div class="collapse navbar-collapse">
@@ -94,6 +126,7 @@
                                         </div>
                                     </div>
                                     <p class="category text-center text-danger" >
+                                        <%=name%>
                                     </p>
                                     <div class="footer text-center">
                                         <button type="submit" class="btn btn-info btn-simple btn-wd btn-lg">Iniciar Sesión</button>
@@ -106,7 +139,7 @@
             </div>
             <footer class="footer">
                 <div class="container">
-                	<p class=" copyright pull-left"><a href="http://andiazher.com">by: andiazher Inc</a></p>
+                    <p class=" copyright pull-left"><a href="http://andiazher.com">by: andiazher Inc</a></p>
                     <p class="copyright pull-right">
                         &copy; <script>document.write(new Date().getFullYear())</script><a href="http://sysware-ingenieria.com"> Sysware Ingenieria</a>
                     </p>

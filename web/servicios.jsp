@@ -13,6 +13,12 @@
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
         <script src="js/material.min.js" type="text/javascript"></script>
         <script src="js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+          $( function() {
+            $( "#datepicker" ).datepicker();
+          } );
+        </script>
     </head>
     <body>
 
@@ -29,13 +35,13 @@
                                             <div class="col-md-2">
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Fecha Inicial</label>
-                                                    <input type="text" class="form-control datepicker text-center" value="" id="fecha1" name="fecha1">
+                                                    <input type="text" class="form-control datepicker text-center" value="" id="fecha1" name="fecha1" >
                                                 </div>
                                             </div>    
                                             <div class="col-md-2">
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Fecha Final</label>
-                                                    <input type="text" class="form-control datepicker text-center" value="" id="fecha2" name="fecha2">
+                                                    <input type="text" class="form-control datepicker text-center" value="" id="fecha2" name="fecha2" onclick="loadCalendar()">
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
@@ -100,9 +106,47 @@
                         </div>
                     </div>
                 </div>
+                <div id="calendar" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="closeCalendar()">
+                                    <i class="material-icons">clear</i>
+                                </button>
+                                <h4 class="modal-title">Datepicker</h4>
+                            </div>
+                            <div class="modal-body">
+                                
+                            </div>
+                            <div class="modal-footer text-center">
+                                <button type="button" class="btn btn-info btn-round" data-dismiss="modal" onclick="closeCalendar()">Seleccionar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
 
 <script type="text/javascript">
+
+    $( function() {
+        $( "#datepicker" ).datepicker();
+      } );
+    $('#sandbox-container input').datepicker({
+        format: "yyyy-mm-dd"
+    });
+
+    function loadCalendar(){
+
+        $("#calendar").addClass("in");
+        $("#calendar").attr("style","display: block");
+
+    }
+    function closeCalendar(){
+        $("#calendar").removeClass("in");
+        $("#calendar").attr("style","display: none");        
+    }
+
     function loadparams(){
         var f = new Date();
         var anoActual = f.getFullYear();

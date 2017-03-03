@@ -6,15 +6,19 @@
 <%
     String name="";
     try{
-        if(request.getParameter("logout").equals("true")){
-            session.setAttribute("session", "false");
-        }
+        
         if(session.getAttribute("session").equals("true")){
             response.sendRedirect("app.jsp");
         }
         
+        if(request.getParameter("logout").equals("true")){
+            session.setAttribute("session", "false");
+        }
+        
     }
-    catch(NullPointerException s){ }
+    catch(NullPointerException s){ 
+
+    }
     try{
         if(!request.getParameter("validate").equals("null")){
             name =request.getParameter("validate");
