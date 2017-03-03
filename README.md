@@ -1,4 +1,5 @@
 # concesionario
-Concesionario is a webapp development for andiazher Inc for Sysware Ingenieria SAS.
+Concesionario is a webapp development by andiazher for Sysware Ingenieria SAS.
 
-This repository is public, and the code is private. No copy the application. All rights reserved.
+
+visit in https://andiazherinc.github.io/Concesionario/
