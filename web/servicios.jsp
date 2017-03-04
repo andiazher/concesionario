@@ -12,13 +12,10 @@
         <script src="js/jquery-ui.min.js" type="text/javascript"></script>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
         <script src="js/material.min.js" type="text/javascript"></script>
+        <script src="js/bootstrap-datetimepicker.js"></script>
         <script src="js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script>
-          $( function() {
-            $( "#datepicker" ).datepicker();
-          } );
-        </script>
+        
     </head>
     <body>
 
@@ -33,21 +30,28 @@
                                     <form method="post" action="#search" id="form">
                                         <div class="row">
                                             <div class="col-md-2">
-                                                <div class="form-group label-floating">
+                                                <div class="form-group label-floating input-group date">
                                                     <label class="control-label">Fecha Inicial</label>
                                                     <input type="text" class="form-control datepicker text-center" value="" id="fecha1" name="fecha1" >
                                                 </div>
+                                                <script type="text/javascript">
+                                                   $('.datepicker').datepicker({
+                                                        format: 'yyyy-mm-dd',
+                                                        startDate: '-3d'
+                                                    });
+                                                </script>
                                             </div>    
                                             <div class="col-md-2">
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Fecha Final</label>
-                                                    <input type="text" class="form-control datepicker text-center" value="" id="fecha2" name="fecha2" onclick="loadCalendar()">
+                                                    <input type="text" class="form-control text-center" value="" id="fecha2" name="fecha2" onclick="loadCalendar()">
                                                 </div>
                                             </div>
+                                            
                                             <div class="col-md-2">
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Orden de Servicio</label>
-                                                    <input type="text" class="form-control datepicker text-center" id="os" name="os">
+                                                    <input type="text" class="form-control text-center" id="os" name="os">
                                                 </div>
                                             </div>    
                                             <div class="col-md-4">
@@ -129,13 +133,8 @@
 
 <script type="text/javascript">
 
-    $( function() {
-        $( "#datepicker" ).datepicker();
-      } );
-    $('#sandbox-container input').datepicker({
-        format: "yyyy-mm-dd"
-    });
-
+    
+    
     function loadCalendar(){
 
         $("#calendar").addClass("in");
