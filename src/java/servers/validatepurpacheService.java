@@ -5,7 +5,6 @@
  */
 package servers;
 
-import com.mchange.v2.c3p0.impl.C3P0Defaults;
 import com.sysware.concesionario.App;
 import com.sysware.concesionario.entitie.Entitie;
 import java.io.IOException;
@@ -79,6 +78,55 @@ public class validatepurpacheService extends HttpServlet {
                             if(odetalle.getDataOfLabel("SERVICIO").equals("1")){
                                 valor = request.getParameter("valor");
                                 odetalle.getData().set(odetalle.getColums().indexOf("VALOR"), valor);
+                                //SAVE TO COMISIONES
+                                //1. SAVE TO COMISION PLATINO
+                                Entitie soat= new Entitie(App.TABLE_SOAT);
+                                String tarifa= request.getParameter("tiposoate");
+                                soat.getEntitieID(tarifa);
+                                String prima = soat.getDataOfLabel("PRIMA");
+                                Entitie param = new Entitie(App.TABLE_PARAMETROSFORMS);
+                                String pct_soat_platino="0";
+                                int c= 0;
+                                int s= 0;
+                                int valorcomplatino=0;
+                                try{
+                                    param = param.getEntitieParam("FORM", "SOAT_PLATINO").get(0);
+                                    pct_soat_platino = param.getDataOfLabel("VALUE");
+                                    for(Entitie entidad : param.getEntitieParam("FORM", "REGIMEN")){
+                                        String value=entidad.getDataOfLabel("VALUE");
+                                        if (value.equals("C")) {
+                                            c= Integer.parseInt(entidad.getDataOfLabel("VALUE2"));
+                                        }
+                                        if (value.equals("S")) {
+                                            s= Integer.parseInt(entidad.getDataOfLabel("VALUE2"));
+                                        }
+                                    }
+                                    int tem1= Integer.parseInt(prima);
+                                    int tem2= Integer.parseInt(pct_soat_platino);
+                                    valorcomplatino = (tem1*tem2)/100;
+                                }
+                                catch(IndexOutOfBoundsException error){
+                                    
+                                };
+                                Entitie concesionario = new Entitie(App.TABLE_CONCESIONARIO);
+                                Entitie canal = new Entitie(App.TABLE_CANALES);
+                                canal.getEntitieID(orden.getDataOfLabel("ID_CANAL"));
+                                concesionario.getEntitieID(canal.getDataOfLabel("ID_CONCESIONARIO"));
+                                int pct_soat_conce= Integer.parseInt(concesionario.getDataOfLabel("PCT_SOAT"));
+                                String regimen = concesionario.getDataOfLabel("REGIMEN");
+                                int valorconcesionario=0;
+                                if(regimen.equals("A")){
+                                    valorconcesionario = (pct_soat_conce*valorcomplatino)/100;
+                                }
+                                if(regimen.equals("C")){
+                                    valorconcesionario = ((pct_soat_conce*valorcomplatino)/100)*((100-c)/100);
+                                }
+                                if(regimen.equals("S")){
+                                    valorconcesionario = ((pct_soat_conce*valorcomplatino)/100)*((100-s)/100);
+                                }
+                                odetalle.getData().set(odetalle.getColums().indexOf("COM_PLATINO"), valorcomplatino+"");
+                                odetalle.getData().set(odetalle.getColums().indexOf("COM_CONCE"), valorconcesionario+"");
+                                
                                 Entitie aseguradora = new Entitie(App.TABLE_ASEGURADORAS);
                                 aseguradora.getEntitieID(request.getParameter("aseguradora"));
                                 observaciones+=" NUMERO DE POLIZA: "+numeroPoliza+" DE "+aseguradora.getDataOfLabel("DESCRIPCION");
@@ -152,9 +200,18 @@ public class validatepurpacheService extends HttpServlet {
                             canal.getEntitieID(orden.getDataOfLabel("ID_CANAL"));
                             concesionario.getEntitieID(canal.getDataOfLabel("ID_CONCESIONARIO"));
                             int saldo = Integer.parseInt(concesionario.getDataOfLabel("SALDO"));
-                            int valors = Integer.parseInt(valor) * -1;
+                            int valors=0;
+                            try{
+                                valor.trim();
+                                System.out.println("Que pasa con el valor: "+valor);
+                                valors = Integer.parseInt(valor);
+                                System.out.println("Valor resultado: "+valors);
+                                valors = valors * -1;
+                            }catch(NumberFormatException s){
+                                System.out.println("Numero invalido = "+valor);
+                            }
                             int nuevo = saldo + valors;
-                            System.out.println("Nuevo"+nuevo +" valor: "+valor+ " valorInt: "+valors+" saldo"+saldo);
+                            System.out.println("Nuevo "+nuevo +" valor: "+valor+ " valorInt: "+valors+" saldo"+saldo);
                             concesionario.getData().set(concesionario.getColums().indexOf("SALDO"), nuevo+"");
                             concesionario.update();
                             //CREATE REGISTER
@@ -183,7 +240,7 @@ public class validatepurpacheService extends HttpServlet {
                             }
                             ArrayList<Entitie> cdis= cdisper.getEntitieParam("SERVICIO", odetalle.getDataOfLabel("SERVICIO"));
                             valor= odetalle.getDataOfLabel("VALOR");
-                            int valor1 = Integer.parseInt(valor);
+                            int valor1 = valors* -1;
                             boolean validate= true;//isviable(cdis, valor);
                             if(validate){
                                 for(Entitie i: cdis){
@@ -209,6 +266,9 @@ public class validatepurpacheService extends HttpServlet {
                             else{
                                 //POR COMPLETAR
                             }
+                            //SEGUNDA PARTE DE LA DISPERSION
+                            
+                            
                             //END PROCESS
                             out.println("<script type=\"text/javascript\">\n" +
                             "    swal(\n" +
