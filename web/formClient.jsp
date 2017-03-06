@@ -58,7 +58,8 @@
 													minLength="5" 
 													required="true"
 													placeholder="ABC123" 
-													id="placa">
+													id="placa" 
+													onkeypress="return uppercase(event)">
 													<span class="help-block">Placa de vehiculo</span>
 												</div>
 				                            </div>
@@ -166,7 +167,11 @@
 </body>
 	
 <script type="">
-
+function uppercase(e){
+        var key = window.Event ? e.which : e.keyCode;
+        console.log(key);
+        return (key.toUpperCase());
+}
 function loadChecks(){
 	var menu="none";
 

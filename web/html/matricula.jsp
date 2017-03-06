@@ -136,6 +136,10 @@
         var key = window.Event ? e.which : e.keyCode;
         return (key>=48 && key<=57);
     }
+    function uppercase(e){
+        var key = window.Event ? e.which : e.keyCode;
+        return (key.toUpperCase());
+    }
 
     function sumarValor(){
         var matricula = parseInt(document.getElementById('matricula').value);
