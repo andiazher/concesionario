@@ -77,6 +77,18 @@ public class formLiquidacion extends HttpServlet {
                     operation.add("<=");
                     nada=true;
                 }
+                if(!canal.equals("")){
+                    if(nada){
+                        name+=",";
+                    }
+                    Entitie canalEntitie = new Entitie(App.TABLE_CANALES);
+                    canalEntitie.getEntitieID(canal);
+                    name+=" CANAL: </b>"+canalEntitie.getDataOfLabel("NOMBRE")+"<b> ";
+                    //param1.add("FECHAT");
+                    //param2.add(ff +" 23:59:59");
+                    //operation.add("<=");
+                    nada=true;
+                }
                 String qry="";
                 if(!concesionario.equals("")){
                     if(nada){
