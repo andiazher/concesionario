@@ -5,8 +5,15 @@
  */
 package servers;
 
+import com.sysware.concesionario.App;
+import com.sysware.concesionario.entitie.Entitie;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,19 +35,121 @@ public class formLiquidacion extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet formLiquidacion</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet formLiquidacion at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        try{
+            if(request.getSession().getAttribute("session").equals("true")){
+                String name="Sin nombre";
+                ArrayList<Entitie> servicios= new ArrayList<>();
+                String fi="";
+                String ff="";
+                String concesionario="";
+                String canal="";
+                try{
+                    fi= request.getParameter("fi");
+                    ff= request.getParameter("ff");
+                    concesionario= request.getParameter("concesionario");
+                    canal= request.getParameter("canal");
+                }catch(NullPointerException s){
+                    System.out.println("Error: "+s);
+                }
+                Entitie servicio = new Entitie(App.TABLE_OSDETALLE);
+                name= "RESULTADOS PARA";
+                boolean nada=false;
+                ArrayList<String> param1=new ArrayList<>();
+                ArrayList<String> param2=new ArrayList<>();
+                ArrayList<String> operation=new ArrayList<>();
+                
+                if(!fi.equals("")){
+                    name+=" DESPUES DE: </b>"+fi+"<b>";
+                    param1.add("FECHAT");
+                    param2.add(fi);
+                    operation.add(">=");
+                    nada=true;
+                }
+                if(!ff.equals("")){
+                    if(nada){
+                        name+=",";
+                    }
+                    name+=" ANTES DE: </b>"+ff+"<b> ";
+                    param1.add("FECHAT");
+                    param2.add(ff +" 23:59:59");
+                    operation.add("<=");
+                    nada=true;
+                }
+                String qry="";
+                if(!concesionario.equals("")){
+                    if(nada){
+                        name+=" Y";
+                    }
+                    Entitie conce = new Entitie(App.TABLE_CONCESIONARIO);
+                    try{
+                        conce.getEntitieID(concesionario);
+                    }
+                    catch(IndexOutOfBoundsException s){}
+                    name+=" CONCESIONARIO: </b>"+conce.getDataOfLabel("NOMBRE")+"<b> ";
+                    nada=true;
+                }
+                
+                if(param1.isEmpty() && param2.isEmpty() && operation.isEmpty() && nada==false){
+                    servicios = servicio.getEntities();
+                    name="TODAS LAS ORDENES DE SERVICIO";
+                }
+                else{
+                    servicios = servicio.getEntitieParams(param1, param2, operation, qry);
+                }
+                
+                try (PrintWriter out = response.getWriter()) {
+                    String idOrder="-1";
+                    out.println("<h4 class=\"card-title text-center\" id=\"titleContend\"> <b> "+name+" </b> </h4>");
+                    out.println("<table class=\"table\">");
+                    out.println("<thead class=\"\">\n" +
+"                                                <th>Fecha</th>\n" +
+"                                                <th>Concesionario</th>\n" +
+"                                                <th>OS</th>\n" +
+"                                                <th>Servicio</th>\n" +
+"                                                <th>Comisión</th>\n" +
+"                                                <th>L</th>\n" +
+"                                                <th>R</th>\n" +
+"                                            </thead>");
+                    out.println("<tbody>");
+                    for(Entitie i: servicios){
+                        if(!idOrder.equals(i.getId())){
+                            String a="";
+                            a+="onclick=\"openViewOrderService("+i.getId()+")\"";
+                            String danger = "text-danger";
+                            danger = "";
+                            out.println("<tr class=\""+danger+"\" >");
+                            out.println("<td>"+i.getDataOfLabel("FECHAT")+"</td>");
+                            Entitie os = new Entitie(App.TABLE_ORDENSERVICIO);
+                            Entitie canals = new Entitie(App.TABLE_CANALES);
+                            Entitie conce = new Entitie(App.TABLE_CONCESIONARIO);
+                            os.getEntitieID(i.getDataOfLabel("OS"));
+                            canals.getEntitieID(os.getDataOfLabel("ID_CANAL"));
+                            conce.getEntitieID(canals.getDataOfLabel("ID_CONCESIONARIO"));
+                            out.println("<td>"+conce.getDataOfLabel("NOMBRE")+"</td>");
+                            out.println("<td>"+i.getDataOfLabel("OS")+"</td>");
+                            Entitie servicion = new Entitie(App.TABLE_SERVICIOS);
+                            servicion.getEntitieID(i.getDataOfLabel("SERVICIO"));
+                            out.println("<td>"+servicion.getDataOfLabel("DESCRIPCION")+"</td>");
+                            DecimalFormat formateador = new DecimalFormat("###,###.##");
+                            out.println("<td class=\"text-right\">$"+formateador.format(Integer.parseInt(i.getDataOfLabel("COM_CONCE")))+"</td>");
+                            out.println("<td><input type=\"checkbox\" name=\"service"+i.getId()+"\" checked></td>");
+                            out.println("<td><a href=\"#rechazarDOS"+i.getId()+"\" onclick=\"rechazar("+i.getId()+")\">Rechazar</a></td>");
+                            out.println("</tr>");
+                        }
+                        
+                    }
+                    out.println("</tbody>");
+                    out.println("</table>");
+                }
+            }
+            else{
+                response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales");
+            }
+        }
+        catch(NullPointerException e){
+            response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales");
         }
     }
 
@@ -56,7 +165,11 @@ public class formLiquidacion extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(formLiquidacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -70,7 +183,11 @@ public class formLiquidacion extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(formLiquidacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

@@ -108,12 +108,10 @@ public class validatepurpacheService extends HttpServlet {
                                 catch(IndexOutOfBoundsException error){
                                     
                                 };
-                                Entitie concesionario = new Entitie(App.TABLE_CONCESIONARIO);
                                 Entitie canal = new Entitie(App.TABLE_CANALES);
                                 canal.getEntitieID(orden.getDataOfLabel("ID_CANAL"));
-                                concesionario.getEntitieID(canal.getDataOfLabel("ID_CONCESIONARIO"));
-                                int pct_soat_conce= Integer.parseInt(concesionario.getDataOfLabel("PCT_SOAT"));
-                                String regimen = concesionario.getDataOfLabel("REGIMEN");
+                                int pct_soat_conce= Integer.parseInt(canal.getDataOfLabel("PCT_SOAT"));
+                                String regimen = canal.getDataOfLabel("REGIMEN");
                                 int valorconcesionario=0;
                                 if(regimen.equals("A")){
                                     valorconcesionario = (pct_soat_conce*valorcomplatino)/100;
@@ -126,7 +124,8 @@ public class validatepurpacheService extends HttpServlet {
                                 }
                                 odetalle.getData().set(odetalle.getColums().indexOf("COM_PLATINO"), valorcomplatino+"");
                                 odetalle.getData().set(odetalle.getColums().indexOf("COM_CONCE"), valorconcesionario+"");
-                                
+                                //END 1
+                                //OTROS DATOS DE SOAT
                                 Entitie aseguradora = new Entitie(App.TABLE_ASEGURADORAS);
                                 aseguradora.getEntitieID(request.getParameter("aseguradora"));
                                 observaciones+=" NUMERO DE POLIZA: "+numeroPoliza+" DE "+aseguradora.getDataOfLabel("DESCRIPCION");

@@ -88,7 +88,7 @@
                                         </div>
                                     </form>
                                     <div class="table-responsive" id="formViewService">
-                                        <h4 class="card-title text-center" id="titleContend"> Cargando Servicios </h4>
+                                        <h4 class="card-title text-center" id="titleContend"> Cargando Servicios, por favor espere </h4>
                                         <table class="table">
                                             <thead class="">
                                                 <th>No</th>

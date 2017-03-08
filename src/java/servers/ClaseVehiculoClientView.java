@@ -46,6 +46,10 @@ public class ClaseVehiculoClientView extends HttpServlet {
             if(request.getSession().getAttribute("session").equals("true")){
                 
                 String var = request.getParameter("variable");
+                
+                /**
+                *RETORNA LOS TIPOS DE VEHICULO GUARDADAS EN TIPOVEHICULO
+                */
                 if(var.equals("none")){
                     Entitie tipo = new Entitie(App.TABLE_TIPOVEH);
                     ArrayList<Entitie> tipos = tipo.getEntities();
@@ -62,6 +66,9 @@ public class ClaseVehiculoClientView extends HttpServlet {
                         }
                     }
                 }
+                /**
+                 * RETORNA LAS CLASES DE VEHICULO
+                 */
                 if(var.equals("clase")){
                     Entitie clase = new Entitie(App.TABLE_CLASEVEHI);
                     String tipo = request.getParameter("tipo");
@@ -78,6 +85,9 @@ public class ClaseVehiculoClientView extends HttpServlet {
                     }
                     
                 }
+                /**
+                 * RETORNA LOS TIPOS DE VEHUCULO PERO PARA CALCULAR EL SOAT
+                 */
                 if(var.equals("tipo")){
                     Entitie clase = new Entitie(App.TABLE_TIPOVEHSOAT);
                     ArrayList<Entitie> clases = clase.getEntities();
@@ -88,6 +98,9 @@ public class ClaseVehiculoClientView extends HttpServlet {
                         }
                     }
                 }
+                /**
+                 * RETORNA LA LISTA DE CONCESIONARIOS
+                 */
                 if(var.equals("concesionarios")){
                     Entitie clase = new Entitie(App.TABLE_CONCESIONARIO);
                     ArrayList<Entitie> clases = clase.getEntities();
@@ -99,6 +112,9 @@ public class ClaseVehiculoClientView extends HttpServlet {
                     }
                     
                 }
+                /**
+                 * RETORNA LAS TARIFAS DEL SOAT DISPONIBLES DE ACUERDO AL TIPO DE VEHICULO QUE SE HAYA SELECCIONADO
+                 */
                 if(var.equals("especifico")){
                     Entitie soat = new Entitie(App.TABLE_SOAT);
                     String clase = request.getParameter("clase");
@@ -123,6 +139,11 @@ public class ClaseVehiculoClientView extends HttpServlet {
                         
                     }
                 }
+                /**
+                 * RETORNA SOLO EL VALOR DE LA BOLSA DE VALOR DEL CONCESIONARIO.
+                 * DE ACUERDO AL USUARIO QUE ESTA HACIENDO LA CONSULTA.
+                 * TAMBIEN RETORNA EL MINIMO Y EL NOMBRE EL CONCESIONARIO
+                 */
                 if(var.equals("concesionario")){
                     String usuario =(String) request.getSession().getAttribute("user");
                     Entitie user = new Entitie(App.TABLE_USUARIO);
@@ -142,6 +163,9 @@ public class ClaseVehiculoClientView extends HttpServlet {
                         
                     }
                 }
+                /**
+                 * @return el valor del soat de acuerdo al tipo de carro seleccionado
+                 */
                 if(var.equals("valor")){
                     Entitie soat = new Entitie(App.TABLE_SOAT);
                     String tarifa = request.getParameter("clase");
@@ -150,6 +174,9 @@ public class ClaseVehiculoClientView extends HttpServlet {
                         out.println(soat.getDataOfLabel("VALOR"));
                     }
                 }
+                /**
+                 * @return la lista de marcas registradas en la tabla de marcas
+                 */
                 if(var.equals("marca")){
                     Entitie marca = new Entitie(App.TABLE_MARCA);
                     String tipo = request.getParameter("marca");
@@ -166,7 +193,9 @@ public class ClaseVehiculoClientView extends HttpServlet {
                     }
                     
                 }
-                
+                /**
+                 * Retona la lista de aseguradoras registradas en la tabla de aseguradoras
+                 */
                 
                 if(var.equals("aseguradora")){
                     Entitie aseguradora = new Entitie(App.TABLE_ASEGURADORAS);
@@ -179,9 +208,28 @@ public class ClaseVehiculoClientView extends HttpServlet {
                         }
                     }
                 }
+                /**
+                 * Retorna la lista de canales
+                 */
+                if(var.equals("canales")){
+                    Entitie canal = new Entitie(App.TABLE_CANALES);
+                    ArrayList<Entitie> canales = new ArrayList<>();
+                    String concesionario = request.getParameter("canal");
+                    canales = canal.getEntitieParam("ID_CONCESIONARIO", concesionario);
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println("<option selected=\"\" value=\"0\">--SELECCIONAR--</option>");
+                        for(Entitie i: canales){
+                            out.println("<option value=\""+i.getId()+"\">" 
+                                    + i.getDataOfLabel("NOMBRE")+"</option>");
+                        }
+                    }
+                }
                 
             }
             else{
+                /**
+                 * En caso de ser invalida la session se envia a la pagina de login
+                 */
                 response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales");
             }
         } catch(NullPointerException a){

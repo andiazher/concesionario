@@ -84,15 +84,16 @@
                                         </div>
                                     </form>
                                     <div class="table-responsive" id="formViewService">
-                                        <h4 class="card-title text-center" id="titleContend"> Cargando Servicios </h4>
+                                        <h4 class="card-title text-center" id="titleContend"> Cargando Servicios, por favor espere </h4>
                                         <table class="table">
                                             <thead class="">
-                                                <th>No</th>
                                                 <th>Fecha</th>
-                                                <th>Documento</th>
-                                                <th>Placa</th>
-                                                <th>Servicios</th>
-                                                <th>Canal</th>
+                                                <th>Concesionario</th>
+                                                <th>OS</th>
+                                                <th>Servicio</th>
+                                                <th>Comisión</th>
+                                                <th>L</th>
+                                                <th>R</th>
                                             </thead>
                                             <tbody>
                                                 <tr>
@@ -129,7 +130,13 @@
 
 <script type="text/javascript">
 
-    
+    function loadcanales(){
+    	var menu="canales";
+		var n = document.getElementById('concesionario').value;
+		$.post("ClaseVehiculoClientView", { variable: menu, canal:n }, function(data){
+	    	$("#canal").html(data);
+	    });
+    }
     
     //function loadCalendar(){
 
@@ -148,29 +155,27 @@
         var mes= f.getMonth()+1;
         var dia = f.getDate();
         var fecha =anoActual+"-"+mes+"-"+dia;
-        $("#fecha1").attr("value",fecha);
+        $("#fecha1").attr("placeholder",fecha);
 
-        var f2 = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+        var f2 = new Date();
         var anoActual2 = f2.getFullYear();
         var mes2= f2.getMonth()+1;
         var dia2 = f2.getDate();
         var fecha2 =anoActual2+"-"+mes2+"-"+dia2;
-        $("#fecha2").attr("value",fecha2);
+        $("#fecha2").attr("placeholder",fecha2);
         var menu="concesionarios";
         $.post("ClaseVehiculoClientView", { variable: menu }, function(data){
             $("#concesionario").append(data);
         });
-        loadtableForm(fecha, fecha2);
+        loadtableForm("", "");
+        //loadtableForm(fecha, fecha2);
     }
     loadparams();
 
     function loadtableForm(fi1, ff1){
-        //var placa1=document.getElementById('placa').value;
-        //var cliente1=document.getElementById('cliente').value;
         var concesionario1=document.getElementById('concesionario').value;
-        var os1=document.getElementById('os').value;
-        //placa:placa1, cliente:cliente1,
-        $.post("todosServicios", { fi: fi1, ff: ff1, concesionario: concesionario1, os:os1 }, function(data){
+        var canal1=document.getElementById('canal').value;
+        $.post("formLiquidacion", { fi: fi1, ff: ff1, concesionario: concesionario1, canal:canal1 }, function(data){
             $("#formViewService").html(data);
         });
     }

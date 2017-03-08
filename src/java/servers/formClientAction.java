@@ -175,6 +175,10 @@ public class formClientAction extends HttpServlet {
                         osdetalle.getData().set(osdetalle.getColums().indexOf("SERVICIO"), name);
                         osdetalle.getData().set(osdetalle.getColums().indexOf("VALOR"), valor);
                         osdetalle.getData().set(osdetalle.getColums().indexOf("ESTADO"), "1");
+                        osdetalle.getData().set(osdetalle.getColums().indexOf("COM_PLATINO"), "0");
+                        osdetalle.getData().set(osdetalle.getColums().indexOf("COM_CONCE"), "0");
+                        osdetalle.getData().set(osdetalle.getColums().indexOf("LIQUIDACION"), "0");
+                        osdetalle.getData().set(osdetalle.getColums().indexOf("FECHAT"), f);
                         osdetalle.create();
                         System.out.println(name +" : "+ request.getParameter(name));
                 }
