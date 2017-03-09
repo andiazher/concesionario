@@ -124,6 +124,7 @@ public class validatepurpacheService extends HttpServlet {
                                 }
                                 odetalle.getData().set(odetalle.getColums().indexOf("COM_PLATINO"), valorcomplatino+"");
                                 odetalle.getData().set(odetalle.getColums().indexOf("COM_CONCE"), valorconcesionario+"");
+                                
                                 //END 1
                                 //OTROS DATOS DE SOAT
                                 Entitie aseguradora = new Entitie(App.TABLE_ASEGURADORAS);
@@ -188,6 +189,12 @@ public class validatepurpacheService extends HttpServlet {
                         }
                         //UPDATE ESTATE WITH BASIC VALUES
                         odetalle.getData().set(odetalle.getColums().indexOf("ESTADO"), estado);
+                        //UPDATE REGISTER IN ORDEN DE DETALLE
+                        Calendar fecha = new GregorianCalendar();
+                        String f= fecha.get(Calendar.YEAR) +"-"+(fecha.get(Calendar.MONTH)+1)+"-"+fecha.get(Calendar.DAY_OF_MONTH)+
+                            " "+fecha.get(Calendar.HOUR_OF_DAY)+":"+fecha.get(Calendar.MINUTE)+":"+fecha.get(Calendar.SECOND);
+                        odetalle.getData().set(odetalle.getColums().indexOf("FECHAT"), f);
+                        odetalle.getData().set(odetalle.getColums().indexOf("ESTADOL"), "PENDIENTE");
                         //UPDATE ANOTHER VALUES 
                         odetalle.getData().set(odetalle.getColums().indexOf("OBSERVACIONES"), observaciones);
                         odetalle.update();
@@ -221,9 +228,6 @@ public class validatepurpacheService extends HttpServlet {
                             reg.getData().set(reg.getColums().indexOf("CONCESIONARIO"), concesionario.getId());
                             reg.getData().set(reg.getColums().indexOf("SERVICIO"), odetalle.getDataOfLabel("SERVICIO"));
                             reg.getData().set(reg.getColums().indexOf("OS"), odetalle.getDataOfLabel("OS"));
-                            Calendar fecha = new GregorianCalendar();
-                            String f= fecha.get(Calendar.YEAR) +"-"+(fecha.get(Calendar.MONTH)+1)+"-"+fecha.get(Calendar.DAY_OF_MONTH)+
-                                    " "+fecha.get(Calendar.HOUR_OF_DAY)+":"+fecha.get(Calendar.MINUTE)+":"+fecha.get(Calendar.SECOND);
                             reg.getData().set(reg.getColums().indexOf("FECHA"),f);
                             reg.getData().set(reg.getColums().indexOf("TIPOMOV"),"DES");
                             reg.getData().set(reg.getColums().indexOf("VALOR"),(valors)+"");

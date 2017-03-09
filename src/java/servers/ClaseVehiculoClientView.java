@@ -217,7 +217,7 @@ public class ClaseVehiculoClientView extends HttpServlet {
                     String concesionario = request.getParameter("canal");
                     canales = canal.getEntitieParam("ID_CONCESIONARIO", concesionario);
                     try (PrintWriter out = response.getWriter()) {
-                        out.println("<option selected=\"\" value=\"0\">--SELECCIONAR--</option>");
+                        out.println("<option selected=\"\" value=\"\">--SELECCIONAR--</option>");
                         for(Entitie i: canales){
                             out.println("<option value=\""+i.getId()+"\">" 
                                     + i.getDataOfLabel("NOMBRE")+"</option>");

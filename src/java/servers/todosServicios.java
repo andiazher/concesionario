@@ -174,7 +174,7 @@ public class todosServicios extends HttpServlet {
                     name="TODAS LAS ORDENES DE SERVICIO";
                 }
                 else{
-                    servicios = servicio.getEntitieParams(param1, param2, operation, qry);
+                    servicios = servicio.getEntitieParams(param1, param2, operation, qry, "");
                 }
                 
                 try (PrintWriter out = response.getWriter()) {

@@ -36,7 +36,7 @@ public class App {
     public static String TABLE_ASEGURADORAS="aseguradoras";
     public static String TABLE_REGISTRORECEP="registrodisp";
     public static String TABLE_REGISTROMATRICULA="registromatri";
-    public static String TABLE_CONCESIONARIO="concesionario";
+    public static String TABLE_CONCESIONARIO="conce";
     public static String TABLE_RECEPTORES="receptor";
     public static String TABLE_SERVICIOVEHI="serviciovehiculo";
     public static String TABLE_CONTROLDIPS="controldispersion";
@@ -69,33 +69,15 @@ public class App {
     }
     
     public static ResultSet consultar(String sql) throws SQLException{
-        /*
-        ConnectionOracle connectionOracle = new ConnectionOracle();
-        connectionOracle.conectar();
-        //System.out.println("SQL: "+sql);
-        return connectionOracle.consultar(sql);
-        */
-        //connectionMysql = new ConnectionMysql();
-        //connectionMysql.conectar();
-        
         if(connectionMysql.getConnection()==null){
             connectionMysql.conectar();
         }
         ResultSet resultSet = connectionMysql.consultar(sql);
         //System.out.println("SQL: "+sql);
         //connectionMysql.desconectar();
-        
         return resultSet;
     }
     public static boolean update(String sql) throws SQLException{
-        /*
-        ConnectionOracle connectionOracle = new ConnectionOracle();
-        connectionOracle.conectar();
-        System.out.println("SQL: "+sql);
-        return connectionOracle.escribir(sql);
-        */
-        //connectionMysql =new ConnectionMysql();
-        //connectionMysql.conectar();
         if(connectionMysql.getConnection()==null){
             connectionMysql.conectar();
         }

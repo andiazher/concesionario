@@ -28,7 +28,7 @@ public class Entitie {
         setId("0");
         setData(new ArrayList<>());
         String sql = "";
-        sql+="select COLUMN_NAME from "+App.getConnectionMysql().getInformationSchema()+".columns "
+        sql+="SELECT COLUMN_NAME FROM "+App.getConnectionMysql().getInformationSchema()+".columns "
                 + "where table_schema ='"+App.getConnectionMysql().getDb()+"' and table_name='"+name+"'";
         try{
             ResultSet resultSet = App.consultar(sql);
@@ -80,7 +80,11 @@ public class Entitie {
     public void setData(ArrayList<String> data) {
         this.data = data;
     }
-    
+    /**
+     * 
+     * @return verdadero si la operacion es un exito.
+     * @throws SQLException 
+     */
     public boolean create() throws SQLException{
         String sql = "";
         String columnas="",datos="";
@@ -97,7 +101,11 @@ public class Entitie {
         sql+="insert into "+App.getConnectionMysql().getDb()+"."+name+" ("+columnas+")  values ("+datos+");";
         return App.update(sql);
     }
-    
+    /**
+     * 
+     * @return verdadero si la operacion es un exito
+     * @throws SQLException 
+     */
     public boolean update() throws SQLException{
         String sql = "";
         String datos="";
@@ -112,14 +120,25 @@ public class Entitie {
         sql+="update "+App.getConnectionMysql().getDb()+"."+name+" set "+datos+" where ID = "+id;
         return App.update(sql);
     }
+    /**
+     * 
+     * @return verdadero si la operacion es un exito
+     * @throws SQLException 
+     */
     public boolean delete() throws SQLException{
         String sql = "";
         sql+="delete from "+App.getConnectionMysql().getDb()+"."+name+ " where ID = "+id;
         return App.update(sql);
     }
+    
+    /**
+     * 
+     * @param id
+     * @throws SQLException 
+     */
     public void getEntitieID(String id) throws SQLException{
         String sql = "";
-        sql+="select * from "+App.getConnectionMysql().getDb()+"."+ name +" where ID="+id ;
+        sql+="SELECT * FROM "+App.getConnectionMysql().getDb()+"."+ name +" where ID="+id ;
         ResultSet query= App.consultar(sql);
         setId(id);
         setData(new ArrayList<>());
@@ -129,6 +148,14 @@ public class Entitie {
             }
         }
     }
+    
+    /**
+     * 
+     * @param param
+     * @param param2
+     * @return
+     * @throws SQLException 
+     */
     public ArrayList<Entitie> getEntitieParams(ArrayList<String> param, ArrayList<String> param2) throws SQLException{
         String sql = "";
         String params = "";
@@ -140,12 +167,12 @@ public class Entitie {
                 params+=param.get(i)+"='"+param2.get(i)+"'";
             }
         }
-        sql+="select * from "+App.getConnectionMysql().getDb()+"."+ name +" where "+params+";";
+        sql+="SELECT * FROM "+App.getConnectionMysql().getDb()+"."+ name +" where "+params+";";
         ResultSet query= App.consultar(sql);
         ArrayList<Entitie> entities= new ArrayList<>();
         while(query.next()){
             Entitie entitie = new Entitie(name);
-            entitie.setId(query.getString("ID"));
+            entitie.setId(query.getString(name+".ID"));
             for(int i=0; i<colums.size();i++){
                 entitie.getData().add(query.getString(colums.get(i)));
             }
@@ -153,7 +180,14 @@ public class Entitie {
         }
         return entities;
     }
-    
+    /**
+     * 
+     * @param param
+     * @param param2
+     * @param opera
+     * @return
+     * @throws SQLException 
+     */
     public ArrayList<Entitie> getEntitieParams(ArrayList<String> param, ArrayList<String> param2, ArrayList<String> opera ) throws SQLException{
         String sql = "";
         String params = "";
@@ -165,12 +199,12 @@ public class Entitie {
                 params+=param.get(i)+ " "+opera.get(i)+"'"+param2.get(i)+"'";
             }
         }
-        sql+="select * from "+App.getConnectionMysql().getDb()+"."+ name +" where "+params+";";
+        sql+="SELECT * FROM "+App.getConnectionMysql().getDb()+"."+ name +" where "+params+";";
         ResultSet query= App.consultar(sql);
         ArrayList<Entitie> entities= new ArrayList<>();
         while(query.next()){
             Entitie entitie = new Entitie(name);
-            entitie.setId(query.getString("ID"));
+            entitie.setId(query.getString(name+".ID"));
             for(int i=0; i<colums.size();i++){
                 entitie.getData().add(query.getString(colums.get(i)));
             }
@@ -178,24 +212,44 @@ public class Entitie {
         }
         return entities;
     }
-    public ArrayList<Entitie> getEntitieParams(ArrayList<String> param, ArrayList<String> param2, ArrayList<String> opera, String sqlq ) throws SQLException{
-        String sql = "";
+    /**
+     * 
+     * @param param
+     * @param param2
+     * @param opera
+     * @param sqlq
+     * @return
+     * @throws SQLException 
+     */
+    public ArrayList<Entitie> getEntitieParams(ArrayList<String> param, ArrayList<String> param2, ArrayList<String> opera, String sqlq, String Otables ) throws SQLException{
+        String sql = "SELECT "+name+".ID, ";
+        for(int i=0; i<colums.size();i++){
+            if(i==colums.size()-1){
+                sql+= name+"."+colums.get(i);
+            }
+            else{
+                sql+= name+"."+colums.get(i)+", ";
+            }
+        }
         String params = "";
         for(int i=0; i<param.size();i++){
             if(i!=param.size()-1){
-                params+=param.get(i)+ " "+opera.get(i)+"'"+param2.get(i)+"' and ";
+                params+=name+"."+param.get(i)+ " "+opera.get(i)+"'"+param2.get(i)+"' and ";
             }
             else{
-                params+=param.get(i)+ " "+opera.get(i)+"'"+param2.get(i)+"'";
+                params+=name+"."+param.get(i)+ " "+opera.get(i)+"'"+param2.get(i)+"'";
             }
         }
         params+=sqlq;
-        sql+="select * from "+App.getConnectionMysql().getDb()+"."+ name +" where "+params+";";
+        if(!Otables.equals("")){
+            Otables = ", "+Otables;
+        }
+        sql+=" FROM "+App.getConnectionMysql().getDb()+"."+ name +Otables+"  where "+params+";";
         ResultSet query= App.consultar(sql);
         ArrayList<Entitie> entities= new ArrayList<>();
         while(query.next()){
             Entitie entitie = new Entitie(name);
-            entitie.setId(query.getString("ID"));
+            entitie.setId(query.getString(name+".ID"));
             for(int i=0; i<colums.size();i++){
                 entitie.getData().add(query.getString(colums.get(i)));
             }
@@ -204,11 +258,18 @@ public class Entitie {
         return entities;
     }
     
+    /**
+     * 
+     * @param param
+     * @param param2
+     * @return
+     * @throws SQLException 
+     */
     public ArrayList<Entitie> getEntitieParam(String param, String param2) throws SQLException{
         String sql = "";
         String params = "";
         params+=param+"='"+param2+"'";
-        sql+="select * from "+App.getConnectionMysql().getDb()+"."+ name +" where "+params+";";
+        sql+="SELECT * FROM "+App.getConnectionMysql().getDb()+"."+ name +" where "+params+";";
         ResultSet query= App.consultar(sql);
         ArrayList<Entitie> entities= new ArrayList<>();
         while(query.next()){
@@ -222,9 +283,14 @@ public class Entitie {
         return entities;
     }
     
+    /**
+     * 
+     * @return TODAS LAS ENTIDADES
+     * @throws SQLException 
+     */
     public ArrayList<Entitie> getEntities() throws SQLException{
         String sql = "";
-        sql+="select * from "+App.getConnectionMysql().getDb()+"."+ name + " order by ID;";
+        sql+="SELECT * FROM "+App.getConnectionMysql().getDb()+"."+ name + " order by ID;";
         ResultSet query= App.consultar(sql);
         ArrayList<Entitie> entities= new ArrayList<>();
         while(query.next()){
@@ -237,12 +303,22 @@ public class Entitie {
         }
         return entities;
     }
-
+    
+    /**
+     * 
+     * @return TOSTRING ENTITIE
+     */
+    
     @Override
     public String toString() {
         return "Entitie{" + "name=" + name + ", id=" + id + ", colums=" + colums + ", data=" + data + '}';
     }
     
+    /**
+     * 
+     * @param param
+     * @return DATO DE ACUERDO A LA COLUMANA INGRESADA EN @param
+     */
     public String getDataOfLabel(String param){
         for(int i=0; i<colums.size(); i++){
             if(colums.get(i).equals(param)){

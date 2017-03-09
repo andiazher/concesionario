@@ -53,7 +53,7 @@
                                             <div class="col-md-3">
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Canal</label>
-                                                    <select class="select-with-transition" data-style="btn btn-default" name="canal" id="canal"  onchange="">
+                                                    <select class="select-with-transition" data-style="btn btn-default" name="canal" id="canal"  onchange="loadtable()">
                                                         <option selected="" value="">--SELECCIONAR--</option>
                                                     </select>                                                
                                                 </div>
@@ -83,25 +83,27 @@
 
                                         </div>
                                     </form>
-                                    <div class="table-responsive" id="formViewService">
-                                        <h4 class="card-title text-center" id="titleContend"> Cargando Servicios, por favor espere </h4>
-                                        <table class="table">
-                                            <thead class="">
-                                                <th>Fecha</th>
-                                                <th>Concesionario</th>
-                                                <th>OS</th>
-                                                <th>Servicio</th>
-                                                <th>Comisión</th>
-                                                <th>L</th>
-                                                <th>R</th>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    <form action="#liquidar" method="post" id="form2">
+	                                    <div class="table-responsive" id="formViewService">
+	                                        <h4 class="card-title text-center" id="titleContend"> Cargando Servicios, por favor espere </h4>
+	                                        <table class="table">
+	                                            <thead class="">
+	                                                <th>Fecha</th>
+	                                                <th>Concesionario</th>
+	                                                <th>OS</th>
+	                                                <th>Servicio</th>
+	                                                <th>Comisión</th>
+	                                                <th>L</th>
+	                                                <th>R</th>
+	                                            </thead>
+	                                            <tbody>
+	                                                <tr>
+	                                                    
+	                                                </tr>
+	                                            </tbody>
+	                                        </table>
+	                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -136,6 +138,7 @@
 		$.post("ClaseVehiculoClientView", { variable: menu, canal:n }, function(data){
 	    	$("#canal").html(data);
 	    });
+	    loadtable();
     }
     
     //function loadCalendar(){
@@ -177,6 +180,7 @@
         var canal1=document.getElementById('canal').value;
         $.post("formLiquidacion", { fi: fi1, ff: ff1, concesionario: concesionario1, canal:canal1 }, function(data){
             $("#formViewService").html(data);
+
         });
     }
 
@@ -206,6 +210,21 @@ $(document).ready(function(){
                 data: $(this).serialize(),
                 success: function(data){
                     //console.log("none");
+                }
+            })
+            return false;
+    });
+    $("#form2").submit(function(){
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function(data){
+                    swal(
+					  'No se ha liquidado!',
+					  'Este recurso esta en desarrollo y no esta disponible',
+					  'success'
+					)
                 }
             })
             return false;

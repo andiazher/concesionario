@@ -54,12 +54,15 @@ public class formLiquidacion extends HttpServlet {
                     System.out.println("Error: "+s);
                 }
                 Entitie servicio = new Entitie(App.TABLE_OSDETALLE);
-                name= "RESULTADOS PARA";
+                name= "RESULTADOS PARA ORDENES PENDIENTES";
                 boolean nada=false;
                 ArrayList<String> param1=new ArrayList<>();
                 ArrayList<String> param2=new ArrayList<>();
                 ArrayList<String> operation=new ArrayList<>();
-                
+                param1.add("ESTADOL");
+                param2.add("PENDIENTE");
+                operation.add("=");
+                nada=true;
                 if(!fi.equals("")){
                     name+=" DESPUES DE: </b>"+fi+"<b>";
                     param1.add("FECHAT");
@@ -77,38 +80,51 @@ public class formLiquidacion extends HttpServlet {
                     operation.add("<=");
                     nada=true;
                 }
+                String qry="";
+                String tables ="";
                 if(!canal.equals("")){
                     if(nada){
                         name+=",";
-                    }
-                    Entitie canalEntitie = new Entitie(App.TABLE_CANALES);
-                    canalEntitie.getEntitieID(canal);
-                    name+=" CANAL: </b>"+canalEntitie.getDataOfLabel("NOMBRE")+"<b> ";
-                    //param1.add("FECHAT");
-                    //param2.add(ff +" 23:59:59");
-                    //operation.add("<=");
-                    nada=true;
-                }
-                String qry="";
-                if(!concesionario.equals("")){
-                    if(nada){
-                        name+=" Y";
+                        qry +=" and";
                     }
                     Entitie conce = new Entitie(App.TABLE_CONCESIONARIO);
                     try{
                         conce.getEntitieID(concesionario);
                     }
                     catch(IndexOutOfBoundsException s){}
-                    name+=" CONCESIONARIO: </b>"+conce.getDataOfLabel("NOMBRE")+"<b> ";
+                    name+=" CONCESIONARIO: </b>"+conce.getDataOfLabel("NOMBRE")+"<b>, ";
+                    Entitie canalEntitie = new Entitie(App.TABLE_CANALES);
+                    canalEntitie.getEntitieID(canal);
+                    name+=" CANAL: </b>"+canalEntitie.getDataOfLabel("NOMBRE")+"<b> ";
+                    tables =App.TABLE_ORDENSERVICIO+","+App.TABLE_CANALES;
+                    qry += " orden_servicio.ID = orden_detalle.OS and canales.ID = orden_servicio.ID_CANAL "
+                            + "and canales.ID ="+canal;
                     nada=true;
+                }else{
+                    if(!concesionario.equals("")){
+                        if(nada){
+                            name+=" Y";
+                            qry +=" and";
+                        }
+                        Entitie conce = new Entitie(App.TABLE_CONCESIONARIO);
+                        try{
+                            conce.getEntitieID(concesionario);
+                        }
+                        catch(IndexOutOfBoundsException s){}
+                        name+=" CONCESIONARIO: </b>"+conce.getDataOfLabel("NOMBRE")+"<b> ";
+                        tables =App.TABLE_ORDENSERVICIO+","+App.TABLE_CANALES+","+App.TABLE_CONCESIONARIO;
+
+                        qry += " orden_servicio.ID = orden_detalle.OS and canales.ID =  orden_servicio.ID_CANAL "
+                                + "and conce.ID = canales.ID_CONCESIONARIO and conce.ID = "+concesionario;
+                        nada=true;
+                    }
                 }
-                
                 if(param1.isEmpty() && param2.isEmpty() && operation.isEmpty() && nada==false){
                     servicios = servicio.getEntities();
                     name="TODAS LAS ORDENES DE SERVICIO";
                 }
                 else{
-                    servicios = servicio.getEntitieParams(param1, param2, operation, qry);
+                    servicios = servicio.getEntitieParams(param1, param2, operation, qry, tables);
                 }
                 
                 try (PrintWriter out = response.getWriter()) {
@@ -125,6 +141,7 @@ public class formLiquidacion extends HttpServlet {
 "                                                <th>R</th>\n" +
 "                                            </thead>");
                     out.println("<tbody>");
+                    int count=0;
                     for(Entitie i: servicios){
                         if(!idOrder.equals(i.getId())){
                             String a="";
@@ -145,14 +162,26 @@ public class formLiquidacion extends HttpServlet {
                             servicion.getEntitieID(i.getDataOfLabel("SERVICIO"));
                             out.println("<td>"+servicion.getDataOfLabel("DESCRIPCION")+"</td>");
                             DecimalFormat formateador = new DecimalFormat("###,###.##");
-                            out.println("<td class=\"text-right\">$"+formateador.format(Integer.parseInt(i.getDataOfLabel("COM_CONCE")))+"</td>");
-                            out.println("<td><input type=\"checkbox\" name=\"service"+i.getId()+"\" checked></td>");
+                            int valors= Integer.parseInt(i.getDataOfLabel("COM_CONCE"));
+                            count+=valors;
+                            out.println("<td class=\"text-right\">$"+formateador.format(valors)+"</td>");
+                            out.println("<td><input type=\"checkbox\" name=\""+i.getId()+"\" checked></td>");
                             out.println("<td><a href=\"#rechazarDOS"+i.getId()+"\" onclick=\"rechazar("+i.getId()+")\">Rechazar</a></td>");
                             out.println("</tr>");
                         }
                         
                     }
                     out.println("</tbody>");
+                    out.println("<tr class=\"\" >");
+                        out.println("<td class=\"text-center\" colspan=\"3\" >TOTAL</td>");
+                        DecimalFormat formateador = new DecimalFormat("###,###.##");
+                        out.println("<td class=\"text-right\" colspan=\"2\" >$"+formateador.format(count)+"</td>");
+                        out.println("<td class=\"text-center\" colspan=\"2\" >"
+                                + "<button type=\"submit\" class=\"btn btn-success btn-fill\" id=\"buttonsubmit\">\n" +
+"                                                    Liquidar\n" +
+"                                                </button>"
+                                + "</td>");
+                    out.println("</tr>");
                     out.println("</table>");
                 }
             }

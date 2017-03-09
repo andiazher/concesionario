@@ -43,7 +43,7 @@ public class ConnectionMysql {
         try {
             String qry= "jdbc:mysql://"+host+":"+port+"/"+db+"?zeroDateTimeBehavior=convertToNull"
                             + "&user="+user+"&password="+pass;
-            System.out.println("Conection: "+ qry);
+            //System.out.println("Conection: "+ qry);
             this.connection = DriverManager.getConnection(qry);
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
