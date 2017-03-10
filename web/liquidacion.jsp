@@ -220,6 +220,7 @@ $(document).ready(function(){
                 url: $(this).attr('action'),
                 data: $(this).serialize(),
                 success: function(data){
+                	loadtable();
                 	var formatter = new Intl.NumberFormat('en-US', {
 		              style: 'currency',
 		              currency: 'USD',

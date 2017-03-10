@@ -162,11 +162,7 @@
 			                        Portafolio
 			                    </a>
 			                </li>
-			                <li>
-			                    <a href="http://andiazher.com">
-			                       By andiazher Inc
-			                    </a>
-			                </li>
+			                
 			            </ul>
 			        </nav>
 			        <p class="copyright pull-right">
