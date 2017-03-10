@@ -83,7 +83,7 @@
 
                                         </div>
                                     </form>
-                                    <form action="#liquidar" method="post" id="form2">
+                                    <form action="liquidar" method="post" id="form2">
 	                                    <div class="table-responsive" id="formViewService">
 	                                        <h4 class="card-title text-center" id="titleContend"> Cargando Servicios, por favor espere </h4>
 	                                        <table class="table">
@@ -220,9 +220,14 @@ $(document).ready(function(){
                 url: $(this).attr('action'),
                 data: $(this).serialize(),
                 success: function(data){
+                	var formatter = new Intl.NumberFormat('en-US', {
+		              style: 'currency',
+		              currency: 'USD',
+		              minimumFractionDigits: 2,
+		            });
                     swal(
-					  'No se ha liquidado!',
-					  'Este recurso esta en desarrollo y no esta disponible',
+					  'Se ha liquidado!',
+					  'Valor liquidado es '+formatter.format(data),
 					  'success'
 					)
                 }

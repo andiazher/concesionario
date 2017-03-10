@@ -155,18 +155,9 @@ public class formClientAction extends HttpServlet {
                 while(a.hasMoreElements()){
                         String name= a.nextElement();
                         String valor="0";
-                        switch(name){
-                            //case "1":
-                            //    Entitie valorsoat = new Entitie(App.TABLE_SOAT);
-                            //    valorsoat.getEntitieID(clase);
-                            //    valor = valorsoat.getDataOfLabel("VALOR");
-                            //    break;
-                            default:
-                                Entitie servcio = new Entitie(App.TABLE_SERVICIOS);
-                                servcio.getEntitieID(name);
-                                valor = servcio.getDataOfLabel("VALOR");
-                                break;
-                        }
+                        Entitie servcio = new Entitie(App.TABLE_SERVICIOS);
+                        servcio.getEntitieID(name);
+                        valor = servcio.getDataOfLabel("VALOR");
                         Entitie osdetalle = new Entitie(App.TABLE_OSDETALLE);
                         for(String s: osdetalle.getColums()){
                             osdetalle.getData().add("");

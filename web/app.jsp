@@ -148,23 +148,23 @@
 			        <nav class="pull-left">
 			            <ul>
 			                <li>
-			                    <a href="#">
+			                    <a href="">
 			                        Inicio
 			                    </a>
 			                </li>
 			                <li>
-			                    <a href="#">
+			                    <a href="#What+is+andiazher?">
 			                        Nosotros
 			                    </a>
 			                </li>
 			                <li>
-			                    <a href="#">
+			                    <a href="#Portafolio-andiazher-Inc">
 			                        Portafolio
 			                    </a>
 			                </li>
 			                <li>
-			                    <a href="#">
-			                       Blog
+			                    <a href="http://andiazher.com">
+			                       By andiazher Inc
 			                    </a>
 			                </li>
 			            </ul>
