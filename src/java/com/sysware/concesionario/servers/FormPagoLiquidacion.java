@@ -136,21 +136,18 @@ public class FormPagoLiquidacion extends HttpServlet {
                             int valors= Integer.parseInt(i.getDataOfLabel("VALOR"));
                             count+=valors;
                             out.println("<td class=\"text-right\">$"+formateador.format(valors)+"</td>");
-                            out.println("<td><input type=\"checkbox\" name=\""+i.getId()+"\" checked></td>");
-                            out.println("<td><a href=\"#rechazarDOS"+i.getId()+"\" onclick=\"rechazar("+i.getId()+")\">Rechazar</a></td>");
+                            out.println("<td><a href=\"#pagar="+i.getId()+"\" onclick=\"pagar("+i.getId()+")\">Pagar</a></td>");
+                            out.println("<td><a href=\"#anular="+i.getId()+"\" onclick=\"anular("+i.getId()+")\">Anular</a></td>");
                             out.println("</tr>");
                         }
                         
                     }
                     out.println("</tbody>");
                     out.println("<tr class=\"\" >");
-                        out.println("<td class=\"text-center\" colspan=\"3\" >TOTAL</td>");
+                        out.println("<td class=\"text-center\" colspan=\"2\" >TOTAL</td>");
                         DecimalFormat formateador = new DecimalFormat("###,###.##");
                         out.println("<td class=\"text-right\" colspan=\"2\" >$"+formateador.format(count)+"</td>");
                         out.println("<td class=\"text-center\" colspan=\"2\" >"
-                                + "<button type=\"submit\" class=\"btn btn-success btn-fill\" id=\"buttonsubmit\">\n" +
-"                                                    Liquidar\n" +
-"                                                </button>"
                                 + "</td>");
                     out.println("</tr>");
                     out.println("</table>");
