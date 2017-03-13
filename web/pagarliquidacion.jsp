@@ -42,7 +42,7 @@
                                                     <input type="text" class="form-control text-center" value="" id="fecha2" name="fecha2" onclick="loadCalendar()">
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-6">
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Concesionario</label>
                                                     <select class="select-with-transition" data-style="btn btn-default" name="concesionario" id="concesionario"  onchange="loadtable()">

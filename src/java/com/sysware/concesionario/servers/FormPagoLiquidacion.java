@@ -84,7 +84,6 @@ public class FormPagoLiquidacion extends HttpServlet {
                 if(!concesionario.equals("")){
                     if(nada){
                         name+=" Y";
-                        qry +=" and";
                     }
                     Entitie conce = new Entitie(App.TABLE_CONCESIONARIO);
                     try{
@@ -92,12 +91,11 @@ public class FormPagoLiquidacion extends HttpServlet {
                     }
                     catch(IndexOutOfBoundsException s){}
                     name+=" CONCESIONARIO: </b>"+conce.getDataOfLabel("NOMBRE")+"<b> ";
-                    tables =App.TABLE_ORDENSERVICIO+","+App.TABLE_CANALES+","+App.TABLE_CONCESIONARIO;
-
-                    qry += " orden_servicio.ID = orden_detalle.OS and canales.ID =  orden_servicio.ID_CANAL "
-                            + "and conce.ID = canales.ID_CONCESIONARIO and conce.ID = "+concesionario;
+                    param1.add("CONCESIONARIO");
+                    param2.add(concesionario );
+                    operation.add("=");                    
                     nada=true;
-                    }
+                }
                 if(param1.isEmpty() && param2.isEmpty() && operation.isEmpty() && nada==false){
                     liquidaciones = liquidacion.getEntities();
                     name="TODAS LAS ORDENES DE SERVICIO";
