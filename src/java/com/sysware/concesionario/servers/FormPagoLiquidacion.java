@@ -33,29 +33,28 @@ public class FormPagoLiquidacion extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try{
             if(request.getSession().getAttribute("session").equals("true")){
-                String name="Sin nombre";
-                ArrayList<Entitie> servicios= new ArrayList<>();
+                String name;
+                ArrayList<Entitie> liquidaciones;
                 String fi="";
                 String ff="";
                 String concesionario="";
-                String canal="";
                 try{
                     fi= request.getParameter("fi");
                     ff= request.getParameter("ff");
                     concesionario= request.getParameter("concesionario");
-                    canal= request.getParameter("canal");
                 }catch(NullPointerException s){
                     System.out.println("Error: "+s);
                 }
                 Entitie servicio = new Entitie(App.TABLE_OSDETALLE);
                 name= "RESULTADOS PARA ORDENES PENDIENTES";
-                boolean nada=false;
+                boolean nada;
                 ArrayList<String> param1=new ArrayList<>();
                 ArrayList<String> param2=new ArrayList<>();
                 ArrayList<String> operation=new ArrayList<>();
@@ -82,9 +81,9 @@ public class FormPagoLiquidacion extends HttpServlet {
                 }
                 String qry="";
                 String tables ="";
-                if(!canal.equals("")){
+                if(!concesionario.equals("")){
                     if(nada){
-                        name+=",";
+                        name+=" Y";
                         qry +=" and";
                     }
                     Entitie conce = new Entitie(App.TABLE_CONCESIONARIO);
@@ -92,39 +91,19 @@ public class FormPagoLiquidacion extends HttpServlet {
                         conce.getEntitieID(concesionario);
                     }
                     catch(IndexOutOfBoundsException s){}
-                    name+=" CONCESIONARIO: </b>"+conce.getDataOfLabel("NOMBRE")+"<b>, ";
-                    Entitie canalEntitie = new Entitie(App.TABLE_CANALES);
-                    canalEntitie.getEntitieID(canal);
-                    name+=" CANAL: </b>"+canalEntitie.getDataOfLabel("NOMBRE")+"<b> ";
-                    tables =App.TABLE_ORDENSERVICIO+","+App.TABLE_CANALES;
-                    qry += " orden_servicio.ID = orden_detalle.OS and canales.ID = orden_servicio.ID_CANAL "
-                            + "and canales.ID ="+canal;
-                    nada=true;
-                }else{
-                    if(!concesionario.equals("")){
-                        if(nada){
-                            name+=" Y";
-                            qry +=" and";
-                        }
-                        Entitie conce = new Entitie(App.TABLE_CONCESIONARIO);
-                        try{
-                            conce.getEntitieID(concesionario);
-                        }
-                        catch(IndexOutOfBoundsException s){}
-                        name+=" CONCESIONARIO: </b>"+conce.getDataOfLabel("NOMBRE")+"<b> ";
-                        tables =App.TABLE_ORDENSERVICIO+","+App.TABLE_CANALES+","+App.TABLE_CONCESIONARIO;
+                    name+=" CONCESIONARIO: </b>"+conce.getDataOfLabel("NOMBRE")+"<b> ";
+                    tables =App.TABLE_ORDENSERVICIO+","+App.TABLE_CANALES+","+App.TABLE_CONCESIONARIO;
 
-                        qry += " orden_servicio.ID = orden_detalle.OS and canales.ID =  orden_servicio.ID_CANAL "
-                                + "and conce.ID = canales.ID_CONCESIONARIO and conce.ID = "+concesionario;
-                        nada=true;
+                    qry += " orden_servicio.ID = orden_detalle.OS and canales.ID =  orden_servicio.ID_CANAL "
+                            + "and conce.ID = canales.ID_CONCESIONARIO and conce.ID = "+concesionario;
+                    nada=true;
                     }
-                }
                 if(param1.isEmpty() && param2.isEmpty() && operation.isEmpty() && nada==false){
-                    servicios = servicio.getEntities();
+                    liquidaciones = servicio.getEntities();
                     name="TODAS LAS ORDENES DE SERVICIO";
                 }
                 else{
-                    servicios = servicio.getEntitieParams(param1, param2, operation, qry, tables);
+                    liquidaciones = servicio.getEntitieParams(param1, param2, operation, qry, tables);
                 }
                 
                 try (PrintWriter out = response.getWriter()) {
@@ -142,7 +121,7 @@ public class FormPagoLiquidacion extends HttpServlet {
 "                                            </thead>");
                     out.println("<tbody>");
                     int count=0;
-                    for(Entitie i: servicios){
+                    for(Entitie i: liquidaciones){
                         if(!idOrder.equals(i.getId())){
                             String a="";
                             a+="onclick=\"openViewOrderService("+i.getId()+")\"";

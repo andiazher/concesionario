@@ -45,7 +45,7 @@
                                             <div class="col-md-3">
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Concesionario</label>
-                                                    <select class="select-with-transition" data-style="btn btn-default" name="concesionario" id="concesionario"  onchange="loadcanales()">
+                                                    <select class="select-with-transition" data-style="btn btn-default" name="concesionario" id="concesionario"  onchange="loadtable()">
                                                         <option selected="" value="">--SELECCIONAR--</option>
                                                     </select>                                                
                                                 </div>
@@ -110,15 +110,6 @@
 
 <script type="text/javascript">
 
-    function loadcanales(){
-        var menu="canales";
-        var n = document.getElementById('concesionario').value;
-        $.post("ClaseVehiculoClientView", { variable: menu, canal:n }, function(data){
-            $("#canal").html(data);
-        });
-        loadtable();
-    }
-    
     //function loadCalendar(){
 
       //  $("#calendar").addClass("in");
@@ -155,8 +146,7 @@
 
     function loadtableForm(fi1, ff1){
         var concesionario1=document.getElementById('concesionario').value;
-        var canal1=document.getElementById('canal').value;
-        $.post("formPagoLiquidacion", { fi: fi1, ff: ff1, concesionario: concesionario1, canal:canal1 }, function(data){
+        $.post("formPagoLiquidacion", { fi: fi1, ff: ff1, concesionario: concesionario1 }, function(data){
             $("#formViewService").html(data);
 
         });
