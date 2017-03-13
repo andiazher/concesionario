@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servers;
+package com.sysware.concesionario.servers;
 
-import com.sysware.concesionario.App;
+
+import com.sysware.concesionario.app.App;
 import com.sysware.concesionario.entitie.Entitie;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,12 +22,12 @@ import javax.servlet.http.HttpServletResponse;
 /**
  *
  * @author andre
- * Este servlet responde al llamado del cliente con la informacion de los servicios
- * que estan registrados en la tabla de servicios, se responde con los servicios activos o con estodo = 1,
- * si estan con otro estado no los mostrara, se debe tener en cuenta bien la parametrizacion de los estados
- * para esta caso el Activo es 1 e inactivo cualquier otro.
+ * 
+ * Esta servlet responde a un llamado de peticion realizado por el cliente,
+ * La respuesta es el nombre del canal donde pertence en usuario y la ciudad donde esta ubiacado el canal
+ * 
  */
-public class ServiciosView extends HttpServlet {
+public class CanalUserClientView extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,24 +44,19 @@ public class ServiciosView extends HttpServlet {
         
         try{
             if(request.getSession().getAttribute("session").equals("true")){
-                Entitie servicio = new Entitie(App.TABLE_SERVICIOS);
-                ArrayList<Entitie> servicios= servicio.getEntitieParam("ESTADO", "1");
+                String usuario =(String) request.getSession().getAttribute("user");
+                Entitie user = new Entitie(App.TABLE_USUARIO);
+                user=user.getEntitieParam("USUARIO", usuario).get(0);
+                Entitie canal = new Entitie(App.TABLE_CANALES);
+                canal.getEntitieID(user.getDataOfLabel("ID_CANAL"));
+                Entitie ciudad = new Entitie(App.TABLE_CIUDADES);
+                ciudad.getEntitieID(canal.getDataOfLabel("ID_CIUDAD"));
+                
                 try (PrintWriter out = response.getWriter()) {
-                    for(Entitie s: servicios){
-                        String checked= "";
-                        if(s.getId().equals("1")){
-                            checked="checked";
-                        }
-                        out.println("<div class=\"col-sm-3 col-sm-offset-1 checkbox-radios\">");
-                        out.println("   <div class=\"checkbox\">");
-                        out.println("       <label class=\"text-success\" >");            
-                        out.println("           <input type=\"checkbox\" name=\""+s.getId()+"\" "+checked+">");
-                        out.println("           <span class=\"checkbox-material\"><span class=\"check\"></span></span>");
-                        out.println("           ");
-                        out.println("       </label>"+s.getDataOfLabel("DESCRIPCION"));            
-                        out.println("   </div>");
-                        out.println("</div>");
-                    }
+                    //out.println("["+user.getIdCanal()+"] ");
+                    out.println(canal.getDataOfLabel("NOMBRE"));
+                    out.println(" | ");
+                    out.println(ciudad.getDataOfLabel("CIUDAD"));
                 }
             }
             else{
@@ -77,7 +73,6 @@ public class ServiciosView extends HttpServlet {
                     "</script>");
             }
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -95,7 +90,7 @@ public class ServiciosView extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ServiciosView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CanalUserClientView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -113,7 +108,7 @@ public class ServiciosView extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ServiciosView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CanalUserClientView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servers;
+package com.sysware.concesionario.servers;
 
-
-import com.sysware.concesionario.App;
+import com.sysware.concesionario.app.App;
 import com.sysware.concesionario.entitie.Entitie;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -21,8 +21,12 @@ import javax.servlet.http.HttpServletResponse;
 /**
  *
  * @author andre
+ * Este servlet responde al llamado del cliente con la informacion de los servicios
+ * que estan registrados en la tabla de servicios, se responde con los servicios activos o con estodo = 1,
+ * si estan con otro estado no los mostrara, se debe tener en cuenta bien la parametrizacion de los estados
+ * para esta caso el Activo es 1 e inactivo cualquier otro.
  */
-public class editEntidadForm extends HttpServlet {
+public class ServiciosView extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,39 +40,44 @@ public class editEntidadForm extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
+        
         try{
             if(request.getSession().getAttribute("session").equals("true")){
-                Entitie menu = new Entitie(App.TABLE_MENUS);
-                String idEntidad = "-1";
-                
-                try{
-                    menu.getEntitieID(request.getParameter("variable"));
-                    idEntidad= request.getParameter("entidad");
-                    System.out.println("ID Entidad: "+idEntidad);
-                }catch(NullPointerException s){
-                    System.out.println("Error: "+s);
-                }
-                Entitie entitie = new Entitie(menu.getDataOfLabel("ENTIDAD"));
-                entitie.getEntitieID(idEntidad);
-                ArrayList<String> datos= new ArrayList<>();
-                for(int i=0; i<entitie.getColums().size(); i++){
-                    datos.add(request.getParameter(entitie.getColums().get(i)));
-                }
-                entitie.setData(datos);
-                if("-1".equals(idEntidad)){
-                    entitie.create();
-                }
-                else{
-                    entitie.update();
+                Entitie servicio = new Entitie(App.TABLE_SERVICIOS);
+                ArrayList<Entitie> servicios= servicio.getEntitieParam("ESTADO", "1");
+                try (PrintWriter out = response.getWriter()) {
+                    for(Entitie s: servicios){
+                        String checked= "";
+                        if(s.getId().equals("1")){
+                            checked="checked";
+                        }
+                        out.println("<div class=\"col-sm-3 col-sm-offset-1 checkbox-radios\">");
+                        out.println("   <div class=\"checkbox\">");
+                        out.println("       <label class=\"text-success\" >");            
+                        out.println("           <input type=\"checkbox\" name=\""+s.getId()+"\" "+checked+">");
+                        out.println("           <span class=\"checkbox-material\"><span class=\"check\"></span></span>");
+                        out.println("           ");
+                        out.println("       </label>"+s.getDataOfLabel("DESCRIPCION"));            
+                        out.println("   </div>");
+                        out.println("</div>");
+                    }
                 }
             }
             else{
                 response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales");
             }
+        } catch(NullPointerException a){
+            try (PrintWriter out = response.getWriter()) {
+                out.println("<script type=\"text/javascript\">\n" +
+                    "    swal(\n" +
+                    "        'Error:',\n" +
+                    "        'No se puede cargar el contenido',\n" +
+                    "        'error'\n" +
+                    "    )\n" +
+                    "</script>");
+            }
         }
-        catch(NullPointerException e){
-            response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales");
-        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -86,7 +95,7 @@ public class editEntidadForm extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(editEntidadForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServiciosView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -104,7 +113,7 @@ public class editEntidadForm extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(editEntidadForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServiciosView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

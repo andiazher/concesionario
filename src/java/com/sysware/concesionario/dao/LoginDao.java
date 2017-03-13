@@ -5,8 +5,8 @@
  */
 package com.sysware.concesionario.dao;
 
-import com.sysware.concesionario.App;
-import com.sysware.concesionario.core.Login;
+import com.sysware.concesionario.app.App;
+import com.sysware.concesionario.core.LoginEntitie;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -16,9 +16,9 @@ import java.sql.SQLException;
  */
 public class LoginDao {
 
-    public static Login getLogin(String usuario, String pass) throws SQLException {
+    public static LoginEntitie getLogin(String usuario, String pass) throws SQLException {
         ResultSet resultado=App.consultar("Select USUARIO, CLAVE from USUARIOS where USUARIO='"+usuario+"'");
-        Login login = new Login();
+        LoginEntitie login = new LoginEntitie();
         while(resultado.next()){
             login.setUser(resultado.getString("USUARIO"));
             login.setPass(resultado.getString("CLAVE"));

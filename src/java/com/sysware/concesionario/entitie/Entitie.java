@@ -5,7 +5,7 @@
  */
 package com.sysware.concesionario.entitie;
 
-import com.sysware.concesionario.App;
+import com.sysware.concesionario.app.App;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

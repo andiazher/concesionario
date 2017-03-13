@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sysware.concesionario;
+package com.sysware.concesionario.app;
 
 import com.sysware.concesionario.entitie.Entitie;
 import java.io.IOException;
@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author andre
  */
-public class login extends HttpServlet {
+public class LoginApp extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -140,7 +140,7 @@ public class login extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginApp.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

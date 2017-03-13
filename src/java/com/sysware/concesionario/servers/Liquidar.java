@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servers;
+package com.sysware.concesionario.servers;
 
-import com.sysware.concesionario.App;
+import com.sysware.concesionario.app.App;
 import com.sysware.concesionario.entitie.Entitie;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author andre
  */
-public class liquidar extends HttpServlet {
+public class Liquidar extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -118,7 +118,7 @@ public class liquidar extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(liquidar.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Liquidar.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -136,7 +136,7 @@ public class liquidar extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(liquidar.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Liquidar.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

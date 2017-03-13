@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servers;
+package com.sysware.concesionario.servers;
 
-import com.sysware.concesionario.App;
+
+import com.sysware.concesionario.app.App;
 import com.sysware.concesionario.entitie.Entitie;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,8 +21,12 @@ import javax.servlet.http.HttpServletResponse;
 /**
  *
  * @author andre
+ * 
+ * Esta servlet responde a el llamado del cliente con la informacion del la descripcion del la ventana que esta viendo.
+ * La descripcion de la ventana la toma de acuerdo al menu donde se encuentre en usuario, entonces la descripcion 
+ * del es la el campo "descripcion" de la tabla menus.
  */
-public class revertService extends HttpServlet {
+public class NameFrame extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,26 +42,42 @@ public class revertService extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try{
             if(request.getSession().getAttribute("session").equals("true")){
-                Entitie orden = new Entitie(App.TABLE_OSDETALLE);
-                try{
-                    orden.getEntitieID(request.getParameter("variable"));                    
-                    orden.getData().set(orden.getColums().indexOf("ESTADO"), "1");
-                    orden.update();
-                    try (PrintWriter out = response.getWriter()) {
-                        out.println(orden.getDataOfLabel("OS"));
-                    }
-                }catch(NullPointerException s){
-                    System.out.println("Error: " +s);
-                }
                 
+                Entitie menu = new Entitie(App.TABLE_MENUS);
+                System.out.println("Menu on view: "+request.getParameter("variable"));
+                try{
+                    menu.getEntitieID(request.getParameter("variable"));
+                }catch(NullPointerException s){
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println("<script type=\"text/javascript\">\n" +
+                            "    swal(\n" +
+                            "        'Error:',\n" +
+                            "        'No se ha podido cargar el contenido',\n" +
+                            "        'error'\n" +
+                            "    )\n" +
+                            "</script>");
+                    }
+                }
+                request.getSession().setAttribute("menu", request.getParameter("variable"));
+                try (PrintWriter out = response.getWriter()) {
+                    out.println(menu.getDataOfLabel("DESCRIPCION"));
+                }
             }
             else{
                 response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales");
             }
+        }catch(NullPointerException e){
+            try (PrintWriter out = response.getWriter()) {
+                out.println("<script type=\"text/javascript\">\n" +
+                    "    swal(\n" +
+                    "        'Error:',\n" +
+                    "        'No se puede cargar el contenido',\n" +
+                    "        'error'\n" +
+                    "    )\n" +
+                    "</script>");
+            }
         }
-        catch(NullPointerException e){
-            response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales");
-        }
+        
         
     }
 
@@ -75,7 +96,7 @@ public class revertService extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(revertService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NameFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -93,7 +114,7 @@ public class revertService extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(revertService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NameFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servers;
+package com.sysware.concesionario.servers;
 
 
-import com.sysware.concesionario.App;
+import com.sysware.concesionario.app.App;
 import com.sysware.concesionario.entitie.Entitie;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -22,12 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 /**
  *
  * @author andre
- * 
- * Esta servlet responde a un llamado de peticion realizado por el cliente,
- * La respuesta es el nombre del canal donde pertence en usuario y la ciudad donde esta ubiacado el canal
- * 
  */
-public class CanalUserClientView extends HttpServlet {
+public class editEntidadForm extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,37 +36,38 @@ public class CanalUserClientView extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        
         try{
             if(request.getSession().getAttribute("session").equals("true")){
-                String usuario =(String) request.getSession().getAttribute("user");
-                Entitie user = new Entitie(App.TABLE_USUARIO);
-                user=user.getEntitieParam("USUARIO", usuario).get(0);
-                Entitie canal = new Entitie(App.TABLE_CANALES);
-                canal.getEntitieID(user.getDataOfLabel("ID_CANAL"));
-                Entitie ciudad = new Entitie(App.TABLE_CIUDADES);
-                ciudad.getEntitieID(canal.getDataOfLabel("ID_CIUDAD"));
+                Entitie menu = new Entitie(App.TABLE_MENUS);
+                String idEntidad = "-1";
                 
-                try (PrintWriter out = response.getWriter()) {
-                    //out.println("["+user.getIdCanal()+"] ");
-                    out.println(canal.getDataOfLabel("NOMBRE"));
-                    out.println(" | ");
-                    out.println(ciudad.getDataOfLabel("CIUDAD"));
+                try{
+                    menu.getEntitieID(request.getParameter("variable"));
+                    idEntidad= request.getParameter("entidad");
+                    System.out.println("ID Entidad: "+idEntidad);
+                }catch(NullPointerException s){
+                    System.out.println("Error: "+s);
+                }
+                Entitie entitie = new Entitie(menu.getDataOfLabel("ENTIDAD"));
+                entitie.getEntitieID(idEntidad);
+                ArrayList<String> datos= new ArrayList<>();
+                for(int i=0; i<entitie.getColums().size(); i++){
+                    datos.add(request.getParameter(entitie.getColums().get(i)));
+                }
+                entitie.setData(datos);
+                if("-1".equals(idEntidad)){
+                    entitie.create();
+                }
+                else{
+                    entitie.update();
                 }
             }
             else{
                 response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales");
             }
-        } catch(NullPointerException a){
-            try (PrintWriter out = response.getWriter()) {
-                out.println("<script type=\"text/javascript\">\n" +
-                    "    swal(\n" +
-                    "        'Error:',\n" +
-                    "        'No se puede cargar el contenido',\n" +
-                    "        'error'\n" +
-                    "    )\n" +
-                    "</script>");
-            }
+        }
+        catch(NullPointerException e){
+            response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales");
         }
     }
 
@@ -90,7 +86,7 @@ public class CanalUserClientView extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(CanalUserClientView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(editEntidadForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -108,7 +104,7 @@ public class CanalUserClientView extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(CanalUserClientView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(editEntidadForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

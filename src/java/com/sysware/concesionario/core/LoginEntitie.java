@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author andre
  */
-public class Login {
+public class LoginEntitie {
     
     private String user;
     private String pass;
@@ -22,10 +22,10 @@ public class Login {
     public static String CANAL = "ID_CANAL";
     public static String TABLA = "USARIOS";
 
-    public Login() {
+    public LoginEntitie() {
     }
 
-    public Login(String user, String pass) {
+    public LoginEntitie(String user, String pass) {
         this.user = user;
         this.pass = pass;
     }
@@ -69,7 +69,7 @@ public class Login {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Login other = (Login) obj;
+        final LoginEntitie other = (LoginEntitie) obj;
         if (!Objects.equals(this.user, other.user)) {
             return false;
         }

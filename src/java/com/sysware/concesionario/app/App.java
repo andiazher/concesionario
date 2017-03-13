@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sysware.concesionario;
+package com.sysware.concesionario.app;
 
-import com.sysware.concesionario.core.Login;
+import com.sysware.concesionario.core.LoginEntitie;
 import com.sysware.concesionario.db.ConnectionMysql;
 import com.sysware.concesionario.dao.LoginDao;
 import java.sql.ResultSet;
@@ -60,8 +60,8 @@ public class App {
     
     public static boolean validateuser(String parameter, String parameter0) throws SQLException {
         connectionMysql.conectar();
-        Login login = LoginDao.getLogin(parameter, parameter0);
-        Login userpaser= new Login(parameter, parameter0);
+        LoginEntitie login = LoginDao.getLogin(parameter, parameter0);
+        LoginEntitie userpaser= new LoginEntitie(parameter, parameter0);
         if(login.equals(userpaser)){
             System.out.println("THE USER: \""+login.getUser()+ "\" IS LOGIN AT APLICATION");
             return true;
