@@ -62,6 +62,12 @@ public class FormLiquidacion extends HttpServlet {
                 param1.add("ESTADOL");
                 param2.add("PENDIENTE");
                 operation.add("=");
+                
+                //SERVICIO SOAT =1
+                param1.add("SERVICIO");
+                param2.add("1");
+                operation.add("=");
+                
                 nada=true;
                 if(!fi.equals("")){
                     name+=" DESPUES DE: </b>"+fi+"<b>";

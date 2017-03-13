@@ -67,11 +67,11 @@
     </servlet>
     <servlet>
         <servlet-name>formViewService</servlet-name>
-        <servlet-class>com.sysware.concesionario.servers.FormViewService</servlet-class>
+        <servlet-class>com.sysware.concesionario.servers.DataFormServiceView</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>validatepurpacheService</servlet-name>
-        <servlet-class>com.sysware.concesionario.servers.ValidatePurpacheService</servlet-class>
+        <servlet-class>com.sysware.concesionario.servers.ValidatePurpacheServiceAction</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CanalUserClientView</servlet-name>
@@ -79,7 +79,7 @@
     </servlet>
     <servlet>
         <servlet-name>getOrderServicie</servlet-name>
-        <servlet-class>com.sysware.concesionario.servers.GetOrderServicie</servlet-class>
+        <servlet-class>com.sysware.concesionario.servers.DetailsOrdenServiceView</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>serviciosPendientes</servlet-name>
@@ -99,7 +99,7 @@
     </servlet>
     <servlet>
         <servlet-name>loadSaldoConcesionario</servlet-name>
-        <servlet-class>com.sysware.concesionario.servers.LoadSaldoConcesionario</servlet-class>
+        <servlet-class>com.sysware.concesionario.servers.LoadSaldoConceAction</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>revertService</servlet-name>

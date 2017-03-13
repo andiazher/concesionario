@@ -187,6 +187,13 @@
     function loadtable(){
         loadtableForm(document.getElementById('fecha1').value, document.getElementById('fecha2').value);
     }
+    function rechazar(id){
+        swal(
+                      'No se puede rechazar!',
+                      'No se pudo rechazar el servicio '+id+'',
+                      'success'
+                    )
+    }
 
 $(document).ready(function(){
     $("#form").submit(function(){

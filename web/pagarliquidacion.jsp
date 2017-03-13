@@ -169,6 +169,21 @@
         loadtableForm(document.getElementById('fecha1').value, document.getElementById('fecha2').value);
     }
 
+    function pagar(id){
+        swal(
+                      'No se ha pagado!',
+                      'No se pudo pagar la liquidacion '+id+'',
+                      'success'
+                    )
+    }
+    function anular(id){
+        swal(
+                      'No se puede anular!',
+                      'No se pudo anular la liquidacion '+id+'',
+                      'success'
+                    )
+    }
+
 $(document).ready(function(){
     $("#form").submit(function(){
             $.ajax({
