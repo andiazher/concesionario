@@ -88,12 +88,13 @@
                                             <h4 class="card-title text-center" id="titleContend"> Cargando Servicios, por favor espere </h4>
                                             <table class="table">
                                                 <thead class="">
-                                                    <th>Liq.</th>
                                                     <th>Fecha</th>
                                                     <th>Concesionario</th>
-                                                    <th>Valor</th>
-                                                    <th>P</th>
-                                                    <th>A</th>
+                                                    <th>OS</th>
+                                                    <th>Servicio</th>
+                                                    <th>Comisión</th>
+                                                    <th>L</th>
+                                                    <th>R</th>
                                                 </thead>
                                                 <tbody>
                                                     <tr>

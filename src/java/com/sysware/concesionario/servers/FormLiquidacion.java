@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author andre
  */
-public class FormPagoLiquidacion extends HttpServlet {
+public class FormLiquidacion extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -209,7 +209,7 @@ public class FormPagoLiquidacion extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(FormPagoLiquidacion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FormLiquidacion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -227,7 +227,7 @@ public class FormPagoLiquidacion extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(FormPagoLiquidacion.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FormLiquidacion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
