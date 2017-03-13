@@ -25,7 +25,7 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header " data-background-color="orange">
-                                    <h4 class="card-title text-center"> LIQUIDACIÓN DE COMISIONES</h4>
+                                    <h4 class="card-title text-center"> PAGO DE COMISIONES</h4>
                                 </div>
                                 <div class="card-content">
                                     <form method="post" action="#search" id="form">
@@ -178,7 +178,7 @@
     function loadtableForm(fi1, ff1){
         var concesionario1=document.getElementById('concesionario').value;
         var canal1=document.getElementById('canal').value;
-        $.post("formLiquidacion", { fi: fi1, ff: ff1, concesionario: concesionario1, canal:canal1 }, function(data){
+        $.post("formPagoLiquidacion", { fi: fi1, ff: ff1, concesionario: concesionario1, canal:canal1 }, function(data){
             $("#formViewService").html(data);
 
         });

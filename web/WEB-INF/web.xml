@@ -47,31 +47,31 @@
     </servlet>
     <servlet>
         <servlet-name>formClientAction</servlet-name>
-        <servlet-class>com.sysware.concesionario.servers.formClientAction</servlet-class>
+        <servlet-class>com.sysware.concesionario.servers.FormClientAction</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>tableEntitieView</servlet-name>
-        <servlet-class>com.sysware.concesionario.servers.tableEntitieView</servlet-class>
+        <servlet-class>com.sysware.concesionario.servers.TableEntitieView</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>formEditableEntidad</servlet-name>
-        <servlet-class>com.sysware.concesionario.servers.formEditableEntidad</servlet-class>
+        <servlet-class>com.sysware.concesionario.servers.FormEditableEntidad</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>editEntidadForm</servlet-name>
-        <servlet-class>com.sysware.concesionario.servers.editEntidadForm</servlet-class>
+        <servlet-class>com.sysware.concesionario.servers.EditEntidadForm</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>todosServicios</servlet-name>
-        <servlet-class>com.sysware.concesionario.servers.todosServicios</servlet-class>
+        <servlet-class>com.sysware.concesionario.servers.TodosServicios</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>formViewService</servlet-name>
-        <servlet-class>com.sysware.concesionario.servers.formViewService</servlet-class>
+        <servlet-class>com.sysware.concesionario.servers.FormViewService</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>validatepurpacheService</servlet-name>
-        <servlet-class>com.sysware.concesionario.servers.validatepurpacheService</servlet-class>
+        <servlet-class>com.sysware.concesionario.servers.ValidatePurpacheService</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CanalUserClientView</servlet-name>
@@ -79,11 +79,11 @@
     </servlet>
     <servlet>
         <servlet-name>getOrderServicie</servlet-name>
-        <servlet-class>com.sysware.concesionario.servers.getOrderServicie</servlet-class>
+        <servlet-class>com.sysware.concesionario.servers.GetOrderServicie</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>serviciosPendientes</servlet-name>
-        <servlet-class>com.sysware.concesionario.servers.serviciosPendientes</servlet-class>
+        <servlet-class>com.sysware.concesionario.servers.ServiciosPendientes</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ClaseVehiculoClientView</servlet-name>
@@ -95,23 +95,27 @@
     </servlet>
     <servlet>
         <servlet-name>formViewServiceMatricula</servlet-name>
-        <servlet-class>com.sysware.concesionario.servers.formViewServiceMatricula</servlet-class>
+        <servlet-class>com.sysware.concesionario.servers.FormViewServiceMatricula</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>loadSaldoConcesionario</servlet-name>
-        <servlet-class>com.sysware.concesionario.servers.loadSaldoConcesionario</servlet-class>
+        <servlet-class>com.sysware.concesionario.servers.LoadSaldoConcesionario</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>revertService</servlet-name>
-        <servlet-class>com.sysware.concesionario.servers.revertService</servlet-class>
+        <servlet-class>com.sysware.concesionario.servers.RevertService</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>formLiquidacion</servlet-name>
-        <servlet-class>com.sysware.concesionario.servers.formLiquidacion</servlet-class>
+        <servlet-class>com.sysware.concesionario.servers.FormLiquidacion</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>liquidar</servlet-name>
         <servlet-class>com.sysware.concesionario.servers.Liquidar</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>formPagoLiquidacion</servlet-name>
+        <servlet-class>com.sysware.concesionario.servers.FormPagoLiquidacion</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>login</servlet-name>
@@ -200,6 +204,10 @@
     <servlet-mapping>
         <servlet-name>liquidar</servlet-name>
         <url-pattern>/liquidar</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>formPagoLiquidacion</servlet-name>
+        <url-pattern>/formPagoLiquidacion</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
