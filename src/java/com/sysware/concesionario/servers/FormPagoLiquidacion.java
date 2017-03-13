@@ -40,7 +40,7 @@ public class FormPagoLiquidacion extends HttpServlet {
         try{
             if(request.getSession().getAttribute("session").equals("true")){
                 String name="Sin nombre";
-                ArrayList<Entitie> servicios= new ArrayList<>();
+                ArrayList<Entitie> liquidaciones= new ArrayList<>();
                 String fi="";
                 String ff="";
                 String concesionario="";
@@ -53,19 +53,19 @@ public class FormPagoLiquidacion extends HttpServlet {
                 }catch(NullPointerException s){
                     System.out.println("Error: "+s);
                 }
-                Entitie servicio = new Entitie(App.TABLE_OSDETALLE);
-                name= "RESULTADOS PARA ORDENES PENDIENTES";
+                Entitie liquidacion = new Entitie(App.TABLE_LIQUIDACION);
+                name= "RESULTADOS PARA LIQUIDACIONES POR PAGAR";
                 boolean nada=false;
                 ArrayList<String> param1=new ArrayList<>();
                 ArrayList<String> param2=new ArrayList<>();
                 ArrayList<String> operation=new ArrayList<>();
-                param1.add("ESTADOL");
-                param2.add("PENDIENTE");
+                param1.add("ESTADO");
+                param2.add("PPAGAR");
                 operation.add("=");
                 nada=true;
                 if(!fi.equals("")){
                     name+=" DESPUES DE: </b>"+fi+"<b>";
-                    param1.add("FECHAT");
+                    param1.add("FECHA");
                     param2.add(fi);
                     operation.add(">=");
                     nada=true;
@@ -75,7 +75,7 @@ public class FormPagoLiquidacion extends HttpServlet {
                         name+=",";
                     }
                     name+=" ANTES DE: </b>"+ff+"<b> ";
-                    param1.add("FECHAT");
+                    param1.add("FECHA");
                     param2.add(ff +" 23:59:59");
                     operation.add("<=");
                     nada=true;
@@ -120,11 +120,11 @@ public class FormPagoLiquidacion extends HttpServlet {
                     }
                 }
                 if(param1.isEmpty() && param2.isEmpty() && operation.isEmpty() && nada==false){
-                    servicios = servicio.getEntities();
+                    liquidaciones = liquidacion.getEntities();
                     name="TODAS LAS ORDENES DE SERVICIO";
                 }
                 else{
-                    servicios = servicio.getEntitieParams(param1, param2, operation, qry, tables);
+                    liquidaciones = liquidacion.getEntitieParams(param1, param2, operation, qry, tables);
                 }
                 
                 try (PrintWriter out = response.getWriter()) {
@@ -132,54 +132,48 @@ public class FormPagoLiquidacion extends HttpServlet {
                     out.println("<h4 class=\"card-title text-center\" id=\"titleContend\"> <b> "+name+" </b> </h4>");
                     out.println("<table class=\"table\">");
                     out.println("<thead class=\"\">\n" +
+"                                                <th>Liq.</th>\n" +
 "                                                <th>Fecha</th>\n" +
 "                                                <th>Concesionario</th>\n" +
-"                                                <th>OS</th>\n" +
-"                                                <th>Servicio</th>\n" +
-"                                                <th>Comisión</th>\n" +
-"                                                <th>L</th>\n" +
-"                                                <th>R</th>\n" +
+"                                                <th>Valor</th>\n" +
+"                                                <th>P</th>\n" +
+"                                                <th>A</th>\n" +
 "                                            </thead>");
                     out.println("<tbody>");
                     int count=0;
-                    for(Entitie i: servicios){
+                    for(Entitie i: liquidaciones){
                         if(!idOrder.equals(i.getId())){
                             String a="";
                             a+="onclick=\"openViewOrderService("+i.getId()+")\"";
                             String danger = "text-danger";
                             danger = "";
                             out.println("<tr class=\""+danger+"\" >");
-                            out.println("<td>"+i.getDataOfLabel("FECHAT")+"</td>");
+                            out.println("<td>"+i.getId()+"</td>");
+                            out.println("<td>"+i.getDataOfLabel("FECHA")+"</td>");
                             Entitie os = new Entitie(App.TABLE_ORDENSERVICIO);
-                            Entitie canals = new Entitie(App.TABLE_CANALES);
                             Entitie conce = new Entitie(App.TABLE_CONCESIONARIO);
                             os.getEntitieID(i.getDataOfLabel("OS"));
-                            canals.getEntitieID(os.getDataOfLabel("ID_CANAL"));
-                            conce.getEntitieID(canals.getDataOfLabel("ID_CONCESIONARIO"));
+                            conce.getEntitieID(i.getDataOfLabel("CONCESIONARIO"));
                             out.println("<td>"+conce.getDataOfLabel("NOMBRE")+"</td>");
-                            out.println("<td>"+i.getDataOfLabel("OS")+"</td>");
-                            Entitie servicion = new Entitie(App.TABLE_SERVICIOS);
-                            servicion.getEntitieID(i.getDataOfLabel("SERVICIO"));
-                            out.println("<td>"+servicion.getDataOfLabel("DESCRIPCION")+"</td>");
                             DecimalFormat formateador = new DecimalFormat("###,###.##");
-                            int valors= Integer.parseInt(i.getDataOfLabel("COM_CONCE"));
+                            int valors= Integer.parseInt(i.getDataOfLabel("VALOR"));
                             count+=valors;
                             out.println("<td class=\"text-right\">$"+formateador.format(valors)+"</td>");
-                            out.println("<td><input type=\"checkbox\" name=\""+i.getId()+"\" checked></td>");
-                            out.println("<td><a href=\"#rechazarDOS"+i.getId()+"\" onclick=\"rechazar("+i.getId()+")\">Rechazar</a></td>");
+                            out.println("<td><a href=\"#PagarLiq="+i.getId()+"\" onclick=\"pagarLiq("+i.getId()+")\">Anular</a></td>");
+                            out.println("<td><a href=\"#AnularLiq="+i.getId()+"\" onclick=\"anularLiq("+i.getId()+")\">Anular</a></td>");
                             out.println("</tr>");
                         }
                         
                     }
                     out.println("</tbody>");
                     out.println("<tr class=\"\" >");
-                        out.println("<td class=\"text-center\" colspan=\"3\" >TOTAL</td>");
+                        out.println("<td class=\"text-center\" colspan=\"2\" >TOTAL</td>");
                         DecimalFormat formateador = new DecimalFormat("###,###.##");
                         out.println("<td class=\"text-right\" colspan=\"2\" >$"+formateador.format(count)+"</td>");
                         out.println("<td class=\"text-center\" colspan=\"2\" >"
-                                + "<button type=\"submit\" class=\"btn btn-success btn-fill\" id=\"buttonsubmit\">\n" +
-"                                                    Liquidar\n" +
-"                                                </button>"
+                                //+ "<button type=\"submit\" class=\"btn btn-success btn-fill\" id=\"buttonsubmit\">\n" +
+//"                                                    Liquidar\n" +
+//"                                                </button>"
                                 + "</td>");
                     out.println("</tr>");
                     out.println("</table>");
