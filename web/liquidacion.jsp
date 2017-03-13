@@ -58,20 +58,6 @@
                                                     </select>                                                
                                                 </div>
                                             </div>    
-                                            <!--    
-                                            <div class="col-md-2">
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Placa</label>
-                                                    <input type="text" class="form-control datepicker text-center" id="placa" name="placa">
-                                                </div>
-                                            </div>    
-                                            <div class="col-md-2">
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Cliente</label>
-                                                    <input type="text" class="form-control datepicker text-center" id="cliente" name="cliente">
-                                                </div>
-                                            </div>    
-                                            -->
                                             <div class="col-md-2">
                                                 <button type="submit" class="btn btn-success btn-fill" id="buttonsubmit" onclick="loadtable()">
                                                     <span class="btn-label">
