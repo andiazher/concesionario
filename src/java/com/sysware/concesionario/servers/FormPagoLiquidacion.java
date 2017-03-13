@@ -52,19 +52,19 @@ public class FormPagoLiquidacion extends HttpServlet {
                 }catch(NullPointerException s){
                     System.out.println("Error: "+s);
                 }
-                Entitie servicio = new Entitie(App.TABLE_OSDETALLE);
-                name= "RESULTADOS PARA ORDENES PENDIENTES";
+                Entitie liquidacion = new Entitie(App.TABLE_LIQUIDACION);
+                name= "RESULTADOS PARA LIQUIDACIONES POR PAGAR";
                 boolean nada;
                 ArrayList<String> param1=new ArrayList<>();
                 ArrayList<String> param2=new ArrayList<>();
                 ArrayList<String> operation=new ArrayList<>();
-                param1.add("ESTADOL");
-                param2.add("PENDIENTE");
+                param1.add("ESTADO");
+                param2.add("PPAGAR");
                 operation.add("=");
                 nada=true;
                 if(!fi.equals("")){
                     name+=" DESPUES DE: </b>"+fi+"<b>";
-                    param1.add("FECHAT");
+                    param1.add("FECHA");
                     param2.add(fi);
                     operation.add(">=");
                     nada=true;
@@ -74,7 +74,7 @@ public class FormPagoLiquidacion extends HttpServlet {
                         name+=",";
                     }
                     name+=" ANTES DE: </b>"+ff+"<b> ";
-                    param1.add("FECHAT");
+                    param1.add("FECHA");
                     param2.add(ff +" 23:59:59");
                     operation.add("<=");
                     nada=true;
@@ -99,11 +99,11 @@ public class FormPagoLiquidacion extends HttpServlet {
                     nada=true;
                     }
                 if(param1.isEmpty() && param2.isEmpty() && operation.isEmpty() && nada==false){
-                    liquidaciones = servicio.getEntities();
+                    liquidaciones = liquidacion.getEntities();
                     name="TODAS LAS ORDENES DE SERVICIO";
                 }
                 else{
-                    liquidaciones = servicio.getEntitieParams(param1, param2, operation, qry, tables);
+                    liquidaciones = liquidacion.getEntitieParams(param1, param2, operation, qry, tables);
                 }
                 
                 try (PrintWriter out = response.getWriter()) {
@@ -111,13 +111,12 @@ public class FormPagoLiquidacion extends HttpServlet {
                     out.println("<h4 class=\"card-title text-center\" id=\"titleContend\"> <b> "+name+" </b> </h4>");
                     out.println("<table class=\"table\">");
                     out.println("<thead class=\"\">\n" +
+"                                                <th>Liq.</th>\n" +
 "                                                <th>Fecha</th>\n" +
 "                                                <th>Concesionario</th>\n" +
-"                                                <th>OS</th>\n" +
-"                                                <th>Servicio</th>\n" +
-"                                                <th>Comisión</th>\n" +
-"                                                <th>L</th>\n" +
-"                                                <th>R</th>\n" +
+"                                                <th>Valor</th>\n" +
+"                                                <th>P</th>\n" +
+"                                                <th>A</th>\n" +
 "                                            </thead>");
                     out.println("<tbody>");
                     int count=0;
