@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author andre
  */
-public class LoadSaldoConcesionario extends HttpServlet {
+public class LoadSaldoConceAction extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -109,7 +109,7 @@ public class LoadSaldoConcesionario extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(LoadSaldoConcesionario.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoadSaldoConceAction.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

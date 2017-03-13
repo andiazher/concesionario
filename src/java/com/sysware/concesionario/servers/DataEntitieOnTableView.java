@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author andre
  */
-public class TableEntitieView extends HttpServlet {
+public class DataEntitieOnTableView extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -230,7 +230,7 @@ public class TableEntitieView extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(TableEntitieView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataEntitieOnTableView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -248,7 +248,7 @@ public class TableEntitieView extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(TableEntitieView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataEntitieOnTableView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

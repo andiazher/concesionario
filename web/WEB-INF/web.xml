@@ -63,7 +63,7 @@
     </servlet>
     <servlet>
         <servlet-name>todosServicios</servlet-name>
-        <servlet-class>com.sysware.concesionario.servers.TodosServicios</servlet-class>
+        <servlet-class>com.sysware.concesionario.servers.TodosServiciosInform</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>formViewService</servlet-name>

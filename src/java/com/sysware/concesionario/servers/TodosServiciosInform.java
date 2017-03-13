@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author andre
  */
-public class TodosServicios extends HttpServlet {
+public class TodosServiciosInform extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -261,7 +261,7 @@ public class TodosServicios extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(TodosServicios.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TodosServiciosInform.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -279,7 +279,7 @@ public class TodosServicios extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(TodosServicios.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TodosServiciosInform.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

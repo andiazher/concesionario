@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author andre
  */
-public class FormViewService extends HttpServlet {
+public class DataFormServiceView extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -175,7 +175,7 @@ public class FormViewService extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(FormViewService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataFormServiceView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -193,7 +193,7 @@ public class FormViewService extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(FormViewService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataFormServiceView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author andre
  */
-public class GetOrderServicie extends HttpServlet {
+public class DetailsOrdenServiceView extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -129,7 +129,7 @@ public class GetOrderServicie extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(GetOrderServicie.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DetailsOrdenServiceView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -147,7 +147,7 @@ public class GetOrderServicie extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(GetOrderServicie.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DetailsOrdenServiceView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

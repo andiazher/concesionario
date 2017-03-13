@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author andre
  */
-public class FormEditableEntidad extends HttpServlet {
+public class EditEntitieFormView extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -335,7 +335,7 @@ public class FormEditableEntidad extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(FormEditableEntidad.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditEntitieFormView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -346,7 +346,7 @@ public class FormEditableEntidad extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(FormEditableEntidad.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditEntitieFormView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     /**

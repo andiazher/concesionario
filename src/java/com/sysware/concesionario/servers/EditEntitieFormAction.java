@@ -5,11 +5,12 @@
  */
 package com.sysware.concesionario.servers;
 
+
 import com.sysware.concesionario.app.App;
 import com.sysware.concesionario.entitie.Entitie;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -21,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author andre
  */
-public class RevertService extends HttpServlet {
+public class EditEntitieFormAction extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,18 +38,29 @@ public class RevertService extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try{
             if(request.getSession().getAttribute("session").equals("true")){
-                Entitie orden = new Entitie(App.TABLE_OSDETALLE);
-                try{
-                    orden.getEntitieID(request.getParameter("variable"));                    
-                    orden.getData().set(orden.getColums().indexOf("ESTADO"), "1");
-                    orden.update();
-                    try (PrintWriter out = response.getWriter()) {
-                        out.println(orden.getDataOfLabel("OS"));
-                    }
-                }catch(NullPointerException s){
-                    System.out.println("Error: " +s);
-                }
+                Entitie menu = new Entitie(App.TABLE_MENUS);
+                String idEntidad = "-1";
                 
+                try{
+                    menu.getEntitieID(request.getParameter("variable"));
+                    idEntidad= request.getParameter("entidad");
+                    System.out.println("ID Entidad: "+idEntidad);
+                }catch(NullPointerException s){
+                    System.out.println("Error: "+s);
+                }
+                Entitie entitie = new Entitie(menu.getDataOfLabel("ENTIDAD"));
+                entitie.getEntitieID(idEntidad);
+                ArrayList<String> datos= new ArrayList<>();
+                for(int i=0; i<entitie.getColums().size(); i++){
+                    datos.add(request.getParameter(entitie.getColums().get(i)));
+                }
+                entitie.setData(datos);
+                if("-1".equals(idEntidad)){
+                    entitie.create();
+                }
+                else{
+                    entitie.update();
+                }
             }
             else{
                 response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales");
@@ -57,7 +69,6 @@ public class RevertService extends HttpServlet {
         catch(NullPointerException e){
             response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales");
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -75,7 +86,7 @@ public class RevertService extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(RevertService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditEntitieFormAction.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -93,7 +104,7 @@ public class RevertService extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(RevertService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditEntitieFormAction.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

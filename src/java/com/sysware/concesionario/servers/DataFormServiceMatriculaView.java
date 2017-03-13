@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author andre
  */
-public class FormViewServiceMatricula extends HttpServlet {
+public class DataFormServiceMatriculaView extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -159,7 +159,7 @@ public class FormViewServiceMatricula extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(FormViewServiceMatricula.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataFormServiceMatriculaView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -177,7 +177,7 @@ public class FormViewServiceMatricula extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(FormViewServiceMatricula.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataFormServiceMatriculaView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

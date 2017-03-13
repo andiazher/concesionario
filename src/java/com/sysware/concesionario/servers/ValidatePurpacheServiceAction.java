@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author andre
  */
-public class ValidatePurpacheService extends HttpServlet {
+public class ValidatePurpacheServiceAction extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -362,7 +362,7 @@ public class ValidatePurpacheService extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ValidatePurpacheService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ValidatePurpacheServiceAction.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -380,7 +380,7 @@ public class ValidatePurpacheService extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(ValidatePurpacheService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ValidatePurpacheServiceAction.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
