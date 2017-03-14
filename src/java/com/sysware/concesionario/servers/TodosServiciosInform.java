@@ -198,7 +198,7 @@ public class TodosServiciosInform extends HttpServlet {
                             out.println("<td><a href=\"#OS"+i.getId()+"\" class=\"\" "+a+">"+i.getId()+"</a></td>");
                             out.println("<td>"+i.getDataOfLabel("FECHA")+"</td>");
                             try{
-                                Entitie propietario = new Entitie(App.TABLE_PROPIETARIO);
+                                Entitie propietario = new Entitie(App.TABLE_CLIENTE);
                                 propietario.getEntitieID(i.getDataOfLabel("PROPIETARIO"));
                                 out.println("<td><a href=\"#clientOpen\" onclick=\"window.open('formEditableEntidad?variable=8&entidad="+propietario.getId()+"','ventana'"
                                         + ",'width=640,height=480,scrollbars=NO,menubar=NO,resizable=NO"

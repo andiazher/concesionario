@@ -150,7 +150,7 @@ public class ValidatePurpacheServiceAction extends HttpServlet {
                                 }
                                 Entitie ve = new Entitie(App.TABLE_VEHICULO);
                                 ve.getEntitieID(orden.getDataOfLabel("VEHICULO"));
-                                Entitie p = new Entitie(App.TABLE_PROPIETARIO);
+                                Entitie p = new Entitie(App.TABLE_CLIENTE);
                                 p.getEntitieID(ve.getDataOfLabel("PROPIETARIO"));
                                 String pro = p.getDataOfLabel("NOMBRE")+" "+p.getDataOfLabel("SNOMBRE")+" "+p.getDataOfLabel("APELLIDO");
                                 Entitie clase2 = new Entitie(App.TABLE_CLASEVEHI);
@@ -427,7 +427,7 @@ public class ValidatePurpacheServiceAction extends HttpServlet {
             ve.getData().set(ve.getColums().indexOf("NO_MOTOR"), request.getParameter("motor"));
             ve.getData().set(ve.getColums().indexOf("NO_CHASIS"), request.getParameter("chasis"));
             ve.getData().set(ve.getColums().indexOf("NO_VIN"), request.getParameter("vin"));
-            Entitie p = new Entitie(App.TABLE_PROPIETARIO);
+            Entitie p = new Entitie(App.TABLE_CLIENTE);
             p.getEntitieID(ve.getDataOfLabel("PROPIETARIO"));
             p.getData().set(p.getColums().indexOf("CEDULA"),request.getParameter("cedula"));
             p.getData().set(p.getColums().indexOf("NOMBRE"),request.getParameter("nombre"));

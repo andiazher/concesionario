@@ -83,7 +83,7 @@ public class EditEntitieFormView extends HttpServlet {
                                         case "vehiculos":
                                             switch(entitie.getColums().get(i)){
                                                 case "PROPIETARIO":
-                                                    object = new Entitie(App.TABLE_PROPIETARIO);
+                                                    object = new Entitie(App.TABLE_CLIENTE);
                                                     objects = object.getEntities();
                                                     out.println("<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\""+entitie.getColums().get(i)+"\">");
                                                     out.println("<option selected=\"\" value=\"0\">--SELECCIONAR--</option>");

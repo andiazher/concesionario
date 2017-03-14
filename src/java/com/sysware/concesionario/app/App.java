@@ -27,7 +27,7 @@ public class App {
     public static String TABLE_SERVICIOS="servicios";
     public static String TABLE_SOAT="valor_soat";
     public static String TABLE_MATRICULA="valor_matricula";
-    public static String TABLE_PROPIETARIO="propietarios";
+    public static String TABLE_CLIENTE="cliente";
     public static String TABLE_VEHICULO="vehiculos";
     public static String TABLE_ORDENSERVICIO="orden_servicio";
     public static String TABLE_OSDETALLE="orden_detalle";

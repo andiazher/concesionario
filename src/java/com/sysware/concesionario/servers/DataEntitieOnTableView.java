@@ -78,7 +78,7 @@ public class DataEntitieOnTableView extends HttpServlet {
                                 case "vehiculos":
                                     switch(i.getColums().get(j)){
                                         case "PROPIETARIO":
-                                            object = new Entitie(App.TABLE_PROPIETARIO);
+                                            object = new Entitie(App.TABLE_CLIENTE);
                                             object.getEntitieID(i.getData().get(j));
                                             out.println("<td>"+object.getDataOfLabel("NOMBRE")+" "+object.getDataOfLabel("APELLIDO")+"</td>");
                                             break;

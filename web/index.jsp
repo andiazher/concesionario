@@ -69,7 +69,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Sistema Ordenes de Servicio para Vehículos</a>
+                <a class="navbar-brand" href="">Sistema Ordenes de Servicio para Vehículos</a>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">

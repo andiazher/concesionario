@@ -50,7 +50,7 @@ public class FormClientAction extends HttpServlet {
                 String identificaction = a.nextElement();
                 identificaction = request.getParameter(identificaction);
                 
-                Entitie propietario = new Entitie(App.TABLE_PROPIETARIO);
+                Entitie propietario = new Entitie(App.TABLE_CLIENTE);
                 ArrayList<Entitie> res= new ArrayList<>();
                 try{
                     res=propietario.getEntitieParam("CEDULA", identificaction );

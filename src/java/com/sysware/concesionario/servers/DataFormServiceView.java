@@ -41,7 +41,7 @@ public class DataFormServiceView extends HttpServlet {
                 Entitie orden = new Entitie(App.TABLE_ORDENSERVICIO);
                 Entitie detalle = new Entitie(App.TABLE_OSDETALLE);
                 Entitie v = new Entitie(App.TABLE_VEHICULO);
-                Entitie p = new Entitie(App.TABLE_PROPIETARIO);
+                Entitie p = new Entitie(App.TABLE_CLIENTE);
                                 
                 try{
                     detalle.getEntitieID(request.getParameter("variable"));
