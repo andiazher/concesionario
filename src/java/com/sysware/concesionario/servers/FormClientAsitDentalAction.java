@@ -41,16 +41,16 @@ public class FormClientAsitDentalAction extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try{
             if(request.getSession().getAttribute("session").equals("true")){
-                String ti;
-                String identifica;
-                String nombre;
-                String apellido;
-                String fechaNaci;
-                String plan;
-                String direccion;
-                String telefono;
-                String celular;
-                String correo;
+                String ti = null;
+                String identifica = null;
+                String nombre = null;
+                String apellido = null;
+                String fechaNaci = null;
+                String plan = null;
+                String direccion = null;
+                String telefono = null;
+                String celular = null;
+                String correo = null;
                 try{
                     ti= request.getParameter("ti");
                     identifica= request.getParameter("identification");
@@ -66,8 +66,70 @@ public class FormClientAsitDentalAction extends HttpServlet {
                 }catch(NullPointerException s){
                     System.out.println("Error: "+s);
                 }
-                Entitie cliente = new Entitie(App.TABLE_CLIENTE);
                 
+                Entitie cliente = new Entitie(App.TABLE_CLIENTE);
+                ArrayList<Entitie> clientes= cliente.getEntitieParam("CEDULA", identifica);
+                if(clientes.isEmpty()){
+                    cliente = new Entitie(App.TABLE_CLIENTE);
+                    for(String s: cliente.getColums()){
+                        cliente.getData().add("");
+                    }
+                    cliente.getData().set(cliente.getColums().indexOf("CEDULA"), identifica);
+                    cliente.getData().set(cliente.getColums().indexOf("TIPODOC"), ti);
+                    cliente.getData().set(cliente.getColums().indexOf("NOMBRE"), nombre);
+                    cliente.getData().set(cliente.getColums().indexOf("APELLIDO"), apellido);
+                    cliente.getData().set(cliente.getColums().indexOf("DIRECCION"), direccion);
+                    cliente.getData().set(cliente.getColums().indexOf("TELEFONO"), telefono);
+                    cliente.getData().set(cliente.getColums().indexOf("CELULAR"), celular);
+                    cliente.getData().set(cliente.getColums().indexOf("CORREO"), correo);
+                    cliente.getData().set(cliente.getColums().indexOf("FNACIMIENTO"), fechaNaci);
+                    cliente.create();
+                }
+                clientes= cliente.getEntitieParam("CEDULA", identifica);
+                String idCliente="";
+                for(Entitie e: clientes){
+                    idCliente = e.getId();
+                }
+                
+                Entitie asd = creteEntidadASD();
+                ArrayList<Entitie> asds= asd.getEntities();
+                String id="";
+                for(Entitie e: asds){
+                    id = e.getId();
+                }
+                
+                int last = Integer.parseInt(id);
+                if(last<10){
+                    id="000000"+id;
+                }
+                if(last>=10 && last<100){
+                    id="00000"+id;
+                }
+                if(last>=100 && last<1000){
+                    id="0000"+id;
+                }
+                if(last>=1000 && last<10000){
+                    id="000"+id;
+                }
+                if(last>=10000 && last<100000){
+                    id="00"+id;
+                }
+                if(last>=100000 && last<1000000){
+                    id="0"+id;
+                }
+                try (PrintWriter out = response.getWriter()) {
+                    out.println("ASD"+id);
+                }
+                asd.getEntitieID(id);
+                Calendar fecha = new GregorianCalendar();
+                String f= fecha.get(Calendar.YEAR) +"-"+(fecha.get(Calendar.MONTH)+1)+"-"+fecha.get(Calendar.DAY_OF_MONTH);
+                asd.getData().set(asd.getColums().indexOf("FECHA"),f );
+                asd.getData().set(asd.getColums().indexOf("FECHAEXP"), f);
+                asd.getData().set(asd.getColums().indexOf("POLIZA"), "ASD"+id);
+                asd.getData().set(asd.getColums().indexOf("PLAN"), plan);
+                asd.getData().set(asd.getColums().indexOf("ESTADO"), "2");
+                asd.getData().set(asd.getColums().indexOf("CLIENTE"), idCliente);
+                asd.update();
             }
             else{
                 response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales");
@@ -123,5 +185,16 @@ public class FormClientAsitDentalAction extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    public Entitie creteEntidadASD() throws SQLException {
+        Entitie asd = new Entitie(App.TABLE_ASIS_DENTAL);
+        for(String s: asd.getColums()){
+            asd.getData().add("0");
+        }
+        asd.getData().set(asd.getColums().indexOf("FECHA"),"0000-00-00");
+        asd.getData().set(asd.getColums().indexOf("FECHAEXP"),"0000-00-00");
+        asd.create();
+        return asd;
+    }
 
 }

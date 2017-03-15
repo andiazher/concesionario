@@ -206,7 +206,7 @@ $(document).ready(function(){
                     $("body,html").animate({scrollTop : 0}, 500);
                      swal(
                       'Guardado!',
-                      'Se ha solicitado el Servicio!',
+                      'Numero de Poliza '+data+' En breve se le enviara un correo',
                       'success'
                     )
                     load('<%=session.getAttribute("menu")%>');
