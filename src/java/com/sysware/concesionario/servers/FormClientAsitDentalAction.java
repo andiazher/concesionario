@@ -83,6 +83,8 @@ public class FormClientAsitDentalAction extends HttpServlet {
                     cliente.getData().set(cliente.getColums().indexOf("CELULAR"), celular);
                     cliente.getData().set(cliente.getColums().indexOf("CORREO"), correo);
                     cliente.getData().set(cliente.getColums().indexOf("FNACIMIENTO"), fechaNaci);
+                    cliente.getData().set(cliente.getColums().indexOf("CIUDAD"), "0");
+                    cliente.getData().set(cliente.getColums().indexOf("PAIS"), "0");
                     cliente.create();
                 }
                 clientes= cliente.getEntitieParam("CEDULA", identifica);
@@ -120,7 +122,7 @@ public class FormClientAsitDentalAction extends HttpServlet {
                 try (PrintWriter out = response.getWriter()) {
                     out.println("ASD"+id);
                 }
-                asd.getEntitieID(id);
+                asd.getEntitieID(last+"");
                 Calendar fecha = new GregorianCalendar();
                 String f= fecha.get(Calendar.YEAR) +"-"+(fecha.get(Calendar.MONTH)+1)+"-"+fecha.get(Calendar.DAY_OF_MONTH);
                 asd.getData().set(asd.getColums().indexOf("FECHA"),f );
