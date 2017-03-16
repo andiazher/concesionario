@@ -104,6 +104,46 @@
                         </div>
                     </div>
                 </div>
+                <div id="pagar" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="closePagar()">
+                                    <i class="material-icons">clear</i>
+                                </button>
+                                <h4 class="modal-title" id="titlemodal">Datos de Pago de liquidación </h4>
+                            </div>
+                            <form action="#saveLiq" method="post" id="form3">
+                                <div class="modal-body">
+                                    <div class="form-group label-floating">
+                                        <label class="control-label" >Fecha Pago</label>
+                                        <input type="text" class="form-control text-center" value="" id="fecha3" name="fecha3" placeholder="2017-03-16">
+                                    </div>
+                                    <div class="form-group label-floating">
+                                        <label class="control-label">Forma de Pago</label>
+                                        <select class="select-with-transition" data-style="btn btn-default" name="fpago" id="fpago" >
+                                            <option selected="" value="EFECTIVO">EFECTIVO</option>
+                                            <option value="EFECTIVO">TARGETA CREDITO</option>
+                                            <option value="EFECTIVO">TARGETA DEBITO</option>
+                                            <option value="EFECTIVO">PSE</option>
+                                        </select>                                                
+                                    </div>
+                                    <div class="form-group label-floating">
+                                        <label class="control-label" >Valor</label>
+                                        <input type="text" class="form-control text-center" value="" id="valorliq" readonly name="valorliq">
+                                    </div>
+                                    <div class="form-group label-floating">
+                                        <label class="control-label" >Observaciones</label>
+                                        <input type="text" class="form-control" value="" id="observacion" name="observacion" placeholder="...">
+                                    </div>
+                                </div>
+                                <div class="modal-footer text-center">
+                                    <button type="submit" class="btn btn-info btn-round" data-dismiss="modal" id="btnpagar" onclick="closePagar()">Guardar</button>
+                                </div>    
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
 
 
@@ -115,9 +155,26 @@
       //  $("#calendar").attr("style","display: block");
 
     //}
+    
     function closeCalendar(){
         $("#calendar").removeClass("in");
         $("#calendar").attr("style","display: none");        
+    }
+
+    //Pagar Liquidacion
+    function loadPagar(id){
+        $("#pagar").addClass("in");
+        $("#pagar").attr("style","display: block");
+        $("#btnpagar").attr("onclick","closePagar("+id+")");
+        $("#titlemodal").html('Datos de Pago de liquidación No '+id);
+    }
+    function closePagar(id){
+        $("#pagar").removeClass("in");
+        $("#pagar").attr("style","display: none");
+    }
+    function closePagar(){
+        $("#pagar").removeClass("in");
+        $("#pagar").attr("style","display: none");
     }
 
     function loadparams(){
@@ -127,6 +184,7 @@
         var dia = f.getDate();
         var fecha =anoActual+"-"+mes+"-"+dia;
         $("#fecha1").attr("placeholder",fecha);
+        $("#fecha3").attr("value",fecha);
 
         var f2 = new Date();
         var anoActual2 = f2.getFullYear();
@@ -170,11 +228,7 @@
     }
 
     function pagar(id){
-        swal(
-                      'No se ha pagado!',
-                      'No se pudo pagar la liquidacion '+id+'',
-                      'success'
-                    )
+        loadPagar(id);
     }
     function anular(id){
         swal(
@@ -211,6 +265,22 @@ $(document).ready(function(){
                     swal(
                       'Se ha liquidado!',
                       'Valor liquidado es '+formatter.format(data),
+                      'success'
+                    )
+                }
+            })
+            return false;
+    });
+    $("#form3").submit(function(){
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function(data){
+                    loadtable();
+                    swal(
+                      'Pago exitoso!',
+                      'Se ha pagado la liquidación No --',
                       'success'
                     )
                 }
