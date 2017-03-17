@@ -113,8 +113,9 @@
                                 </button>
                                 <h4 class="modal-title" id="titlemodal">Datos de Pago de liquidación </h4>
                             </div>
-                            <form action="#saveLiq" method="post" id="form3">
+                            <form action="formPagoLiquidacionAction?action=true" method="post" id="form3">
                                 <div class="modal-body">
+                                    <input type="hidden" name="id" value="" id="idLiquidacion">
                                     <div class="form-group label-floating">
                                         <label class="control-label" >Fecha Pago</label>
                                         <input type="text" class="form-control text-center" value="" id="fecha3" name="fecha3" placeholder="2017-03-16">
@@ -122,10 +123,10 @@
                                     <div class="form-group label-floating">
                                         <label class="control-label">Forma de Pago</label>
                                         <select class="select-with-transition" data-style="btn btn-default" name="fpago" id="fpago" >
-                                            <option selected="" value="EFECTIVO">EFECTIVO</option>
-                                            <option value="EFECTIVO">TARGETA CREDITO</option>
-                                            <option value="EFECTIVO">TARGETA DEBITO</option>
-                                            <option value="EFECTIVO">PSE</option>
+                                            <option selected="" value="EF">EFECTIVO</option>
+                                            <option value="TC">TARGETA CREDITO</option>
+                                            <option value="TD">TARGETA DEBITO</option>
+                                            <option value="PSE">PSE</option>
                                         </select>                                                
                                     </div>
                                     <div class="form-group label-floating">
@@ -167,6 +168,16 @@
         $("#pagar").attr("style","display: block");
         $("#btnpagar").attr("onclick","closePagar("+id+")");
         $("#titlemodal").html('Datos de Pago de liquidación No '+id);
+        $("#idLiquidacion").attr("value",id);
+        $.post("formPagoLiquidacionAction?action=loadData", {entitie:id }, function(data){
+            var formatter = new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD',
+                      minimumFractionDigits: 2,
+            });
+            $("#valorliq").attr("value",formatter.format(data));
+
+        });
     }
     function closePagar(id){
         $("#pagar").removeClass("in");
@@ -280,7 +291,7 @@ $(document).ready(function(){
                     loadtable();
                     swal(
                       'Pago exitoso!',
-                      'Se ha pagado la liquidación No --',
+                      'Se ha pagado la liquidación No '+data,
                       'success'
                     )
                 }

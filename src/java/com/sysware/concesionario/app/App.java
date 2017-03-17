@@ -49,6 +49,7 @@ public class App {
     public static String TABLE_REGMOVBOLSA="movimientos_bolsa";
     public static String TABLE_LIQUIDACION="liquidacion";
     public static String TABLE_ASIS_DENTAL="asis_dental";
+    public static String TABLE_REGISTROPAGO="registropago";
     
     public static void setParameter(String host, String port, String db, String user, String pass, String infoschema){
         connectionMysql.setHost(host);
