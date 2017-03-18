@@ -8,7 +8,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
         <script src="js/jquery-ui.min.js" type="text/javascript"></script>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
         <script src="js/material.min.js" type="text/javascript"></script>
@@ -32,14 +31,8 @@
                                             <div class="col-md-2">
                                                 <div class="form-group label-floating input-group date">
                                                     <label class="control-label">Fecha Inicial</label>
-                                                    <input type="text" class="form-control datepicker text-center" value="" id="fecha1" name="fecha1" >
+                                                    <input type="text" class="form-control text-center datepicker" data-date-format="yyyy-mm-dd" value="" id="fecha1" name="fecha1" >
                                                 </div>
-                                                <script type="text/javascript">
-                                                   $('.datepicker').datepicker({
-                                                        format: 'yyyy-mm-dd',
-                                                        startDate: '-3d'
-                                                    });
-                                                </script>
                                             </div>    
                                             <div class="col-md-2">
                                                 <div class="form-group label-floating">
@@ -120,8 +113,16 @@
                                 <h4 class="modal-title">Datepicker</h4>
                             </div>
                             <div class="modal-body">
-                                
+                                <div id="datetimepicker12"></div>
                             </div>
+                            <script type="text/javascript">
+                                $(function () {
+                                    $('#datetimepicker12').datetimepicker({
+                                        inline: true,
+                                        sideBySide: true
+                                    });
+                                });
+                            </script>
                             <div class="modal-footer text-center">
                                 <button type="button" class="btn btn-info btn-round" data-dismiss="modal" onclick="closeCalendar()">Seleccionar</button>
                             </div>
@@ -132,14 +133,14 @@
 
 
 <script type="text/javascript">
-
-    
-    
+    $('.datepicker').datepicker({
+        format: "yyyy-mm-dd",
+        todayHighlight: true
+    });
     function loadCalendar(){
-
         $("#calendar").addClass("in");
         $("#calendar").attr("style","display: block");
-
+        
     }
     function closeCalendar(){
         $("#calendar").removeClass("in");

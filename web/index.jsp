@@ -139,7 +139,7 @@
             </div>
             <footer class="footer">
                 <div class="container">
-                    <p class=" copyright pull-left"><a href="http://andiazher.com">by: andiazher Inc</a></p>
+                    <p class=" copyright pull-left"><a href="http://andiazher.com">--</a></p>
                     <p class="copyright pull-right">
                         &copy; <script>document.write(new Date().getFullYear())</script><a href="http://sysware-ingenieria.com"> Sysware Ingenieria</a>
                     </p>

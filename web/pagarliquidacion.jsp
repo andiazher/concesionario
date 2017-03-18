@@ -118,7 +118,7 @@
                                     <input type="hidden" name="id" value="" id="idLiquidacion">
                                     <div class="form-group label-floating">
                                         <label class="control-label" >Fecha Pago</label>
-                                        <input type="text" class="form-control text-center" value="" id="fecha3" name="fecha3" placeholder="2017-03-16">
+                                        <input type="text" class="form-control text-center" value="" id="fecha3" name="fecha3" placeholder="2017-03-16" required>
                                     </div>
                                     <div class="form-group label-floating">
                                         <label class="control-label">Forma de Pago</label>
