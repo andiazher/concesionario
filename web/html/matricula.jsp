@@ -7,6 +7,17 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+        <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
+        <script src="js/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/material.min.js" type="text/javascript"></script>
+        <script src="js/bootstrap-datetimepicker.js"></script>
+        <script src="js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
+        
+    </head>
 
 <p class="text-center text-dange" style="color:#FF0000">A este sevicio se le debe calcular el valor. Por favor ingresar los siguientes valores</p>    
 <div class="row">
@@ -18,12 +29,19 @@
     </div>
     <p class="col-md-1 text-right">FACTURA:</p>
     <div class="col-md-2">
-        <input type="text" class="form-control" name="factura" required="true" placeholder="000001">
+        <input type="text" class="form-control" name="factura" required="true" placeholder="000001" style='text-transform:uppercase;'>
     </div>
     <p class="col-md-1 text-right">FECHA:</p>
     <div class="col-md-2">
-        <input type="text" class="form-control text-center" name="fecha"  required="true" placeholder="2017-02-24" id="fecha" onclick="date()">
+        <input type="text" class="form-control text-center" name="fecha"  required="true" placeholder="2017-02-24" id="fecha">
     </div>
+    <script type="text/javascript">
+        $(function () {
+            $('#fecha').datetimepicker({
+                format: "YYYY-MM-DD"
+            });
+        });
+    </script>
 </div>
 <div class="row">
     <p class="col-md-1 text-right">GESTORIA:</p>
@@ -136,11 +154,7 @@
         var key = window.Event ? e.which : e.keyCode;
         return (key>=48 && key<=57);
     }
-    function uppercase(e){
-        var key = window.Event ? e.which : e.keyCode;
-        return (key.toUpperCase());
-    }
-
+    
     function sumarValor(){
         var matricula = parseInt(document.getElementById('matricula').value);
         var runt = parseInt(document.getElementById('runt').value);

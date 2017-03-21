@@ -49,11 +49,12 @@
                                                     required="true" 
                                                     number="true" 
                                                     placeholder="1234" 
-                                                    id="identificacion" >
+                                                    id="identificacion" 
+                                                    style='text-transform:uppercase;'>
                                                     <span class="help-block">Numero de identificacion de la persona</span>
                                                 </div>
                                             </div>
-                                            <label class="col-sm-1 label-on-left">Nombres</label>
+                                            <label class="col-sm-1 label-on-left">P.Nombre</label>
                                             <div class="col-sm-2">
                                                 <div class="form-group label-floating is-empty">
                                                     <label class="control-label"></label>
@@ -63,11 +64,27 @@
                                                     required="true"
                                                     placeholder="" 
                                                     id="nombres" 
-                                                    onkeypress="return uppercase(event)">
+                                                    style='text-transform:uppercase;'>
                                                     <span class="help-block">Nombre de Cliente</span>
                                                 </div>
                                             </div>
-                                            <label class="col-sm-1 label-on-left">Apellidos</label>
+                                            <label class="col-sm-1 label-on-left">S.Nombre</label>
+                                            <div class="col-sm-2">
+                                                <div class="form-group label-floating is-empty">
+                                                    <label class="control-label"></label>
+                                                    <input type="text" 
+                                                    class="form-control" 
+                                                    name="nombres2" 
+                                                    required="true"
+                                                    placeholder="" 
+                                                    id="nombres2" 
+                                                    style='text-transform:uppercase;'>
+                                                    <span class="help-block">Nombre de Cliente</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-sm-1 label-on-left">P.Apellido</label>
                                             <div class="col-sm-2">
                                                 <div class="form-group label-floating is-empty">
                                                     <label class="control-label"></label>
@@ -77,12 +94,25 @@
                                                     required="true"
                                                     placeholder="" 
                                                     id="apellidos" 
-                                                    onkeypress="return uppercase(event)">
+                                                    style='text-transform:uppercase;'>
                                                     <span class="help-block">Apellidos del Cliente</span>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
+                                            <label class="col-sm-1 label-on-left">S.Apellido</label>
+                                            <div class="col-sm-2">
+                                                <div class="form-group label-floating is-empty">
+                                                    <label class="control-label"></label>
+                                                    <input type="text" 
+                                                    class="form-control" 
+                                                    name="apellidos2" 
+                                                    required="true"
+                                                    placeholder="" 
+                                                    id="apellidos2" 
+                                                    style='text-transform:uppercase;'>
+                                                    <span class="help-block">Apellidos del Cliente</span>
+                                                </div>
+                                            </div>
+                                        
                                             <label class="col-sm-1 label-on-left">Fecha Nacimiento</label>
                                             <div class="col-sm-2">
                                                 <div class="form-group label-floating is-empty">
@@ -94,10 +124,17 @@
                                                     required="true"
                                                     placeholder="2017-12-03" 
                                                     id="fecha" 
-                                                    onkeypress="return uppercase(event)">
+                                                    style='text-transform:uppercase;'>
                                                     <span class="help-block">Fecha de Nacimiento</span>
                                                 </div>
                                             </div>
+                                            <script type="text/javascript">
+                                                    $(function () {
+                                                        $('#fecha').datetimepicker({
+                                                            format: "YYYY-MM-DD"
+                                                        });
+                                                    });
+                                                </script>
 
                                             <label class="col-sm-1 label-on-left">Plan</label>
                                             <div class="col-sm-2">
@@ -110,8 +147,10 @@
                                                     <span class="help-block">Plan</span>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="row">    
                                             <label class="col-sm-1 label-on-left">Dirección</label>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-2">
                                                 <div class="form-group label-floating is-empty">
                                                     <label class="control-label"></label>
                                                     <input type="text" 
@@ -120,13 +159,12 @@
                                                     required="true"
                                                     placeholder="" 
                                                     id="direccion" 
-                                                    onkeypress="return uppercase(event)">
+                                                    style='text-transform:uppercase;'>
                                                     <span class="help-block">Direccion de Residencia</span>
                                                 </div>
                                             </div>
 
-                                        </div>
-                                        <div class="row">
+                                        
                                             <label class="col-sm-1 label-on-left">Telefono</label>
                                             <div class="col-sm-2">
                                                 <div class="form-group label-floating is-empty">
@@ -136,7 +174,7 @@
                                                     name="telefono" 
                                                     placeholder="" 
                                                     id="telefono" 
-                                                    onkeypress="return uppercase(event)">
+                                                    style='text-transform:uppercase;'>
                                                     <span class="help-block">Telefono</span>
                                                 </div>
                                             </div>
@@ -151,12 +189,12 @@
                                                     required="true"
                                                     placeholder="" 
                                                     id="celular" 
-                                                    onkeypress="return uppercase(event)">
+                                                    style='text-transform:uppercase;'>
                                                     <span class="help-block">Celular</span>
                                                 </div>
                                             </div>
                                             <label class="col-sm-1 label-on-left">Correo Electronico</label>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-2">
                                                 <div class="form-group label-floating is-empty">
                                                     <label class="control-label"></label>
                                                     <input type="text" 
@@ -165,7 +203,7 @@
                                                     required="true"
                                                     placeholder="" 
                                                     id="correo" 
-                                                    onkeypress="return uppercase(event)">
+                                                    style='text-transform:uppercase;'>
                                                     <span class="help-block">Correo Electronico</span>
                                                 </div>
                                             </div>
@@ -189,11 +227,6 @@
 </body>
     
 <script type="">
-function uppercase(e){
-        var key = window.Event ? e.which : e.keyCode;
-        console.log(key);
-        return (key.toUpperCase());
-}
 
 $(document).ready(function(){
     $("#form").submit(function(){

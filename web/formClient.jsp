@@ -43,7 +43,8 @@
 													required="true" 
 													number="true" 
 													placeholder="1234" 
-													id="identificacion" >
+													id="identificacion" 
+													style='text-transform:uppercase;'>
 													<span class="help-block">Numero de identificacion de la persona</span>
 												</div>
 				                            </div>
@@ -59,7 +60,7 @@
 													required="true"
 													placeholder="ABC123" 
 													id="placa" 
-													onkeypress="return uppercase(event)">
+													style='text-transform:uppercase;'>
 													<span class="help-block">Placa de vehiculo</span>
 												</div>
 				                            </div>
@@ -100,7 +101,8 @@
 													required="true" 
 													number="true" 
 													placeholder="1250" 
-													id="cilindraje" >
+													id="cilindraje" 
+													onkeypress="return numeros(event)">
 													<span class="help-block">Cilindraje</span>
 												</div>
 				                            </div>
@@ -167,10 +169,9 @@
 </body>
 	
 <script type="">
-function uppercase(e){
-        var key = window.Event ? e.which : e.keyCode;
-        console.log(key);
-        return (key.toUpperCase());
+function numeros(e){
+    var key = window.Event ? e.which : e.keyCode;
+    return (key>=48 && key<=57);
 }
 function loadChecks(){
 	var menu="none";

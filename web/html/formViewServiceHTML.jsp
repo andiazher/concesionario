@@ -43,7 +43,7 @@
                                             <div class="row">
                                                 <p class="col-md-1 text-right">PLACA</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="placa" value="" id="placa" required="true">
+                                                    <input type="text" class="form-control" name="placa" value="" id="placa" required="true" style='text-transform:uppercase;'>
                                                 </div>
                                                 <p class="col-md-1 text-right">TIPO VEHÍCULO</p>
                                                 <div class="col-md-3">
@@ -52,7 +52,7 @@
                                                 </div>
                                                 <p class="col-md-1 text-right">CLASE VEHÍCULO</p>
                                                 <div class="col-md-3">
-                                                    <select class="select-with-transition" data-style="btn btn-default" title="Tipo de Vehiculo" data-size="2" name="clase" id="clase" required="true">
+                                                    <select class="select-with-transition" data-style="btn btn-default" title="Tipo de Vehiculo" data-size="2" name="clase" id="clase" required="true" >
                                                     </select>
                                                 </div>
                                             </div>
@@ -86,7 +86,7 @@
                                                 </div>
                                                 <p class="col-md-1 text-right">COLOR</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="color" value="" id="color" required="true">
+                                                    <input type="text" class="form-control" name="color" value="" id="color" required="true" style='text-transform:uppercase;'>
                                                 </div>
                                                 <p class="col-md-1 text-right">SERVICIO</p>
                                                 <div class="col-md-3">
@@ -98,56 +98,56 @@
                                             <div class="row">
                                                 <p class="col-md-1 text-right">N MOTOR</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="motor" value="" id="motor" required="true">
+                                                    <input type="text" class="form-control" name="motor" value="" id="motor" required="true" style='text-transform:uppercase;'>
                                                 </div>
                                                 <p class="col-md-1 text-right">N CHASIS</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="chasis" value=""  id="chasis" required="true">
+                                                    <input type="text" class="form-control" name="chasis" value=""  id="chasis" required="true" style='text-transform:uppercase;'>
                                                 </div>
                                                 <p class="col-md-1 text-right">N VIN</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="vin" value="" id="vin" required="true">
+                                                    <input type="text" class="form-control" name="vin" value="" id="vin" required="true" style='text-transform:uppercase;'>
                                                 </div>
                                             </div>
                                             <p><b>DATOS DEL PROPIETARIO</b></p>
                                             <div class="row">
                                                 <p class="col-md-1 text-right">CEDULA NIT</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="cedula" value="" id="cedula" required="true">
+                                                    <input type="text" class="form-control" name="cedula" value="" id="cedula" required="true" style='text-transform:uppercase;'>
                                                 </div>
                                                 <p class="col-md-1 text-right">PRIMER NOMBRE</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="nombre" value="" id="nombre" required="true">
+                                                    <input type="text" class="form-control" name="nombre" value="" id="nombre" required="true" style='text-transform:uppercase;'>
                                                 </div>
                                                 <p class="col-md-1 text-right">SEGUNDO NOMBRE</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="snombre" value="" id="snombre">
+                                                    <input type="text" class="form-control" name="snombre" value="" id="snombre" style='text-transform:uppercase;'>
                                                 </div>
                                                 
                                             </div>
                                             <div class="row">
                                                 <p class="col-md-1 text-right">PRIMER APELLIDO</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="apellido" value="" id="apellido" required="true">
+                                                    <input type="text" class="form-control" name="apellido" value="" id="apellido" required="true" style='text-transform:uppercase;'>
                                                 </div>
                                                 <p class="col-md-1 text-right">SEGUNDO APELLIDO</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="sapellido" value="" id="sapellido" >
+                                                    <input type="text" class="form-control" name="sapellido" value="" id="sapellido" style='text-transform:uppercase;'>
                                                 </div>
                                                 <p class="col-md-1 text-right">DIRECCION</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="direccion" value="" id="direccion" required="true">
+                                                    <input type="text" class="form-control" name="direccion" value="" id="direccion" required="true" style='text-transform:uppercase;'>
                                                 </div>
                                                 
                                             </div>
                                             <div class="row">
                                                 <p class="col-md-1 text-right">CELULAR</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="celular" value="" id="celular">
+                                                    <input type="text" class="form-control" name="celular" value="" id="celular" style='text-transform:uppercase;'>
                                                 </div>
                                                 <p class="col-md-1 text-right">TELEFONO:</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="telefono" value="" id="telefono">
+                                                    <input type="text" class="form-control" name="telefono" value="" id="telefono" style='text-transform:uppercase;'>
                                                 </div>
                                                 <p class="col-md-1 text-right">CORREO</p>
                                                 <div class="col-md-3">
@@ -177,7 +177,7 @@
                                         <div class="row">
                                             <p class="col-md-2 text-right">OBSERVACIONES</p>
                                                 <div class="col-md-10">
-                                                    <input type="text" class="form-control" name="obser" value="" placeholder="Escribe aqui tus observaciones" id="observaciones">
+                                                    <input type="text" class="form-control" name="obser" value="" placeholder="Escribe aqui tus observaciones" id="observaciones" style='text-transform:uppercase;'>
                                                 </div>
                                         </div>
                                         <div class="row">

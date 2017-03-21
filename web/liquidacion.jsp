@@ -10,7 +10,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
         <script src="js/jquery-ui.min.js" type="text/javascript"></script>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
         <script src="js/material.min.js" type="text/javascript"></script>
@@ -33,14 +32,28 @@
                                             <div class="col-md-2">
                                                 <div class="form-group label-floating input-group date">
                                                     <label class="control-label">Fecha Inicial</label>
-                                                    <input type="text" class="form-control datepicker text-center" value="" id="fecha1" name="fecha1" >
+                                                    <input type="text" class="form-control text-center" value="" id="fecha1" name="fecha1" >
                                                 </div>
+                                                <script type="text/javascript">
+                                                    $(function () {
+                                                        $('#fecha1').datetimepicker({
+                                                            format: "YYYY-MM-DD"
+                                                        });
+                                                    });
+                                                </script>
                                             </div>    
                                             <div class="col-md-2">
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Fecha Final</label>
-                                                    <input type="text" class="form-control text-center" value="" id="fecha2" name="fecha2" onclick="loadCalendar()">
+                                                    <input type="text" class="form-control text-center" value="" id="fecha2" name="fecha2">
                                                 </div>
+                                                <script type="text/javascript">
+                                                    $(function () {
+                                                        $('#fecha2').datetimepicker({
+                                                            format: "YYYY-MM-DD"
+                                                        });
+                                                    });
+                                                </script>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group label-floating">
@@ -95,28 +108,15 @@
                         </div>
                     </div>
                 </div>
-                <div id="calendar" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="closeCalendar()">
-                                    <i class="material-icons">clear</i>
-                                </button>
-                                <h4 class="modal-title">Datepicker</h4>
-                            </div>
-                            <div class="modal-body">
-                                
-                            </div>
-                            <div class="modal-footer text-center">
-                                <button type="button" class="btn btn-info btn-round" data-dismiss="modal" onclick="closeCalendar()">Seleccionar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
+                
 <script type="text/javascript">
+    function reloadvalue(id){
+        swal(
+            'En proceso!',
+            'Se esta recalculando el valor con el Servicio '+id+'',
+            'error'
+                    )
+    }
 
     function loadcanales(){
     	var menu="canales";
@@ -127,17 +127,6 @@
 	    loadtable();
     }
     
-    //function loadCalendar(){
-
-      //  $("#calendar").addClass("in");
-      //  $("#calendar").attr("style","display: block");
-
-    //}
-    function closeCalendar(){
-        $("#calendar").removeClass("in");
-        $("#calendar").attr("style","display: none");        
-    }
-
     function loadparams(){
         var f = new Date();
         var anoActual = f.getFullYear();
@@ -191,7 +180,7 @@
         swal(
                       'No se puede rechazar!',
                       'No se pudo rechazar el servicio '+id+'',
-                      'success'
+                      'error'
                     )
     }
 

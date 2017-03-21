@@ -150,8 +150,6 @@ public class FormLiquidacion extends HttpServlet {
                     int count=0;
                     for(Entitie i: servicios){
                         if(!idOrder.equals(i.getId())){
-                            String a="";
-                            a+="onclick=\"openViewOrderService("+i.getId()+")\"";
                             String danger = "text-danger";
                             danger = "";
                             out.println("<tr class=\""+danger+"\" >");
@@ -171,7 +169,8 @@ public class FormLiquidacion extends HttpServlet {
                             int valors= Integer.parseInt(i.getDataOfLabel("COM_CONCE"));
                             count+=valors;
                             out.println("<td class=\"text-right\">$"+formateador.format(valors)+"</td>");
-                            out.println("<td><input type=\"checkbox\" name=\""+i.getId()+"\" checked></td>");
+                            out.println("<td><input type=\"checkbox\" name=\""+i.getId()+"\" checked "
+                                    + "onchange=\"reloadvalue("+i.getId()+")\"></td>");
                             out.println("<td><a href=\"#rechazarDOS="+i.getId()+"\" onclick=\"rechazar("+i.getId()+")\">Rechazar</a></td>");
                             out.println("</tr>");
                         }

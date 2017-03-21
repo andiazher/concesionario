@@ -13,7 +13,6 @@
         <script src="js/material.min.js" type="text/javascript"></script>
         <script src="js/bootstrap-datetimepicker.js"></script>
         <script src="js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
         
     </head>
     <body>
@@ -31,14 +30,28 @@
                                             <div class="col-md-2">
                                                 <div class="form-group label-floating input-group date">
                                                     <label class="control-label">Fecha Inicial</label>
-                                                    <input type="text" class="form-control text-center datepicker" data-date-format="yyyy-mm-dd" value="" id="fecha1" name="fecha1" >
+                                                    <input type="text" class="form-control text-center" value="" id="fecha1" name="fecha1" >
                                                 </div>
+                                                <script type="text/javascript">
+                                                    $(function () {
+                                                        $('#fecha1').datetimepicker({
+                                                            format: "YYYY-MM-DD"
+                                                        });
+                                                    });
+                                                </script>
                                             </div>    
                                             <div class="col-md-2">
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Fecha Final</label>
-                                                    <input type="text" class="form-control text-center" value="" id="fecha2" name="fecha2" onclick="loadCalendar()">
+                                                    <input type="text" class="form-control text-center" value="" id="fecha2" name="fecha2">
                                                 </div>
+                                                <script type="text/javascript">
+                                                    $(function () {
+                                                        $('#fecha2').datetimepicker({
+                                                            format: "YYYY-MM-DD"
+                                                        });
+                                                    });
+                                                </script>
                                             </div>
                                             
                                             <div class="col-md-2">
@@ -103,6 +116,7 @@
                         </div>
                     </div>
                 </div>
+                <!--
                 <div id="calendar" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -119,7 +133,12 @@
                                 $(function () {
                                     $('#datetimepicker12').datetimepicker({
                                         inline: true,
-                                        sideBySide: true
+                                        icons: {
+                                            time: "fa fa-clock-o",
+                                            date: "fa fa-calendar",
+                                            up: "fa fa-arrow-up",
+                                            down: "fa fa-arrow-down"
+                                        }
                                     });
                                 });
                             </script>
@@ -129,14 +148,11 @@
                         </div>
                     </div>
                 </div>
-
+                -->
 
 
 <script type="text/javascript">
-    $('.datepicker').datepicker({
-        format: "yyyy-mm-dd",
-        todayHighlight: true
-    });
+   
     function loadCalendar(){
         $("#calendar").addClass("in");
         $("#calendar").attr("style","display: block");

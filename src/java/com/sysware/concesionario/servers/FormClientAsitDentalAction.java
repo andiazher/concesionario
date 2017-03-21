@@ -44,7 +44,9 @@ public class FormClientAsitDentalAction extends HttpServlet {
                 String ti = null;
                 String identifica = null;
                 String nombre = null;
+                String nombre2 = null;
                 String apellido = null;
+                String apellido2 = null;
                 String fechaNaci = null;
                 String plan = null;
                 String direccion = null;
@@ -55,7 +57,9 @@ public class FormClientAsitDentalAction extends HttpServlet {
                     ti= request.getParameter("ti");
                     identifica= request.getParameter("identification");
                     nombre= request.getParameter("nombres");
+                    nombre2= request.getParameter("nombres2");
                     apellido= request.getParameter("apellidos");
+                    apellido2= request.getParameter("apellidos2");
                     fechaNaci= request.getParameter("fecha");
                     plan= request.getParameter("plan");
                     direccion= request.getParameter("direccion");
@@ -77,7 +81,9 @@ public class FormClientAsitDentalAction extends HttpServlet {
                     cliente.getData().set(cliente.getColums().indexOf("CEDULA"), identifica);
                     cliente.getData().set(cliente.getColums().indexOf("TIPODOC"), ti);
                     cliente.getData().set(cliente.getColums().indexOf("NOMBRE"), nombre);
+                    cliente.getData().set(cliente.getColums().indexOf("SNOMBRE"), nombre2);
                     cliente.getData().set(cliente.getColums().indexOf("APELLIDO"), apellido);
+                    cliente.getData().set(cliente.getColums().indexOf("SAPELLIDO"), apellido2);
                     cliente.getData().set(cliente.getColums().indexOf("DIRECCION"), direccion);
                     cliente.getData().set(cliente.getColums().indexOf("TELEFONO"), telefono);
                     cliente.getData().set(cliente.getColums().indexOf("CELULAR"), celular);

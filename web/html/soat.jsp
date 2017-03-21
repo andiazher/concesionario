@@ -29,7 +29,7 @@
     </div>
     <p class="col-md-2 text-right">POLIZA:</p>
     <div class="col-md-4">
-        <input type="text" name="soat" class="form-control" required="true">
+        <input type="text" name="soat" class="form-control" required="true" style='text-transform:uppercase;'>
     </div>    
 </div>
 
