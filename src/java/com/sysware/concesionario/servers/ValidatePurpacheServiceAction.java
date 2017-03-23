@@ -130,6 +130,9 @@ public class ValidatePurpacheServiceAction extends HttpServlet {
                                 Entitie aseguradora = new Entitie(App.TABLE_ASEGURADORAS);
                                 aseguradora.getEntitieID(request.getParameter("aseguradora"));
                                 observaciones+=" NUMERO DE POLIZA: "+numeroPoliza+" DE "+aseguradora.getDataOfLabel("DESCRIPCION");
+                                
+                                //GUARDAR REGISTRO DE SOAT- AND ESTADO POLIZA
+                                
                                 mensaje= "El servicio ha sido tramitado con número de poliza "+numeroPoliza;
                             }
                             if(odetalle.getDataOfLabel("SERVICIO").equals("2")){

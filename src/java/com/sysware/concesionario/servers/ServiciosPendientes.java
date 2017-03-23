@@ -55,8 +55,18 @@ public class ServiciosPendientes extends HttpServlet {
                     String idOrder="-1";
                     for(Entitie i: sds){
                         if(!idOrder.equals(i.getId())){
+                            Entitie servicio = new Entitie(App.TABLE_SERVICIOS);
+                            servicio.getEntitieID(i.getDataOfLabel("SERVICIO"));
                             String a="";
-                            a="onclick=\"openViewService("+i.getId()+")\"";
+                            String href="";
+                            if(servicio.getDataOfLabel("ISASISTENCIA").equals("1")){
+                                //THE MENU LOAD IS 32 - ASISTENCIA DENTAL
+                                a="onclick=\"load(32)\"";
+                            }
+                            else{
+                                a="onclick=\"openViewService("+i.getId()+")\"";
+                            }
+                            
                             Entitie orden = new Entitie(App.TABLE_ORDENSERVICIO);
                             orden.getEntitieID(i.getDataOfLabel("OS"));
                             out.println("<tr>");
@@ -65,8 +75,6 @@ public class ServiciosPendientes extends HttpServlet {
                             Entitie vehiculo = new Entitie(App.TABLE_VEHICULO);
                             vehiculo.getEntitieID(orden.getDataOfLabel("VEHICULO"));
                             out.println("<td>"+vehiculo.getDataOfLabel("PLACA")+"</td>");
-                            Entitie servicio = new Entitie(App.TABLE_SERVICIOS);
-                            servicio.getEntitieID(i.getDataOfLabel("SERVICIO"));
                             out.println("<td>"+servicio.getDataOfLabel("DESCRIPCION")+"</td>");
                             DecimalFormat formateador = new DecimalFormat("###,###.##");
                             out.println("<td class=\"text-right\">$"+formateador.format(Integer.parseInt(i.getDataOfLabel("VALOR")))+"</td>");

@@ -48,7 +48,8 @@ public class ServiciosView extends HttpServlet {
                 try (PrintWriter out = response.getWriter()) {
                     for(Entitie s: servicios){
                         String checked= "";
-                        if(s.getId().equals("1")){
+                        //CHECK SERVICES 1. SOAT AND 3. ASISTENCIA ESPECIAL
+                        if(s.getId().equals("1") || s.getId().equals("3")){
                             checked="checked";
                         }
                         out.println("<div class=\"col-sm-3 col-sm-offset-1 checkbox-radios\">");

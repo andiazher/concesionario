@@ -159,20 +159,6 @@
         });
     }
 
-    function openViewOrderService(id){
-        var service=id;
-        var menu="<%=session.getAttribute("menu")%>";
-        $.post("getOrderServicie", { variable: service, variablem : menu }, function(data){
-            $("#formViewService").html(data);
-        });
-    }
-    function revertService(id){
-        var service=id;
-        var menu="<%=session.getAttribute("menu")%>";
-        $.post("revertService", { variable: service, variablem : menu }, function(data){
-            openViewOrderService(data);
-        });   
-    }
     function loadtable(){
         loadtableForm(document.getElementById('fecha1').value, document.getElementById('fecha2').value);
     }
