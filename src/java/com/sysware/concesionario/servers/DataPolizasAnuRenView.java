@@ -52,9 +52,43 @@ public class DataPolizasAnuRenView extends HttpServlet {
                 Entitie servicio = new Entitie(App.TABLE_OSDETALLE);
                 name= "POR FAVOR INGRESAR IDENTIFICACIÓN DEL CLIENTE";
                 
+                
+                
                 if(!identificacion.equals("")){
                     name= "RESULTADOS PARA CLIENTE: </b>"+identificacion +"<b>";
                     //CONSULTA DE LAS DIFERENTES TABLAS DE POLIZAS PARA SABER SI EL CLIENTE TIENE UNA POLIZA
+                    Entitie cliente = new Entitie(App.TABLE_CLIENTE);
+                    
+                    //1. CONSULTAR TABLA DE REGISTRO SOAT
+                    try{
+                        cliente=cliente.getEntitieParam("CEDULA", identificacion).get(0);
+                        System.out.println(""+cliente);
+                        Entitie rsoat = new Entitie(App.TABLE_REGISTROSOAT);
+                        rsoat = rsoat.getEntitieParam("CLIENTE", cliente.getId()).get(0);
+                        Entitie e1 = new Entitie();
+                        e1.setId("1");
+                        addColumns(e1);
+                        //POLIZA, FECHA, CLIENTE, SERVICIO, VALOR
+                        e1.getData().add(rsoat.getDataOfLabel("POLIZA"));
+                        e1.getData().add(rsoat.getDataOfLabel("FECHAR"));
+                        e1.getData().add(cliente.getDataOfLabel("TIPODOC")+identificacion);
+                        Entitie serv = new Entitie(App.TABLE_SERVICIOS);
+                        servicio.getEntitieID(rsoat.getDataOfLabel("DOSID"));
+                        serv.getEntitieID(servicio.getDataOfLabel("SERVICIO"));
+                        e1.getData().add(serv.getDataOfLabel("DESCRIPCION"));
+                        e1.getData().add(rsoat.getDataOfLabel("VALOR"));
+                        polizas.add(e1);
+                    }catch(IndexOutOfBoundsException s){
+                        System.out.println("Error: No se hay registros en Registro SOAT: " +s);
+                    }
+                    //2. CONSULTAR TABLA DE ASISTENCIA DELTAL
+                    try{
+                        
+                    }
+                    catch(IndexOutOfBoundsException s){
+                        System.out.println("Error: No se hay registros en Registro SOAT: " +s);
+                    }
+                    
                 }
                 
                 try (PrintWriter out = response.getWriter()) {
@@ -80,28 +114,18 @@ public class DataPolizasAnuRenView extends HttpServlet {
                         out.println("<tbody>");
                         for(Entitie i: polizas){
                             if(!idOrder.equals(i.getId())){
-                                String danger = "text-danger";
-                                danger = "";
-                                out.println("<tr class=\""+danger+"\" >");
-                                out.println("<td>"+i.getDataOfLabel("FECHAT")+"</td>");
-                                Entitie os = new Entitie(App.TABLE_ORDENSERVICIO);
-                                Entitie canals = new Entitie(App.TABLE_CANALES);
-                                Entitie conce = new Entitie(App.TABLE_CONCESIONARIO);
-                                os.getEntitieID(i.getDataOfLabel("OS"));
-                                canals.getEntitieID(os.getDataOfLabel("ID_CANAL"));
-                                conce.getEntitieID(canals.getDataOfLabel("ID_CONCESIONARIO"));
-                                out.println("<td>"+conce.getDataOfLabel("NOMBRE")+"</td>");
-                                out.println("<td>"+i.getDataOfLabel("OS")+"</td>");
-                                Entitie servicion = new Entitie(App.TABLE_SERVICIOS);
-                                servicion.getEntitieID(i.getDataOfLabel("SERVICIO"));
-                                out.println("<td>"+servicion.getDataOfLabel("DESCRIPCION")+"</td>");
+                                out.println("<tr >");
+                                //POLIZA, FECHA, CLIENTE, SERVICIO, VALOR
+                                out.println("<td>"+i.getDataOfLabel("POLIZA")+"</td>");
+                                out.println("<td>"+i.getDataOfLabel("FECHA")+"</td>");
+                                out.println("<td>"+i.getDataOfLabel("CLIENTE")+"</td>");
+                                out.println("<td>"+i.getDataOfLabel("SERVICIO")+"</td>");
+                                
                                 DecimalFormat formateador = new DecimalFormat("###,###.##");
-                                int valors= Integer.parseInt(i.getDataOfLabel("COM_CONCE"));
-                                count+=valors;
+                                int valors= Integer.parseInt(i.getDataOfLabel("VALOR"));
                                 out.println("<td class=\"text-right\">$"+formateador.format(valors)+"</td>");
-                                out.println("<td><input type=\"checkbox\" name=\""+i.getId()+"\" checked "
-                                        + "onchange=\"reloadvalue("+i.getId()+")\"></td>");
-                                out.println("<td><a href=\"#rechazarDOS="+i.getId()+"\" onclick=\"rechazar("+i.getId()+")\">Rechazar</a></td>");
+                                out.println("<td><a href=\"#AnularPOL="+i.getId()+"\" onclick=\"anular("+i.getId()+")\">Anular</a></td>");
+                                out.println("<td><a href=\"#renovarPOL="+i.getId()+"\" onclick=\"renovar("+i.getId()+")\">Renovar</a></td>");
                                 out.println("</tr>");
                             }
 
@@ -167,5 +191,13 @@ public class DataPolizasAnuRenView extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private void addColumns(Entitie e1) {
+        e1.getColums().add("POLIZA");
+        e1.getColums().add("FECHA");
+        e1.getColums().add("CLIENTE");
+        e1.getColums().add("SERVICIO");
+        e1.getColums().add("VALOR");
+    }
 
 }

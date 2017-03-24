@@ -20,6 +20,13 @@ public class Entitie {
     private String id;
     private ArrayList<String> colums;
     private ArrayList<String> data;
+
+    public Entitie() {
+        colums= new ArrayList<>();
+        data = new ArrayList<>();
+        name= "PROTOTIPE";
+        id="0";
+    }
     
     
     public Entitie(String name)  {
