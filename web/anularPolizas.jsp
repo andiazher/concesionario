@@ -87,12 +87,19 @@
     }
     loadtableForm();
 
-    function rechazar(id){
+    function anular(id){
         swal(
-                      'No se puede rechazar!',
-                      'No se pudo rechazar el servicio '+id+'',
-                      'error'
-                    )
+            'No se puede anular!',
+            'No se pudo anular la poliza '+id+'',
+            'error'
+            );
+    }
+    function renovar(id){
+        swal(
+            'No se puede renovar!',
+            'No se pudo renovar la poliza '+id+'',
+            'error'
+            );
     }
 
 $(document).ready(function(){

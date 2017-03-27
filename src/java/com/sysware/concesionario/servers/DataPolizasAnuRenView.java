@@ -62,11 +62,10 @@ public class DataPolizasAnuRenView extends HttpServlet {
                     //1. CONSULTAR TABLA DE REGISTRO SOAT
                     try{
                         cliente=cliente.getEntitieParam("CEDULA", identificacion).get(0);
-                        System.out.println(""+cliente);
                         Entitie rsoat = new Entitie(App.TABLE_REGISTROSOAT);
                         rsoat = rsoat.getEntitieParam("CLIENTE", cliente.getId()).get(0);
                         Entitie e1 = new Entitie();
-                        e1.setId("1");
+                        e1.setId(rsoat.getDataOfLabel("POLIZA"));
                         addColumns(e1);
                         //POLIZA, FECHA, CLIENTE, SERVICIO, VALOR
                         e1.getData().add(rsoat.getDataOfLabel("POLIZA"));
@@ -79,14 +78,27 @@ public class DataPolizasAnuRenView extends HttpServlet {
                         e1.getData().add(rsoat.getDataOfLabel("VALOR"));
                         polizas.add(e1);
                     }catch(IndexOutOfBoundsException s){
-                        System.out.println("Error: No se hay registros en Registro SOAT: " +s);
+                        System.out.println("Error: No hay registros en Registro SOAT: " +s);
                     }
                     //2. CONSULTAR TABLA DE ASISTENCIA DELTAL
                     try{
-                        
+                        cliente=cliente.getEntitieParam("CEDULA", identificacion).get(0);
+                        Entitie asistenciaDental = new Entitie(App.TABLE_ASIS_DENTAL);
+                        asistenciaDental = asistenciaDental.getEntitieParam("CLIENTE",cliente.getId()).get(0);
+                        Entitie e1 = new Entitie();
+                        e1.setId(asistenciaDental.getDataOfLabel("POLIZA"));
+                        addColumns(e1);
+                        //POLIZA, FECHA, CLIENTE, SERVICIO, VALOR
+                        e1.getData().add(asistenciaDental.getDataOfLabel("POLIZA"));
+                        e1.getData().add(asistenciaDental.getDataOfLabel("FECHAEXP"));
+                        e1.getData().add(cliente.getDataOfLabel("TIPODOC")+identificacion);
+                        e1.getData().add("ASISTENCIA DENTAL PROM");
+                        //e1.getData().add(asistenciaDental.getDataOfLabel("VALOR"));
+                        e1.getData().add("0");
+                        polizas.add(e1);
                     }
                     catch(IndexOutOfBoundsException s){
-                        System.out.println("Error: No se hay registros en Registro SOAT: " +s);
+                        System.out.println("Error: No hay registros en ASISTENCIASDEN: " +s);
                     }
                     
                 }
@@ -124,8 +136,8 @@ public class DataPolizasAnuRenView extends HttpServlet {
                                 DecimalFormat formateador = new DecimalFormat("###,###.##");
                                 int valors= Integer.parseInt(i.getDataOfLabel("VALOR"));
                                 out.println("<td class=\"text-right\">$"+formateador.format(valors)+"</td>");
-                                out.println("<td><a href=\"#AnularPOL="+i.getId()+"\" onclick=\"anular("+i.getId()+")\">Anular</a></td>");
-                                out.println("<td><a href=\"#renovarPOL="+i.getId()+"\" onclick=\"renovar("+i.getId()+")\">Renovar</a></td>");
+                                out.println("<td><a href=\"#AnularPOL="+i.getId()+"\" onclick=\"anular('"+i.getId()+"')\">Anular</a></td>");
+                                out.println("<td><a href=\"#renovarPOL="+i.getId()+"\" onclick=\"renovar('"+i.getId()+"')\">Renovar</a></td>");
                                 out.println("</tr>");
                             }
 

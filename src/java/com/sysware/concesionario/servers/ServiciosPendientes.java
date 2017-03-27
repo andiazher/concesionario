@@ -58,19 +58,22 @@ public class ServiciosPendientes extends HttpServlet {
                             Entitie servicio = new Entitie(App.TABLE_SERVICIOS);
                             servicio.getEntitieID(i.getDataOfLabel("SERVICIO"));
                             String a="";
-                            String href="";
+                            String href="#OS"+i.getId();
+                            Entitie orden = new Entitie(App.TABLE_ORDENSERVICIO);
+                            orden.getEntitieID(i.getDataOfLabel("OS"));
+                            Entitie client = new Entitie(App.TABLE_CLIENTE);
+                            client.getEntitieID(orden.getDataOfLabel("PROPIETARIO"));
                             if(servicio.getDataOfLabel("ISASISTENCIA").equals("1")){
                                 //THE MENU LOAD IS 32 - ASISTENCIA DENTAL
                                 a="onclick=\"load(32)\"";
+                                request.getSession().setAttribute("cliente", client.getDataOfLabel("CEDULA"));
                             }
                             else{
                                 a="onclick=\"openViewService("+i.getId()+")\"";
                             }
                             
-                            Entitie orden = new Entitie(App.TABLE_ORDENSERVICIO);
-                            orden.getEntitieID(i.getDataOfLabel("OS"));
                             out.println("<tr>");
-                            out.println("<td><a href=\"#OS"+i.getId()+"\" class=\"\" "+a+">"+i.getId()+"</a></td>");
+                            out.println("<td><a href=\""+href+"\" class=\"\" "+a+">"+i.getId()+"</a></td>");
                             out.println("<td>"+orden.getId()+"</td>");
                             Entitie vehiculo = new Entitie(App.TABLE_VEHICULO);
                             vehiculo.getEntitieID(orden.getDataOfLabel("VEHICULO"));

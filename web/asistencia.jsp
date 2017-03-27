@@ -3,6 +3,13 @@
     Created on : 14-mar-2017, 1:06:11
     Author     : andre
 --%>
+<%
+    String cliente="00";
+    try{
+        cliente = (String) session.getAttribute("cliente");
+        session.setAttribute("cliente", "null");
+    }catch(NullPointerException s){ }
+%>
 
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -50,6 +57,7 @@
                                                     number="true" 
                                                     placeholder="1234" 
                                                     id="identificacion" 
+                                                    onchange="loadDataClient()" 
                                                     style='text-transform:uppercase;'>
                                                     <span class="help-block">Numero de identificacion de la persona</span>
                                                 </div>
@@ -63,7 +71,7 @@
                                                     name="nombre" 
                                                     required="true"
                                                     placeholder="" 
-                                                    id="nombres" 
+                                                    id="nombre" 
                                                     style='text-transform:uppercase;'>
                                                     <span class="help-block">Nombre de Cliente</span>
                                                 </div>
@@ -225,7 +233,29 @@
 </body>
     
 <script type="">
-
+function loaddata(){
+    var cliente = "<%=cliente%>";
+    if(cliente!="null"){
+        $("#identificacion").attr("value", cliente);
+        loadDataClient();
+    }
+}
+loaddata();
+function loadDataClient(){
+    var n = document.getElementById('identificacion').value;
+    $.post("formClientAsisDentalView", { cliente:n }, function(data){
+            var valores = JSON.parse(data);
+            $("#nombre").attr("value",valores.nombre);
+            $("#nombres2").attr("value",valores.snombre);
+            $("#apellidos").attr("value",valores.apellido);
+            $("#apellidos2").attr("value",valores.sapellido);
+            $("#fecha").attr("value",valores.fnacimiento);
+            $("#direccion").attr("value",valores.direccion);
+            $("#telefono").attr("value",valores.telefono);
+            $("#celular").attr("value",valores.celular);
+            $("#correo").attr("value",valores.correo);   
+    });
+}
 $(document).ready(function(){
     $("#form").submit(function(){
         $("#buttonsubmit").disabled=true;

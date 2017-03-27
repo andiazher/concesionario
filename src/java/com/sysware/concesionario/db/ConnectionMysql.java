@@ -43,7 +43,6 @@ public class ConnectionMysql {
         try {
             String qry= "jdbc:mysql://"+host+":"+port+"/"+db+"?zeroDateTimeBehavior=convertToNull"
                             + "&user="+user+"&password="+pass;
-            //System.out.println("Conection: "+ qry);
             this.connection = DriverManager.getConnection(qry);
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
@@ -54,16 +53,11 @@ public class ConnectionMysql {
         try { 
             Statement sentencia; 
             sentencia = getConnection().createStatement();
-            sentencia.executeUpdate(sql); 
-            //getConnection().commit(); 
-            //sentencia.close(); 
-             
+            sentencia.executeUpdate(sql);  
         } catch (SQLException e) { 
             System.out.print("ERROR SQL"); 
             return false; 
-        }
-
-        //getConnection().close();
+        }        
         return true; 
     } 
 

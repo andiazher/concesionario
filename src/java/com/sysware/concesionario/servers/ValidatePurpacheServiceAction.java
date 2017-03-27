@@ -132,6 +132,29 @@ public class ValidatePurpacheServiceAction extends HttpServlet {
                                 observaciones+=" NUMERO DE POLIZA: "+numeroPoliza+" DE "+aseguradora.getDataOfLabel("DESCRIPCION");
                                 
                                 //GUARDAR REGISTRO DE SOAT- AND ESTADO POLIZA
+                                Entitie registro = new Entitie(App.TABLE_REGISTROSOAT);
+                                for(String ss: registro.getColums()){
+                                    registro.getData().add("");
+                                }
+                                Calendar fecha = new GregorianCalendar();
+                                String f= fecha.get(Calendar.YEAR) +"-"+(fecha.get(Calendar.MONTH)+1)+"-"+fecha.get(Calendar.DAY_OF_MONTH);
+                                Entitie ve = new Entitie(App.TABLE_VEHICULO);
+                                ve.getEntitieID(orden.getDataOfLabel("VEHICULO"));
+                                Entitie p = new Entitie(App.TABLE_CLIENTE);
+                                p.getEntitieID(ve.getDataOfLabel("PROPIETARIO"));
+                                
+                                
+                                registro.getData().set(registro.getColums().indexOf("DOSID"), odetalle.getId());
+                                registro.getData().set(registro.getColums().indexOf("FECHAR"), f);
+                                registro.getData().set(registro.getColums().indexOf("POLIZA"), numeroPoliza);
+                                registro.getData().set(registro.getColums().indexOf("ASEGURADORA"), aseguradora.getId());
+                                registro.getData().set(registro.getColums().indexOf("CLIENTE"), p.getId());
+                                registro.getData().set(registro.getColums().indexOf("VALOR"), valor);
+                                registro.getData().set(registro.getColums().indexOf("PRIMA"), prima);
+                                registro.getData().set(registro.getColums().indexOf("RUNT"), soat.getDataOfLabel("RUNT"));
+                                registro.getData().set(registro.getColums().indexOf("CONTRIBUCION"), soat.getDataOfLabel("CONTRIBUCION"));
+                                registro.getData().set(registro.getColums().indexOf("ESTADOP"), "VIGENTE");
+                                registro.create();
                                 
                                 mensaje= "El servicio ha sido tramitado con número de poliza "+numeroPoliza;
                             }
