@@ -80,15 +80,15 @@ public class RESTFUL {
     }
      
      
-        protected static String responseAsString(CloseableHttpResponse response) throws IOException { 
-                return streamAsString(response.getEntity().getContent()); 
-        } 
+    protected static String responseAsString(CloseableHttpResponse response) throws IOException { 
+        return streamAsString(response.getEntity().getContent()); 
+    } 
  
-        protected static String streamAsString(InputStream inputStream) throws IOException { 
-                StringWriter writer = new StringWriter(); 
-                IOUtils.copy(inputStream, writer, ENCODING); 
-                return  writer.toString(); 
-        } 
+    protected static String streamAsString(InputStream inputStream) throws IOException { 
+        StringWriter writer = new StringWriter(); 
+        IOUtils.copy(inputStream, writer, ENCODING); 
+        return  writer.toString(); 
+    } 
     
 
     private static Response bodyResponse(String responseBody) {

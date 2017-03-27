@@ -7,6 +7,7 @@ package com.sysware.concesionario.servers;
 
 import com.sysware.concesionario.app.App;
 import com.sysware.concesionario.entitie.Entitie;
+import com.sysware.concesionario.services.WebServiceAsistenciaDen;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -56,7 +57,7 @@ public class FormClientAsitDentalAction extends HttpServlet {
                 try{
                     ti= request.getParameter("ti");
                     identifica= request.getParameter("identification");
-                    nombre= request.getParameter("nombres");
+                    nombre= request.getParameter("nombre");
                     nombre2= request.getParameter("nombres2");
                     apellido= request.getParameter("apellidos");
                     apellido2= request.getParameter("apellidos2");
@@ -93,10 +94,12 @@ public class FormClientAsitDentalAction extends HttpServlet {
                     cliente.getData().set(cliente.getColums().indexOf("PAIS"), "0");
                     cliente.create();
                 }
-                clientes= cliente.getEntitieParam("CEDULA", identifica);
                 String idCliente="";
-                for(Entitie e: clientes){
-                    idCliente = e.getId();
+                try{
+                    cliente= cliente.getEntitieParam("CEDULA", identifica).get(0);
+                    idCliente = cliente.getId();
+                }catch(IndexOutOfBoundsException s){
+                    System.out.println("Error: "+s);
                 }
                 
                 Entitie asd = creteEntidadASD();
@@ -125,19 +128,44 @@ public class FormClientAsitDentalAction extends HttpServlet {
                 if(last>=100000 && last<1000000){
                     id="0"+id;
                 }
-                try (PrintWriter out = response.getWriter()) {
-                    out.println("ASD"+id);
-                }
                 asd.getEntitieID(last+"");
                 Calendar fecha = new GregorianCalendar();
                 String f= fecha.get(Calendar.YEAR) +"-"+(fecha.get(Calendar.MONTH)+1)+"-"+fecha.get(Calendar.DAY_OF_MONTH);
                 asd.getData().set(asd.getColums().indexOf("FECHA"),f );
                 asd.getData().set(asd.getColums().indexOf("FECHAEXP"), f);
-                asd.getData().set(asd.getColums().indexOf("POLIZA"), "ASD"+id);
+                asd.getData().set(asd.getColums().indexOf("POLIZA"), "AD"+id);
                 asd.getData().set(asd.getColums().indexOf("PLAN"), plan);
                 asd.getData().set(asd.getColums().indexOf("ESTADO"), "2");
                 asd.getData().set(asd.getColums().indexOf("CLIENTE"), idCliente);
                 asd.update();
+                //CONSUMO DE WEB SERVICE EN UN AGENTE EXTERIOR
+                WebServiceAsistenciaDen wsad = new WebServiceAsistenciaDen();
+                        
+                //System.out.println("Client2"+cliente);
+                String messagge = wsad.registro(asd, cliente);
+                if(messagge.equals("1")){
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println("<script type=\"text/javascript\">\n"
+                                + "swal(\n" +
+                            "'Guardado!',\n" +
+                            "'Numero de Poliza AD"+id+" En breve se le enviara un correo',\n" +
+                            "'success'\n" +
+                            ")\n"
+                            + "</script>");
+                    }
+                }
+                else{
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println("<script type=\"text/javascript\">\n"
+                                +" swal(\n" +
+                            "'Error!',\n" +
+                            "'Poliza AD"+id+"; "+messagge+" ',\n" +
+                            "'error'\n" +
+                            ")\n"
+                            + "</script>");
+                    }
+                }
+                
             }
             else{
                 response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales");

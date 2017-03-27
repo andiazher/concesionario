@@ -342,10 +342,9 @@
                     url: $(this).attr('action'),
                     data: $(this).serialize(),
                     success: function(data){
-                        console.log("Aqui llegue 1");
                         $("body,html").animate({scrollTop : 0}, 500);
-                         $( "#form" ).append(data);
-                         load('<%=session.getAttribute("menu")%>');
+                        $( "#form" ).append(data);
+                        load('<%=session.getAttribute("menu")%>');
                     }
                 })
                 return false;

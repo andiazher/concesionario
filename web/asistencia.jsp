@@ -60,7 +60,7 @@
                                                     <label class="control-label"></label>
                                                     <input type="text" 
                                                     class="form-control" 
-                                                    name="nombres" 
+                                                    name="nombre" 
                                                     required="true"
                                                     placeholder="" 
                                                     id="nombres" 
@@ -75,7 +75,6 @@
                                                     <input type="text" 
                                                     class="form-control" 
                                                     name="nombres2" 
-                                                    required="true"
                                                     placeholder="" 
                                                     id="nombres2" 
                                                     style='text-transform:uppercase;'>
@@ -105,7 +104,6 @@
                                                     <input type="text" 
                                                     class="form-control" 
                                                     name="apellidos2" 
-                                                    required="true"
                                                     placeholder="" 
                                                     id="apellidos2" 
                                                     style='text-transform:uppercase;'>
@@ -237,11 +235,7 @@ $(document).ready(function(){
                 data: $(this).serialize(),
                 success: function(data){
                     $("body,html").animate({scrollTop : 0}, 500);
-                     swal(
-                      'Guardado!',
-                      'Numero de Poliza '+data+' En breve se le enviara un correo',
-                      'success'
-                    )
+                    $( "#form" ).append(data);
                     load('<%=session.getAttribute("menu")%>');
                 }
             })
