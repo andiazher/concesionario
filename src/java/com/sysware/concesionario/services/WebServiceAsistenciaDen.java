@@ -82,8 +82,6 @@ public class WebServiceAsistenciaDen {
                 else{
                     messagge= response.getValue_exitoso();
                 }
-               
-                
                 // and ensure it is fully consumed
                 EntityUtils.consume(entity2);
             } finally {
@@ -95,12 +93,13 @@ public class WebServiceAsistenciaDen {
         return messagge;
     }
     
-    public void excluir(Entitie e) throws UnsupportedEncodingException, IOException{
+    public String excluir(String poliza) throws UnsupportedEncodingException, IOException{
+        String messagge="";
         CloseableHttpClient httpclient = HttpClients.createDefault();
         try {
             HttpPost httpPost = new HttpPost(URL_API+EXCLUIR);
             List <NameValuePair> nvps = new ArrayList <NameValuePair>();
-            nvps.add(new BasicNameValuePair("llave_poliza", "8"));
+            nvps.add(new BasicNameValuePair("llave_poliza", poliza));
             nvps.add(new BasicNameValuePair("serial_suc_cli_id", "92713D20-ACF9-4AFC-B068-209704A2C4D6"));
             nvps.add(new BasicNameValuePair("serial_prm_id", "72FA83DA-F2C8-4DB9-956E-9F41DF6E157F"));
             httpPost.setEntity(new UrlEncodedFormEntity(nvps));
@@ -117,7 +116,12 @@ public class WebServiceAsistenciaDen {
 
                 System.out.println(response.getValue_exitoso());
                 System.out.println(response.getMsn_error());
-               
+                if("1".equals(response.getMsn_error())){
+                    messagge= "1";
+                }
+                else{
+                    messagge= response.getValue_exitoso();
+                }
                 
                 // and ensure it is fully consumed
                 EntityUtils.consume(entity2);
@@ -127,6 +131,7 @@ public class WebServiceAsistenciaDen {
         } finally {
             httpclient.close();
         }
+        return messagge;
     }
     
     protected static String responseAsString(CloseableHttpResponse response) throws IOException { 
