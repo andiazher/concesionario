@@ -6,8 +6,6 @@
 package com.sysware.concesionario.services;
 
 import com.sysware.concesionario.entitie.Entitie;
-import static com.sysware.concesionario.services.RESTFUL.URL_API;
-import static com.sysware.concesionario.services.RESTFUL.responseAsString;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
