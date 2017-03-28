@@ -64,7 +64,7 @@ public class FormClientAction extends HttpServlet {
                         int s= propietario.getColums().indexOf("CEDULA");
                         propietario.getData().set(s, identificaction);
                         propietario.getData().set(propietario.getColums().indexOf("TIPODOC"), ti);
-                        propietario.getData().set(propietario.getColums().indexOf("FNACIMIENTO"), "0000-00-00");
+                        propietario.getData().set(propietario.getColums().indexOf("FNACIMIENTO"), "1900-01-01");
                         propietario.getData().set(propietario.getColums().indexOf("CIUDAD"), "0");
                         propietario.getData().set(propietario.getColums().indexOf("PAIS"), "0");
                         propietario.create();

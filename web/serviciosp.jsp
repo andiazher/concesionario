@@ -54,6 +54,7 @@
 
 
 <script type="text/javascript">
+
     function loadtableForm(){
         var menu="<%=session.getAttribute("menu")%>";
         $.post("serviciosPendientes", { variable: menu }, function(data){
@@ -71,6 +72,11 @@
             $("#formViewService").html(data);
             $("#windowsinit2").attr("name","OS"+idService);
             $("#windowsinit2").attr("href","#OS"+idService);
+        });
+    }
+    function openViewServiceSpecial(id){
+        $.post("asistencia.jsp", { idservicio: id }, function(data){
+            $("#contenido").html(data);
         });
     }
     function openViewOrderService(id){

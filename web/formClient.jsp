@@ -97,7 +97,7 @@
 													<input type="text" 
 													class="form-control" 
 													name="cilindraje" 
-													minLength="3" 
+													minLength="2" 
 													required="true" 
 													number="true" 
 													placeholder="1250" 

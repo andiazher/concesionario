@@ -65,8 +65,7 @@ public class ServiciosPendientes extends HttpServlet {
                             client.getEntitieID(orden.getDataOfLabel("PROPIETARIO"));
                             if(servicio.getDataOfLabel("ISASISTENCIA").equals("1")){
                                 //THE MENU LOAD IS 32 - ASISTENCIA DENTAL
-                                a="onclick=\"load(32)\"";
-                                request.getSession().setAttribute("cliente", client.getDataOfLabel("CEDULA"));
+                                a="onclick=\"openViewServiceSpecial("+i.getId()+")\"";
                             }
                             else{
                                 a="onclick=\"openViewService("+i.getId()+")\"";

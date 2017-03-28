@@ -299,6 +299,7 @@
 
 <script type="">
 
+
 function load(id){
 	var menu=id;
 	console.log("load Menu "+menu);
@@ -365,6 +366,7 @@ function loadProfile(){
     });
     window.scrollTo(0, 0);	
 }
+
 
 </script>
 <script type="text/javascript">

@@ -28,7 +28,7 @@
                                     <form method="post" action="#search" id="form">
                                         <div class="row">
                                             <div class="col-md-2">
-                                                <div class="form-group label-floating input-group date">
+                                                <div class="form-group label-floating">
                                                     <label class="control-label">Fecha Inicial</label>
                                                     <input type="text" class="form-control text-center" value="" id="fecha1" name="fecha1" >
                                                 </div>

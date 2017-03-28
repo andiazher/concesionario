@@ -464,8 +464,9 @@ public class ValidatePurpacheServiceAction extends HttpServlet {
             p.getData().set(p.getColums().indexOf("DIRECCION"),request.getParameter("direccion"));
             p.getData().set(p.getColums().indexOf("CELULAR"),request.getParameter("celular"));
             p.getData().set(p.getColums().indexOf("CORREO"),request.getParameter("correo"));
+            p.getData().set(p.getColums().indexOf("TELEFONO"),request.getParameter("telefono"));
             ve.getData().set(ve.getColums().indexOf("PROPIETARIO"), p.getId());
-            
+            System.out.println(p);
             //UPDATE DATA OF PERSON AND VEHICLE
             p.update();
             ve.update();

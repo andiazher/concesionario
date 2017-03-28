@@ -4,10 +4,9 @@
     Author     : andre
 --%>
 <%
-    String cliente="00";
+    String idservicio="00";
     try{
-        cliente = (String) session.getAttribute("cliente");
-        session.setAttribute("cliente", "null");
+        idservicio = request.getParameter("idservicio");
     }catch(NullPointerException s){ }
 %>
 
@@ -44,7 +43,7 @@
                                                     <span class="help-block">Numero de identificacion de la persona</span>
                                                 </div>
                                             </div>
-
+                                            <input type="hidden" name="idservicio" id="idservicio" value="0">
                                             <label class="col-sm-1 label-on-left">Identificación</label>
                                             <div class="col-sm-2">
                                                 <div class="form-group label-floating is-empty">
@@ -57,6 +56,7 @@
                                                     number="true" 
                                                     placeholder="1234" 
                                                     id="identificacion" 
+                                                    value="" 
                                                     onchange="loadDataClient()" 
                                                     style='text-transform:uppercase;'>
                                                     <span class="help-block">Numero de identificacion de la persona</span>
@@ -233,16 +233,21 @@
 </body>
     
 <script type="">
+
 function loaddata(){
-    var cliente = "<%=cliente%>";
-    if(cliente!="null"){
-        $("#identificacion").attr("value", cliente);
-        loadDataClient();
+    var idservicio = "<%=idservicio%>";
+    if(idservicio!="null"){
+        $("#idservicio").attr("value", idservicio);
+        console.log(idservicio);
+        //loadDataClient();
     }
 }
-loaddata();
+loaddata(); 
+
+
 function loadDataClient(){
     var n = document.getElementById('identificacion').value;
+    console.log("IDCLIENTE "+n);
     $.post("formClientAsisDentalView", { cliente:n }, function(data){
             var valores = JSON.parse(data);
             $("#nombre").attr("value",valores.nombre);
