@@ -38,35 +38,62 @@ public class FormClientAsisDentalView extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try{
             if(request.getSession().getAttribute("session").equals("true")){
-                Entitie p = new Entitie(App.TABLE_CLIENTE);
-                for(String s: p.getColums()){
-                    p.getData().add("");
-                }
+                String param = "";
                 try{
-                    p = p.getEntitieParam("CEDULA", request.getParameter("cliente")).get(0);
-                }catch(NullPointerException s){
-                    System.out.println("Error: "+s);
-                }catch(IndexOutOfBoundsException s){
-                    System.out.println("Error2: "+s);
+                    param = request.getParameter("param");
+                }catch (NullPointerException s){
+                    System.out.println("Eror in param, "+s);
                 }
                 
-                try (PrintWriter out = response.getWriter()) {
-                    
-                    out.println("{");
-                    
-                    out.println("\"cedula\": \""+p.getDataOfLabel("CEDULA")+"\",");
-                    out.println("\"nombre\": \""+p.getDataOfLabel("NOMBRE")+"\",");
-                    out.println("\"snombre\": \""+p.getDataOfLabel("SNOMBRE")+"\",");
-                    out.println("\"apellido\": \""+p.getDataOfLabel("APELLIDO")+"\",");
-                    out.println("\"sapellido\": \""+p.getDataOfLabel("SAPELLIDO")+"\",");
-                    out.println("\"fnacimiento\": \""+p.getDataOfLabel("FNACIMIENTO")+"\",");
-                    out.println("\"direccion\": \""+p.getDataOfLabel("DIRECCION")+"\",");
-                    out.println("\"telefono\": \""+p.getDataOfLabel("TELEFONO")+"\",");
-                    out.println("\"celular\": \""+p.getDataOfLabel("CELULAR")+"\",");
-                    out.println("\"correo\": \""+p.getDataOfLabel("CORREO")+"\",");
-                    out.println("\"andiazher\": \"andiazher.com\"");
-                    out.println("}");
+                if(param.equals("idservice")){
+                    String id= "";
+                    Entitie dos = new Entitie(App.TABLE_DOS);
+                    Entitie os = new Entitie(App.TABLE_OS);
+                    Entitie client = new Entitie(App.TABLE_CLIENTE);
+                    try{
+                        id= request.getParameter("id");
+                        dos.getEntitieID(id);
+                        os.getEntitieID(dos.getDataOfLabel("OS"));
+                        client.getEntitieID(os.getDataOfLabel("PROPIETARIO"));
+                        try (PrintWriter out = response.getWriter()) {
+                            //RETURN THE CEDULA O IDENTIFICATION NUMBER OF CLIENT
+                            out.println(client.getDataOfLabel("CEDULA"));
+                        }
+                        
+                    }catch(NullPointerException s){}
                 }
+                if(param.equals("client")){
+                    Entitie p = new Entitie(App.TABLE_CLIENTE);
+                    for(String s: p.getColums()){
+                        p.getData().add("");
+                    }
+                    try{
+                        p = p.getEntitieParam("CEDULA", request.getParameter("cliente")).get(0);
+                    }catch(NullPointerException s){
+                        System.out.println("Error: "+s);
+                    }catch(IndexOutOfBoundsException s){
+                        System.out.println("Error2: "+s);
+                    }
+
+                    try (PrintWriter out = response.getWriter()) {
+
+                        out.println("{");
+
+                        out.println("\"cedula\": \""+p.getDataOfLabel("CEDULA")+"\",");
+                        out.println("\"nombre\": \""+p.getDataOfLabel("NOMBRE")+"\",");
+                        out.println("\"snombre\": \""+p.getDataOfLabel("SNOMBRE")+"\",");
+                        out.println("\"apellido\": \""+p.getDataOfLabel("APELLIDO")+"\",");
+                        out.println("\"sapellido\": \""+p.getDataOfLabel("SAPELLIDO")+"\",");
+                        out.println("\"fnacimiento\": \""+p.getDataOfLabel("FNACIMIENTO")+"\",");
+                        out.println("\"direccion\": \""+p.getDataOfLabel("DIRECCION")+"\",");
+                        out.println("\"telefono\": \""+p.getDataOfLabel("TELEFONO")+"\",");
+                        out.println("\"celular\": \""+p.getDataOfLabel("CELULAR")+"\",");
+                        out.println("\"correo\": \""+p.getDataOfLabel("CORREO")+"\",");
+                        out.println("\"andiazher\": \"andiazher.com\"");
+                        out.println("}");
+                    }
+                }
+                
             }
             else{
                 response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales");

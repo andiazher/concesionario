@@ -43,9 +43,9 @@ public class DataFormServiceMatriculaView extends HttpServlet {
                     try (PrintWriter out = response.getWriter()) {
                         String param2= request.getParameter("ids");
                         Entitie secretaria = new Entitie(App.TABLE_SECRETARIAST);
-                        Entitie deos = new Entitie(App.TABLE_OSDETALLE);
+                        Entitie deos = new Entitie(App.TABLE_DOS);
                         deos.getEntitieID(param2);
-                        Entitie os = new Entitie(App.TABLE_ORDENSERVICIO);
+                        Entitie os = new Entitie(App.TABLE_OS);
                         os.getEntitieID(deos.getDataOfLabel("OS"));
                         Entitie canal = new Entitie(App.TABLE_CANALES);
                         canal.getEntitieID(os.getDataOfLabel("ID_CANAL"));

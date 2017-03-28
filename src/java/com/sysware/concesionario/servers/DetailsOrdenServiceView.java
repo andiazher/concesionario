@@ -40,10 +40,10 @@ public class DetailsOrdenServiceView extends HttpServlet {
         try{
                     
             if(request.getSession().getAttribute("session").equals("true")){
-                Entitie orden = new Entitie(App.TABLE_ORDENSERVICIO);
+                Entitie orden = new Entitie(App.TABLE_OS);
                 Entitie vehiculo = new Entitie(App.TABLE_VEHICULO);
                 Entitie propietario = new Entitie(App.TABLE_CLIENTE);
-                Entitie ordendetalle = new Entitie(App.TABLE_OSDETALLE);
+                Entitie ordendetalle = new Entitie(App.TABLE_DOS);
                 String name="Sin nombre";
                 String menu ="0";
                 String get ="";

@@ -38,8 +38,8 @@ public class DataFormServiceView extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try{
             if(request.getSession().getAttribute("session").equals("true")){
-                Entitie orden = new Entitie(App.TABLE_ORDENSERVICIO);
-                Entitie detalle = new Entitie(App.TABLE_OSDETALLE);
+                Entitie orden = new Entitie(App.TABLE_OS);
+                Entitie detalle = new Entitie(App.TABLE_DOS);
                 Entitie v = new Entitie(App.TABLE_VEHICULO);
                 Entitie p = new Entitie(App.TABLE_CLIENTE);
                                 

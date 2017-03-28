@@ -42,8 +42,8 @@ public class ValidatePurpacheServiceAction extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try{
             if(request.getSession().getAttribute("session").equals("true")){
-                Entitie orden = new Entitie(App.TABLE_ORDENSERVICIO);
-                Entitie odetalle = new Entitie(App.TABLE_OSDETALLE);
+                Entitie orden = new Entitie(App.TABLE_OS);
+                Entitie odetalle = new Entitie(App.TABLE_DOS);
                 String estado="1";
                 String numeroPoliza="0000000000000";
                 String observaciones="";

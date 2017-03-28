@@ -37,7 +37,7 @@ public class RevertService extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try{
             if(request.getSession().getAttribute("session").equals("true")){
-                Entitie orden = new Entitie(App.TABLE_OSDETALLE);
+                Entitie orden = new Entitie(App.TABLE_DOS);
                 try{
                     orden.getEntitieID(request.getParameter("variable"));                    
                     orden.getData().set(orden.getColums().indexOf("ESTADO"), "1");

@@ -238,8 +238,12 @@ function loaddata(){
     var idservicio = "<%=idservicio%>";
     if(idservicio!="null"){
         $("#idservicio").attr("value", idservicio);
-        console.log(idservicio);
-        //loadDataClient();
+        var variable = "idservice";
+        $.post("formClientAsisDentalView", { id:idservicio, param: variable }, function(data){
+            $("#identificacion").attr("value", data);
+            loadDataClient();
+        });
+        
     }
 }
 loaddata(); 
@@ -247,8 +251,8 @@ loaddata();
 
 function loadDataClient(){
     var n = document.getElementById('identificacion').value;
-    console.log("IDCLIENTE "+n);
-    $.post("formClientAsisDentalView", { cliente:n }, function(data){
+    var variable = "client";
+    $.post("formClientAsisDentalView", { cliente:n, param: variable }, function(data){
             var valores = JSON.parse(data);
             $("#nombre").attr("value",valores.nombre);
             $("#nombres2").attr("value",valores.snombre);

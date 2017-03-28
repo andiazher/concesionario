@@ -53,7 +53,7 @@ public class FormLiquidacion extends HttpServlet {
                 }catch(NullPointerException s){
                     System.out.println("Error: "+s);
                 }
-                Entitie servicio = new Entitie(App.TABLE_OSDETALLE);
+                Entitie servicio = new Entitie(App.TABLE_DOS);
                 name= "RESULTADOS PARA ORDENES PENDIENTES";
                 boolean nada=false;
                 ArrayList<String> param1=new ArrayList<>();
@@ -102,7 +102,7 @@ public class FormLiquidacion extends HttpServlet {
                     Entitie canalEntitie = new Entitie(App.TABLE_CANALES);
                     canalEntitie.getEntitieID(canal);
                     name+=" CANAL: </b>"+canalEntitie.getDataOfLabel("NOMBRE")+"<b> ";
-                    tables =App.TABLE_ORDENSERVICIO+","+App.TABLE_CANALES;
+                    tables =App.TABLE_OS+","+App.TABLE_CANALES;
                     qry += " orden_servicio.ID = orden_detalle.OS and canales.ID = orden_servicio.ID_CANAL "
                             + "and canales.ID ="+canal;
                     nada=true;
@@ -118,7 +118,7 @@ public class FormLiquidacion extends HttpServlet {
                         }
                         catch(IndexOutOfBoundsException s){}
                         name+=" CONCESIONARIO: </b>"+conce.getDataOfLabel("NOMBRE")+"<b> ";
-                        tables =App.TABLE_ORDENSERVICIO+","+App.TABLE_CANALES+","+App.TABLE_CONCESIONARIO;
+                        tables =App.TABLE_OS+","+App.TABLE_CANALES+","+App.TABLE_CONCESIONARIO;
 
                         qry += " orden_servicio.ID = orden_detalle.OS and canales.ID =  orden_servicio.ID_CANAL "
                                 + "and conce.ID = canales.ID_CONCESIONARIO and conce.ID = "+concesionario;
@@ -154,7 +154,7 @@ public class FormLiquidacion extends HttpServlet {
                             danger = "";
                             out.println("<tr class=\""+danger+"\" >");
                             out.println("<td>"+i.getDataOfLabel("FECHAT")+"</td>");
-                            Entitie os = new Entitie(App.TABLE_ORDENSERVICIO);
+                            Entitie os = new Entitie(App.TABLE_OS);
                             Entitie canals = new Entitie(App.TABLE_CANALES);
                             Entitie conce = new Entitie(App.TABLE_CONCESIONARIO);
                             os.getEntitieID(i.getDataOfLabel("OS"));

@@ -133,7 +133,7 @@ public class FormClientAction extends HttpServlet {
                 }catch(IndexOutOfBoundsException w){
                     System.out.println("Error: Vehicle "+w);
                 }
-                Entitie ordenServicio = new Entitie(App.TABLE_ORDENSERVICIO);
+                Entitie ordenServicio = new Entitie(App.TABLE_OS);
                 for(String i: ordenServicio.getColums()){
                     ordenServicio.getData().add("");
                 }
@@ -161,7 +161,7 @@ public class FormClientAction extends HttpServlet {
                         Entitie servcio = new Entitie(App.TABLE_SERVICIOS);
                         servcio.getEntitieID(name);
                         valor = servcio.getDataOfLabel("VALOR");
-                        Entitie osdetalle = new Entitie(App.TABLE_OSDETALLE);
+                        Entitie osdetalle = new Entitie(App.TABLE_DOS);
                         for(String s: osdetalle.getColums()){
                             osdetalle.getData().add("");
                         }

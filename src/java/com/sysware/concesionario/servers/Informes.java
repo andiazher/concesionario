@@ -59,8 +59,8 @@ public class Informes extends HttpServlet {
                 if(entidad.equals("dispersion")){
                     Entitie registroR = new Entitie(App.TABLE_REGISTRORECEP);
                     Entitie concesionario = new Entitie(App.TABLE_CONCESIONARIO);
-                    Entitie orden = new Entitie(App.TABLE_ORDENSERVICIO);
-                    Entitie osdetalle = new Entitie(App.TABLE_OSDETALLE);
+                    Entitie orden = new Entitie(App.TABLE_OS);
+                    Entitie osdetalle = new Entitie(App.TABLE_DOS);
                     Entitie servicio = new Entitie(App.TABLE_SERVICIOS);
                     Entitie receptor = new Entitie(App.TABLE_RECEPTORES);
                     ArrayList<Entitie> resgistros = registroR.getEntities();

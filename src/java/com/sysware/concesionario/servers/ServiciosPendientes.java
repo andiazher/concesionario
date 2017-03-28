@@ -40,7 +40,7 @@ public class ServiciosPendientes extends HttpServlet {
         try{
             if(request.getSession().getAttribute("session").equals("true")){
                 Entitie menu = new Entitie(App.TABLE_MENUS);
-                Entitie sdetalle = new Entitie(App.TABLE_OSDETALLE);
+                Entitie sdetalle = new Entitie(App.TABLE_DOS);
                 String name="";
                 ArrayList<Entitie> sds =new ArrayList<>();
                 try{
@@ -59,7 +59,7 @@ public class ServiciosPendientes extends HttpServlet {
                             servicio.getEntitieID(i.getDataOfLabel("SERVICIO"));
                             String a="";
                             String href="#OS"+i.getId();
-                            Entitie orden = new Entitie(App.TABLE_ORDENSERVICIO);
+                            Entitie orden = new Entitie(App.TABLE_OS);
                             orden.getEntitieID(i.getDataOfLabel("OS"));
                             Entitie client = new Entitie(App.TABLE_CLIENTE);
                             client.getEntitieID(orden.getDataOfLabel("PROPIETARIO"));

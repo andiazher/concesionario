@@ -49,7 +49,7 @@ public class DataPolizasAnuRenView extends HttpServlet {
                 }catch(NullPointerException s){
                     System.out.println("Error: "+s);
                 }
-                Entitie servicio = new Entitie(App.TABLE_OSDETALLE);
+                Entitie servicio = new Entitie(App.TABLE_DOS);
                 name= "POR FAVOR INGRESAR IDENTIFICACIÓN DEL CLIENTE";
                 
                 

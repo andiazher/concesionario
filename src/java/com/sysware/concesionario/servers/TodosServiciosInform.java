@@ -56,7 +56,7 @@ public class TodosServiciosInform extends HttpServlet {
                 }catch(NullPointerException s){
                     System.out.println("Error: "+s);
                 }
-                Entitie servicio = new Entitie(App.TABLE_ORDENSERVICIO);
+                Entitie servicio = new Entitie(App.TABLE_OS);
                 name= "RESULTADOS PARA";
                 boolean nada=false;
                 ArrayList<String> param1=new ArrayList<>();
@@ -211,7 +211,7 @@ public class TodosServiciosInform extends HttpServlet {
                                         + ",'width=640,height=480,scrollbars=NO,menubar=NO,resizable=NO"
                                         + ",titlebar=NO,status=NO');\">"
                                         + ""+vehiculo.getDataOfLabel("PLACA")+"</a></td>");
-                                Entitie osdetalle = new Entitie(App.TABLE_OSDETALLE);
+                                Entitie osdetalle = new Entitie(App.TABLE_DOS);
                                 ArrayList<Entitie> detalle = osdetalle.getEntitieParam("OS", i.getId());
                                 int cant=detalle.size();
                                 int cant2 = 0;

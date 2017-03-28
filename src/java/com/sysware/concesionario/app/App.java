@@ -29,8 +29,8 @@ public class App {
     public static String TABLE_MATRICULA="valor_matricula";
     public static String TABLE_CLIENTE="cliente";
     public static String TABLE_VEHICULO="vehiculos";
-    public static String TABLE_ORDENSERVICIO="orden_servicio";
-    public static String TABLE_OSDETALLE="orden_detalle";
+    public static String TABLE_OS="orden_servicio";
+    public static String TABLE_DOS="orden_detalle";
     public static String TABLE_ESTADO="estados";
     public static String TABLE_TIPOVEH="tipo_vehiculo";
     public static String TABLE_ASEGURADORAS="aseguradoras";

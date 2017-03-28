@@ -66,14 +66,14 @@ public class Liquidar extends HttpServlet {
                 String conce="0";
                 while(a.hasMoreElements()){
                     String name= a.nextElement();
-                    Entitie dos = new Entitie(App.TABLE_OSDETALLE);
+                    Entitie dos = new Entitie(App.TABLE_DOS);
                     dos.getEntitieID(name);
                     if(isFirst){
                         fi= dos.getDataOfLabel("FECHAT");
                         isFirst=false;
                     }
                     ff= dos.getDataOfLabel("FECHAT");
-                    Entitie os = new Entitie(App.TABLE_ORDENSERVICIO);
+                    Entitie os = new Entitie(App.TABLE_OS);
                     os.getEntitieID(dos.getDataOfLabel("OS"));
                     Entitie canl= new Entitie(App.TABLE_CANALES);
                     canl.getEntitieID(os.getDataOfLabel("ID_CANAL"));
