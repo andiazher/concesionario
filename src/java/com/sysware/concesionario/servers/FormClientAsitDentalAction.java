@@ -6,6 +6,7 @@
 package com.sysware.concesionario.servers;
 
 import com.sysware.concesionario.app.App;
+import com.sysware.concesionario.core.Mail;
 import com.sysware.concesionario.entitie.Entitie;
 import com.sysware.concesionario.services.WebServiceAsistenciaDen;
 import java.io.IOException;
@@ -157,8 +158,34 @@ public class FormClientAsitDentalAction extends HttpServlet {
                 WebServiceAsistenciaDen wsad = new WebServiceAsistenciaDen();
                         
                 //System.out.println("Client2"+cliente);
+                //String messagge = wsad.registro(asd, cliente);
                 String messagge = wsad.registro(asd, cliente);
                 if(messagge.equals("1")){
+                    //PASO DEL SERVICIO A TRAMITADO
+                    asd.getData().set(asd.getColums().indexOf("ESTADO"), "2");
+                    asd.getData().set(asd.getColums().indexOf("ESTADOPOL"), "VIGENTE");
+                    if(id != null){
+                        dos.getData().set(dos.getColums().indexOf("ESTADO"), "2");
+                        dos.update();
+                    }
+                    //SEN MAIL TO CLIENT NEW 
+                    
+                    Mail mail = new Mail();
+                    String mc= cliente.getDataOfLabel("CORREO");
+                    mc = mc.toLowerCase();
+                    mc = mc.trim();
+                    System.out.println("Correo:"+mc);
+                    if(!mc.isEmpty()  && !mc.equals("") && !mc.equals(" ") && mc.contains("@") && mc.contains(".") && mc!= null){
+                        mail.setRecipient(mc);
+                        mail.setSubject("POLIZA ASISTENCIA DENTAL AD"+idPoliza);
+                        mail.setContend("Hola "+cliente.getDataOfLabel("NOMBRE")+", \n "+"Su número de poliza es AD"+idPoliza+""
+                                + "\n"+ "Muchas Gracias por utilizar nuestros servicios\n"+"Platinos Seguros");
+                        System.out.println("Enviado: "+mail.send());
+                        //mail.send()
+                    }
+                    else{
+                        System.out.println("No enviado");
+                    }
                     try (PrintWriter out = response.getWriter()) {
                         out.println("<script type=\"text/javascript\">\n"
                                 + "swal(\n" +
@@ -167,13 +194,6 @@ public class FormClientAsitDentalAction extends HttpServlet {
                             "'success'\n" +
                             ")\n"
                             + "</script>");
-                    }
-                    //PASO DEL SERVICIO A TRAMITADO
-                    asd.getData().set(asd.getColums().indexOf("ESTADO"), "2");
-                    asd.getData().set(asd.getColums().indexOf("	ESTADOPOL"), "VIGENTE");
-                    if(id != null){
-                        dos.getData().set(dos.getColums().indexOf("ESTADO"), "2");
-                        dos.update();
                     }
                 }
                 else{
