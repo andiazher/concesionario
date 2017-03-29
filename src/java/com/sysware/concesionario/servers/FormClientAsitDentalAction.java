@@ -135,7 +135,7 @@ public class FormClientAsitDentalAction extends HttpServlet {
                 Calendar fecha = new GregorianCalendar();
                 String f= fecha.get(Calendar.YEAR) +"-"+(fecha.get(Calendar.MONTH)+1)+"-"+fecha.get(Calendar.DAY_OF_MONTH);
                 Entitie dos = new Entitie(App.TABLE_DOS);
-                if(id != null){
+                if(id != null || !"0".equals(id)){
                     dos.getEntitieID(id);
                     //SAVE TO DOS
                 }
@@ -164,9 +164,15 @@ public class FormClientAsitDentalAction extends HttpServlet {
                     //PASO DEL SERVICIO A TRAMITADO
                     asd.getData().set(asd.getColums().indexOf("ESTADO"), "2");
                     asd.getData().set(asd.getColums().indexOf("ESTADOPOL"), "VIGENTE");
-                    if(id != null){
-                        dos.getData().set(dos.getColums().indexOf("ESTADO"), "2");
-                        dos.update();
+                    if(id != null || !"0".equals(id)){
+                        try{
+                            dos.getData().set(dos.getColums().indexOf("ESTADO"), "2");
+                            dos.update();
+                        }   
+                        catch(IndexOutOfBoundsException s){
+                            System.out.println("Error al actualizar dos: "+s);
+                        }
+                        
                     }
                     //SEN MAIL TO CLIENT NEW 
                     
@@ -209,9 +215,15 @@ public class FormClientAsitDentalAction extends HttpServlet {
                     //PASO DEL SERVICIO A NO TRAMITADO.
                     asd.getData().set(asd.getColums().indexOf("ESTADO"), "3");
                     asd.getData().set(asd.getColums().indexOf("ESTADOPOL"), "ANULADA");
-                    if(id != null){
-                        dos.getData().set(dos.getColums().indexOf("ESTADO"), "3");
-                        dos.update();
+                    
+                    if(id != null || !"0".equals(id)){
+                        try{
+                            dos.getData().set(dos.getColums().indexOf("ESTADO"), "3");
+                            dos.update();
+                        }   
+                        catch(IndexOutOfBoundsException s){
+                            System.out.println("Error al actualizar dos: "+s);
+                        }
                     }
                 }
                 asd.update();

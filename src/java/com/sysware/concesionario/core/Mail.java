@@ -7,13 +7,16 @@ package com.sysware.concesionario.core;
 
 import java.util.Properties;
 import javax.mail.Authenticator;
+import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 /**
  *
@@ -40,18 +43,28 @@ public class Mail {
             p.setProperty("mail.smtp.starttls.enable","true");
             p.setProperty("mail.smtp.port","587");
             p.setProperty("mail.smtp.auth","true");
-            Authenticator authenticator = new Authenticator() {
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(MAIL, PASS);
-                }
-            };
-            Session session = Session.getDefaultInstance(p, authenticator);
+            
+            Session session = Session.getInstance(p, null);
+            BodyPart texto=new MimeBodyPart();
+            texto.setText(contend);
+            BodyPart adjunto = new MimeBodyPart();
+
+
+            MimeMultipart mimeMultipart= new MimeMultipart();
+
+            mimeMultipart.addBodyPart(texto);
+            
             MimeMessage msg = new MimeMessage(session);
             msg.setFrom(MAIL);
             msg.setSubject(subject);
             msg.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-            msg.setText(contend);
-            Transport.send(msg);
+            //msg.setText(contend);
+            msg.setContent(contend, "text/html");
+            
+            Transport t =  session.getTransport("smtp");
+            t.connect(MAIL,PASS);
+            t.sendMessage(msg,msg.getAllRecipients());
+            t.close();
             return true;
             
         }catch(MessagingException e){
