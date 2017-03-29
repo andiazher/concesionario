@@ -147,8 +147,7 @@
                                                 <div class="form-group label-floating is-empty">
                                                     <label class="control-label"></label>
                                                     <select class=" select-with-transition " id="plan" name="plan" required="true">
-                                                        <option value="1">PARTICULAR</option>
-                                                        <option value="2">FAMILIAR</option>
+                                                        <option value="0">SELECCIONAR PLAN</option>
                                                     </select>
                                                     <span class="help-block">Plan</span>
                                                 </div>
@@ -233,6 +232,13 @@
 </body>
     
 <script type="">
+function loadAsitencias(){
+    var variable = "asistenciasclass";
+    $.post("formClientAsisDentalView", { param: variable }, function(data){
+        $("#plan").html(data);
+    });
+}
+loadAsitencias();
 
 function loaddata(){
     var idservicio = "<%=idservicio%>";

@@ -42,6 +42,7 @@ public class FormClientAsitDentalAction extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try{
             if(request.getSession().getAttribute("session").equals("true")){
+                String id="0";
                 String ti = null;
                 String identifica = null;
                 String nombre = null;
@@ -55,6 +56,7 @@ public class FormClientAsitDentalAction extends HttpServlet {
                 String celular = null;
                 String correo = null;
                 try{
+                    id= request.getParameter("idservicio");
                     ti= request.getParameter("ti");
                     identifica= request.getParameter("identification");
                     nombre= request.getParameter("nombre");
@@ -101,44 +103,57 @@ public class FormClientAsitDentalAction extends HttpServlet {
                 }catch(IndexOutOfBoundsException s){
                     System.out.println("Error: "+s);
                 }
-                
+                //Creacion de la entidad en la base de datos para Asignacion del numero de poliza de forma consecutiva. 
                 Entitie asd = creteEntidadASD();
                 ArrayList<Entitie> asds= asd.getEntities();
-                String id="";
+                String idPoliza="";
                 for(Entitie e: asds){
-                    id = e.getId();
+                    idPoliza = e.getId();
                 }
                 
-                int last = Integer.parseInt(id);
+                int last = Integer.parseInt(idPoliza);
                 if(last<10){
-                    id="000000"+id;
+                    idPoliza="000000"+idPoliza;
                 }
                 if(last>=10 && last<100){
-                    id="00000"+id;
+                    idPoliza="00000"+idPoliza;
                 }
                 if(last>=100 && last<1000){
-                    id="0000"+id;
+                    idPoliza="0000"+idPoliza;
                 }
                 if(last>=1000 && last<10000){
-                    id="000"+id;
+                    idPoliza="000"+idPoliza;
                 }
                 if(last>=10000 && last<100000){
-                    id="00"+id;
+                    idPoliza="00"+idPoliza;
                 }
                 if(last>=100000 && last<1000000){
-                    id="0"+id;
+                    idPoliza="0"+idPoliza;
                 }
                 asd.getEntitieID(last+"");
                 Calendar fecha = new GregorianCalendar();
                 String f= fecha.get(Calendar.YEAR) +"-"+(fecha.get(Calendar.MONTH)+1)+"-"+fecha.get(Calendar.DAY_OF_MONTH);
+                Entitie dos = new Entitie(App.TABLE_DOS);
+                if(id != null){
+                    dos.getEntitieID(id);
+                    //SAVE TO DOS
+                }
+                System.out.println(dos);
                 asd.getData().set(asd.getColums().indexOf("FECHA"),f );
                 asd.getData().set(asd.getColums().indexOf("FECHAEXP"), f);
-                asd.getData().set(asd.getColums().indexOf("POLIZA"), "AD"+id);
+                asd.getData().set(asd.getColums().indexOf("POLIZA"), "AD"+idPoliza);
                 asd.getData().set(asd.getColums().indexOf("PLAN"), plan);
-                asd.getData().set(asd.getColums().indexOf("ESTADO"), "2");
                 asd.getData().set(asd.getColums().indexOf("CLIENTE"), idCliente);
-                asd.update();
+                //asd.update();
+                
                 //CONSUMO DE WEB SERVICE EN UN AGENTE EXTERIOR
+                /**
+                 * Dependiendo del estado del consumo del web service 
+                 * se podra hacer el registro completo.
+                 * Si la transaccion probiene de una orden de servicio por el modulo
+                 * de concesionarios, este se debe tramitar el servicio si la transaccion es exitosa. 
+                 * Si la transaccion falla, se debe pasar a orden no tramitada. 
+                 */
                 WebServiceAsistenciaDen wsad = new WebServiceAsistenciaDen();
                         
                 //System.out.println("Client2"+cliente);
@@ -148,10 +163,17 @@ public class FormClientAsitDentalAction extends HttpServlet {
                         out.println("<script type=\"text/javascript\">\n"
                                 + "swal(\n" +
                             "'Guardado!',\n" +
-                            "'Numero de Poliza AD"+id+" En breve se le enviara un correo',\n" +
+                            "'Numero de Poliza AD"+idPoliza+" En breve se le enviara un correo',\n" +
                             "'success'\n" +
                             ")\n"
                             + "</script>");
+                    }
+                    //PASO DEL SERVICIO A TRAMITADO
+                    asd.getData().set(asd.getColums().indexOf("ESTADO"), "2");
+                    asd.getData().set(asd.getColums().indexOf("	ESTADOPOL"), "VIGENTE");
+                    if(id != null){
+                        dos.getData().set(dos.getColums().indexOf("ESTADO"), "2");
+                        dos.update();
                     }
                 }
                 else{
@@ -159,12 +181,20 @@ public class FormClientAsitDentalAction extends HttpServlet {
                         out.println("<script type=\"text/javascript\">\n"
                                 +" swal(\n" +
                             "'Error!',\n" +
-                            "'Poliza AD"+id+"; "+messagge+" ',\n" +
+                            "'Poliza AD"+idPoliza+"; "+messagge+" ',\n" +
                             "'error'\n" +
                             ")\n"
                             + "</script>");
                     }
+                    //PASO DEL SERVICIO A NO TRAMITADO.
+                    asd.getData().set(asd.getColums().indexOf("ESTADO"), "3");
+                    asd.getData().set(asd.getColums().indexOf("ESTADOPOL"), "ANULADA");
+                    if(id != null){
+                        dos.getData().set(dos.getColums().indexOf("ESTADO"), "3");
+                        dos.update();
+                    }
                 }
+                asd.update();
                 
             }
             else{

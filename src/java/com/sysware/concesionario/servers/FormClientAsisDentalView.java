@@ -44,7 +44,15 @@ public class FormClientAsisDentalView extends HttpServlet {
                 }catch (NullPointerException s){
                     System.out.println("Eror in param, "+s);
                 }
-                
+                if(param.equals("asistenciasclass")){
+                    Entitie asistencia = new Entitie(App.TABLE_PARAMETROSFORMS);
+                    ArrayList<Entitie> asistencias = asistencia.getEntitieParam("FORM", "ASISDENTAL");
+                    try (PrintWriter out = response.getWriter()) {
+                        for(Entitie e : asistencias){
+                            out.println("<option value=\""+e.getId()+"\">"+e.getDataOfLabel("VALUE")+"</option>");
+                        }
+                    }
+                }
                 if(param.equals("idservice")){
                     String id= "";
                     Entitie dos = new Entitie(App.TABLE_DOS);
