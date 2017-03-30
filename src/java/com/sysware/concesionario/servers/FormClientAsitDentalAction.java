@@ -5,7 +5,6 @@
  */
 package com.sysware.concesionario.servers;
 
-import com.sun.xml.internal.ws.util.StringUtils;
 import com.sysware.concesionario.app.App;
 import com.sysware.concesionario.core.Mail;
 import com.sysware.concesionario.entitie.Entitie;
@@ -15,7 +14,6 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Enumeration;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
