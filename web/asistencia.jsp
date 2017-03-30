@@ -202,19 +202,17 @@
                                             <div class="col-sm-2">
                                                 <div class="form-group label-floating is-empty">
                                                     <label class="control-label"></label>
-                                                    <input type="text" 
+                                                    <input type="email" 
                                                     class="form-control" 
                                                     name="correo" 
-                                                    required="true"
                                                     placeholder="" 
-                                                    id="correo" 
-                                                    style='text-transform:uppercase;'>
+                                                    id="correo" >
                                                     <span class="help-block">Correo Electronico</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card-footer text-center">
+                                    <div class="card-footer text-center" id="buttonsent">
                                         <button type="submit" class="btn btn-success btn-fill" id="buttonsubmit">
                                             <span class="btn-label">
                                                 <i class="material-icons">check</i>
@@ -274,13 +272,19 @@ function loadDataClient(){
 $(document).ready(function(){
     $("#form").submit(function(){
         $("#buttonsubmit").disabled=true;
+        $("#buttonsent").html("");
+        $("#progressbar").html("<div class=\"progress-bar progress-bar-primary\" role=\"progressbar\" aria-valuenow=\"1\" aria-valuemin=\"0\" aria-valuemax=\"1\"  id=\"progressbarview\" style=\"width: 45%; position: fixed; height: 4px; \"></div>");
             $.ajax({
                 type: 'POST',
                 url: $(this).attr('action'),
                 data: $(this).serialize(),
                 success: function(data){
+                    $("#progressbarview").css("width","40%");
                     $("body,html").animate({scrollTop : 0}, 500);
+                    $("#progressbarview").addClass("progress-bar-success");
+                    $("#progressbarview").css("width","100%");
                     $( "#form" ).append(data);
+                    $("#progressbar").html("<div></div>");
                     load('<%=session.getAttribute("menu")%>');
                 }
             })

@@ -72,10 +72,10 @@ public class WebServiceAsistenciaDen {
                 String responseBody = responseAsString(response2); 
                 
                 Response response=bodyResponse(responseBody);
-
+                /**
                 System.out.println("MErrorLS: "+response.getValue_exitoso());
                 System.out.println("ValueCSE: "+response.getMsn_error());
-                
+                */
                 if("1".equals(response.getMsn_error())){
                     messagge= "1";
                 }

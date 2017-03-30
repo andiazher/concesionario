@@ -5,6 +5,7 @@
  */
 package com.sysware.concesionario.servers;
 
+import com.sun.xml.internal.ws.util.StringUtils;
 import com.sysware.concesionario.app.App;
 import com.sysware.concesionario.core.Mail;
 import com.sysware.concesionario.entitie.Entitie;
@@ -135,7 +136,7 @@ public class FormClientAsitDentalAction extends HttpServlet {
                 Calendar fecha = new GregorianCalendar();
                 String f= fecha.get(Calendar.YEAR) +"-"+(fecha.get(Calendar.MONTH)+1)+"-"+fecha.get(Calendar.DAY_OF_MONTH);
                 Entitie dos = new Entitie(App.TABLE_DOS);
-                if(id != null || !"0".equals(id)){
+                if(id != null && !"0".equals(id)){
                     dos.getEntitieID(id);
                     //SAVE TO DOS
                 }
@@ -164,13 +165,13 @@ public class FormClientAsitDentalAction extends HttpServlet {
                     //PASO DEL SERVICIO A TRAMITADO
                     asd.getData().set(asd.getColums().indexOf("ESTADO"), "2");
                     asd.getData().set(asd.getColums().indexOf("ESTADOPOL"), "VIGENTE");
-                    if(id != null || !"0".equals(id)){
+                    if(id != null && !"0".equals(id)){
                         try{
                             dos.getData().set(dos.getColums().indexOf("ESTADO"), "2");
                             dos.update();
                         }   
                         catch(IndexOutOfBoundsException s){
-                            System.out.println("Error al actualizar dos: "+s);
+                            //System.out.println("Error al actualizar dos: "+s);
                         }
                         
                     }
@@ -180,23 +181,35 @@ public class FormClientAsitDentalAction extends HttpServlet {
                     String mc= cliente.getDataOfLabel("CORREO");
                     mc = mc.toLowerCase();
                     mc = mc.trim();
-                    System.out.println("Correo:"+mc);
+                    boolean enviado = false;
                     if(!mc.isEmpty()  && !mc.equals("") && !mc.equals(" ") && mc.contains("@") && mc.contains(".") && mc!= null){
                         mail.setRecipient(mc);
                         mail.setSubject("POLIZA ASISTENCIA DENTAL AD"+idPoliza);
-                        mail.setContend("Hola "+cliente.getDataOfLabel("NOMBRE")+", \n "+"Su número de poliza es AD"+idPoliza+""
-                                + "\n"+ "Muchas Gracias por utilizar nuestros servicios\n"+"Platinos Seguros");
-                        System.out.println("Enviado: "+mail.send());
-                        //mail.send()
+                        String cadena= cliente.getDataOfLabel("NOMBRE");
+                        String nameClient = cadena.substring(0,1).toUpperCase() + cadena.substring(1).toLowerCase();
+                        mail.setContend("<p>Hola "+nameClient+",</p><br>"
+                                +"<p>Su número de poliza de asistencia dental es <b>AD"+idPoliza+"</b></p>"
+                                +"<p>Muchas Gracias por utilizar nuestros servicios</p> <br>"
+                                +"<p><b>Platinos Seguros</b></p>"
+                                + "<a href=\"sysware-ingenieria.com\">www.platinoseguros.com.co</a>");
+                        enviado = mail.send();
                     }
                     else{
-                        System.out.println("No enviado");
+                        //System.out.println("No enviado");
                     }
                     try (PrintWriter out = response.getWriter()) {
+                        String msg="";
+                        if(enviado){
+                            msg= "Se le ha enviado una copia de la poliza al correo registrado";
+                        }
+                        else{
+                            msg= "Por favor Guardar este numero de poliza.";
+                        }
+                        
                         out.println("<script type=\"text/javascript\">\n"
                                 + "swal(\n" +
                             "'Guardado!',\n" +
-                            "'Numero de Poliza AD"+idPoliza+" En breve se le enviara un correo',\n" +
+                            "'Numero de Poliza AD"+idPoliza+"; "+msg+"',\n" +
                             "'success'\n" +
                             ")\n"
                             + "</script>");
@@ -216,7 +229,7 @@ public class FormClientAsitDentalAction extends HttpServlet {
                     asd.getData().set(asd.getColums().indexOf("ESTADO"), "3");
                     asd.getData().set(asd.getColums().indexOf("ESTADOPOL"), "ANULADA");
                     
-                    if(id != null || !"0".equals(id)){
+                    if(id != null && !"0".equals(id)){
                         try{
                             dos.getData().set(dos.getColums().indexOf("ESTADO"), "3");
                             dos.update();

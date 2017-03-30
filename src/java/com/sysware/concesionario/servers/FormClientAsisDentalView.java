@@ -80,7 +80,7 @@ public class FormClientAsisDentalView extends HttpServlet {
                     }catch(NullPointerException s){
                         System.out.println("Error: "+s);
                     }catch(IndexOutOfBoundsException s){
-                        System.out.println("Error2: "+s);
+                        //System.out.println("No ha sido posible cargar el Cliente "+s);
                     }
 
                     try (PrintWriter out = response.getWriter()) {
