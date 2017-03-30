@@ -143,16 +143,16 @@
                                             <div class="row">
                                                 <p class="col-md-1 text-right">CELULAR</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="celular" value="" id="celular" style='text-transform:uppercase;'>
+                                                    <input type="text" class="form-control" name="celular" value="" id="celular" style='text-transform:uppercase;' onkeypress="return numeros2(event)">
                                                 </div>
                                                 <p class="col-md-1 text-right">TELEFONO:</p>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="telefono" value="" id="telefono" style='text-transform:uppercase;'>
+                                                    <input type="text" class="form-control" name="telefono" value="" id="telefono" style='text-transform:uppercase;' onkeypress="return numeros2(event)">
                                                 </div>
                                                 <p class="col-md-1 text-right">CORREO</p>
                                                 <div class="col-md-3">
                                                     <!--<input type="email" class="form-control" name="correo" value="" placeholder="mail@mail.com" id="correo">-->
-                                                    <input type="text" class="form-control" name="correo" value="" id="correo">
+                                                    <input type="email" class="form-control" name="correo" value="" id="correo">
                                                 </div>
                                             </div>
                                         </div>

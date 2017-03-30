@@ -175,6 +175,19 @@ public class ClaseVehiculoClientView extends HttpServlet {
                     }
                 }
                 /**
+                 * 
+                 */
+                if(var.equals("servicios")){
+                    Entitie servi = new Entitie(App.TABLE_SERVICIOVEHI);
+                    try (PrintWriter out = response.getWriter()) {
+                        for(Entitie i: servi.getEntities()){
+                            out.println("<option value=\""+i.getId()+"\">" 
+                                    + i.getDataOfLabel("SERVICIO")+"</option>");
+                        }
+                        
+                    }
+                }
+                /**
                  * @return la lista de marcas registradas en la tabla de marcas
                  */
                 if(var.equals("marca")){

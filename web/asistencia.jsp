@@ -15,12 +15,12 @@
 <body>
                 <div class="container-fluid" >
                     <div class="row">
-                        <form method="get" action="formClientAsitDentalAction" id="form">
+                        <form method="post" action="formClientAsitDentalAction" id="form">
                         <div class="col-md-12">
                             <div class="card">
                                 <div  class="form-horizontal">
                                     <div class="card-header " data-background-color="orange">
-                                        <h4 class="card-title">Identificación del cliente</h4>
+                                        <h4 class="card-title">Registro de Cliente para Adquirir Asistencia Dental</h4>
                                         <h4 class="card-title text-center" id="nameCanal"></h4>
                                     </div>
                                     
@@ -179,7 +179,8 @@
                                                     name="telefono" 
                                                     placeholder="" 
                                                     id="telefono" 
-                                                    style='text-transform:uppercase;'>
+                                                    style='text-transform:uppercase;' 
+                                                    onkeypress="return numeros2(event)">
                                                     <span class="help-block">Telefono</span>
                                                 </div>
                                             </div>
@@ -194,7 +195,8 @@
                                                     required="true"
                                                     placeholder="" 
                                                     id="celular" 
-                                                    style='text-transform:uppercase;'>
+                                                    style='text-transform:uppercase;' 
+                                                    onkeypress="return numeros2(event)">
                                                     <span class="help-block">Celular</span>
                                                 </div>
                                             </div>
@@ -230,6 +232,10 @@
 </body>
     
 <script type="">
+function numeros2(e){
+    var key = window.Event ? e.which : e.keyCode;
+    return (key>=48 && key<=57);
+}
 function loadAsitencias(){
     var variable = "asistenciasclass";
     $.post("formClientAsisDentalView", { param: variable }, function(data){

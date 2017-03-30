@@ -138,9 +138,7 @@ public class FormClientAsitDentalAction extends HttpServlet {
                 Entitie dos = new Entitie(App.TABLE_DOS);
                 if(id != null && !"0".equals(id)){
                     dos.getEntitieID(id);
-                    //SAVE TO DOS
                 }
-                System.out.println(dos);
                 asd.getData().set(asd.getColums().indexOf("FECHA"),f );
                 asd.getData().set(asd.getColums().indexOf("FECHAEXP"), f);
                 asd.getData().set(asd.getColums().indexOf("POLIZA"), "AD"+idPoliza);

@@ -78,7 +78,7 @@
         var menu="valor";
         console.log("Valor ID: "+id)
         $.post("ClaseVehiculoClientView", { variable: menu, clase:id }, function(data){
-            $("#valor").attr("value",data);
+            $("#valor").attr("value",data.trim());
             var formatter = new Intl.NumberFormat('en-US', {
                   style: 'currency',
                   currency: 'USD',
