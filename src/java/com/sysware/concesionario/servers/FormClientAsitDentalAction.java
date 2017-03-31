@@ -154,9 +154,10 @@ public class FormClientAsitDentalAction extends HttpServlet {
                  */
                 WebServiceAsistenciaDen wsad = new WebServiceAsistenciaDen();
                         
-                //System.out.println("Client2"+cliente);
-                //String messagge = wsad.registro(asd, cliente);
+                System.out.println("Client2"+cliente);
                 String messagge = wsad.registro(asd, cliente);
+                System.out.println("Respuesta del Servicio: "+messagge);
+                
                 if(messagge.equals("1")){
                     //PASO DEL SERVICIO A TRAMITADO
                     asd.getData().set(asd.getColums().indexOf("ESTADO"), "2");
@@ -178,6 +179,7 @@ public class FormClientAsitDentalAction extends HttpServlet {
                     mc = mc.toLowerCase();
                     mc = mc.trim();
                     boolean enviado = false;
+                    System.out.println("Correo Electronico: "+mc);
                     if(!mc.isEmpty()  && !mc.equals("") && !mc.equals(" ") && mc.contains("@") && mc.contains(".") && mc!= null){
                         mail.setRecipient(mc);
                         mail.setSubject("POLIZA ASISTENCIA DENTAL AD"+idPoliza);
@@ -189,9 +191,10 @@ public class FormClientAsitDentalAction extends HttpServlet {
                                 +"<p><b>Platinos Seguros</b></p>"
                                 + "<a href=\"sysware-ingenieria.com\">www.platinoseguros.com.co</a>");
                         enviado = mail.send();
+                        System.out.println("Enviado: "+mc);
                     }
                     else{
-                        //System.out.println("No enviado");
+                        System.out.println("No enviado");
                     }
                     try (PrintWriter out = response.getWriter()) {
                         String msg="";

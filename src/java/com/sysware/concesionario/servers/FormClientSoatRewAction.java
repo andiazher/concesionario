@@ -50,10 +50,9 @@ public class FormClientSoatRewAction extends HttpServlet {
                     System.out.println("Error: "+s);
                 }
                 try (PrintWriter out = response.getWriter()) {
-                    
-                    //start transacction
-                    
+                    //START TRANSACTION CREATE
                     saveDataPerOnly(request);
+                    /**
                     String mensaje="Se ha tramitado el servicio";
                     
                     valor = request.getParameter("valor");
@@ -174,6 +173,7 @@ public class FormClientSoatRewAction extends HttpServlet {
                     reg.getData().set(reg.getColums().indexOf("VALOR"),(valors)+"");
                     reg.getData().set(reg.getColums().indexOf("SALDO"),nuevo+"");
                     reg.create();
+                    * */
                 }
                 
             }
@@ -242,39 +242,79 @@ public class FormClientSoatRewAction extends HttpServlet {
     }// </editor-fold>
     
     private void saveDataPerOnly( HttpServletRequest request) throws SQLException {
-        try{
             Entitie ve = new Entitie(App.TABLE_VEHICULO);
-            //ve.getEntitieID(orden.getDataOfLabel("VEHICULO"));
-            ve.getData().set(ve.getColums().indexOf("TIPO"), request.getParameter("tipo"));
-            ve.getData().set(ve.getColums().indexOf("CLASE"), request.getParameter("clase"));
-            ve.getData().set(ve.getColums().indexOf("MARCA"), request.getParameter("marca"));
-            ve.getData().set(ve.getColums().indexOf("MODELO"), request.getParameter("modelo"));
-            ve.getData().set(ve.getColums().indexOf("COLOR"), request.getParameter("color"));
-            ve.getData().set(ve.getColums().indexOf("CILINDRAJE"), request.getParameter("cilindraje"));
-            ve.getData().set(ve.getColums().indexOf("SERVICIO"), request.getParameter("servicio"));
-            ve.getData().set(ve.getColums().indexOf("NO_MOTOR"), request.getParameter("motor"));
-            ve.getData().set(ve.getColums().indexOf("NO_CHASIS"), request.getParameter("chasis"));
-            ve.getData().set(ve.getColums().indexOf("NO_VIN"), request.getParameter("vin"));
             Entitie p = new Entitie(App.TABLE_CLIENTE);
-            p.getEntitieID(ve.getDataOfLabel("PROPIETARIO"));
-            p.getData().set(p.getColums().indexOf("CEDULA"),request.getParameter("cedula"));
-            p.getData().set(p.getColums().indexOf("NOMBRE"),request.getParameter("nombre"));
-            p.getData().set(p.getColums().indexOf("SNOMBRE"),request.getParameter("snombre"));
-            p.getData().set(p.getColums().indexOf("APELLIDO"),request.getParameter("apellido"));
-            p.getData().set(p.getColums().indexOf("SAPELLIDO"),request.getParameter("sapellido"));
-            p.getData().set(p.getColums().indexOf("SNOMBRE"),request.getParameter("snombre"));
-            p.getData().set(p.getColums().indexOf("DIRECCION"),request.getParameter("direccion"));
-            p.getData().set(p.getColums().indexOf("CELULAR"),request.getParameter("celular"));
-            p.getData().set(p.getColums().indexOf("CORREO"),request.getParameter("correo"));
-            p.getData().set(p.getColums().indexOf("TELEFONO"),request.getParameter("telefono"));
-            ve.getData().set(ve.getColums().indexOf("PROPIETARIO"), p.getId());
+            try{
+                p=p.getEntitieParam("CEDULA", request.getParameter("cedula")).get(0);
+            }catch(IndexOutOfBoundsException s){}
+            if(!p.getId().equals("0")){
+                p.getData().set(p.getColums().indexOf("NOMBRE"),request.getParameter("nombre"));
+                p.getData().set(p.getColums().indexOf("SNOMBRE"),request.getParameter("snombre"));
+                p.getData().set(p.getColums().indexOf("APELLIDO"),request.getParameter("apellido"));
+                p.getData().set(p.getColums().indexOf("SAPELLIDO"),request.getParameter("sapellido"));
+                p.getData().set(p.getColums().indexOf("SNOMBRE"),request.getParameter("snombre"));
+                p.getData().set(p.getColums().indexOf("DIRECCION"),request.getParameter("direccion"));
+                p.getData().set(p.getColums().indexOf("CELULAR"),request.getParameter("celular"));
+                p.getData().set(p.getColums().indexOf("CORREO"),request.getParameter("correo"));
+                p.getData().set(p.getColums().indexOf("TELEFONO"),request.getParameter("telefono"));
+                p.update();
+            }
+            else{
+                for(String ps: p.getColums()){
+                    p.getData().add("");
+                }
+                p.getData().set(p.getColums().indexOf("CEDULA"),request.getParameter("cedula"));
+                p.getData().set(p.getColums().indexOf("NOMBRE"),request.getParameter("nombre"));
+                p.getData().set(p.getColums().indexOf("SNOMBRE"),request.getParameter("snombre"));
+                p.getData().set(p.getColums().indexOf("APELLIDO"),request.getParameter("apellido"));
+                p.getData().set(p.getColums().indexOf("SAPELLIDO"),request.getParameter("sapellido"));
+                p.getData().set(p.getColums().indexOf("SNOMBRE"),request.getParameter("snombre"));
+                p.getData().set(p.getColums().indexOf("DIRECCION"),request.getParameter("direccion"));
+                p.getData().set(p.getColums().indexOf("CELULAR"),request.getParameter("celular"));
+                p.getData().set(p.getColums().indexOf("CORREO"),request.getParameter("correo"));
+                p.getData().set(p.getColums().indexOf("TELEFONO"),request.getParameter("telefono"));
+                p.create();
+                try{
+                    p=p.getEntitieParam("CEDULA", request.getParameter("cedula")).get(0);
+                }catch(IndexOutOfBoundsException s){}
+            }
+            try{
+                ve= ve.getEntitieParam("PLACA", request.getParameter("placa")).get(0);
+            }catch(IndexOutOfBoundsException s){}
+            if(!ve.getId().equals("0")){
+                ve.getData().set(ve.getColums().indexOf("TIPO"), request.getParameter("tipo"));
+                ve.getData().set(ve.getColums().indexOf("CLASE"), request.getParameter("clase"));
+                ve.getData().set(ve.getColums().indexOf("MARCA"), request.getParameter("marca"));
+                ve.getData().set(ve.getColums().indexOf("MODELO"), request.getParameter("modelo"));
+                ve.getData().set(ve.getColums().indexOf("COLOR"), request.getParameter("color"));
+                ve.getData().set(ve.getColums().indexOf("CILINDRAJE"), request.getParameter("cilindraje"));
+                ve.getData().set(ve.getColums().indexOf("SERVICIO"), request.getParameter("servicio"));
+                ve.getData().set(ve.getColums().indexOf("NO_MOTOR"), request.getParameter("motor"));
+                ve.getData().set(ve.getColums().indexOf("NO_CHASIS"), request.getParameter("chasis"));
+                ve.getData().set(ve.getColums().indexOf("NO_VIN"), request.getParameter("vin"));
+                ve.getData().set(ve.getColums().indexOf("PROPIETARIO"), p.getId());
+                ve.update();
+            }
+            else{
+                for(String vs: ve.getColums()){
+                    ve.getData().add("");
+                }
+                ve.getData().set(ve.getColums().indexOf("PLACA"), request.getParameter("placa"));
+                ve.getData().set(ve.getColums().indexOf("TIPO"), request.getParameter("tipo"));
+                ve.getData().set(ve.getColums().indexOf("CLASE"), request.getParameter("clase"));
+                ve.getData().set(ve.getColums().indexOf("MARCA"), request.getParameter("marca"));
+                ve.getData().set(ve.getColums().indexOf("MODELO"), request.getParameter("modelo"));
+                ve.getData().set(ve.getColums().indexOf("COLOR"), request.getParameter("color"));
+                ve.getData().set(ve.getColums().indexOf("CILINDRAJE"), request.getParameter("cilindraje"));
+                ve.getData().set(ve.getColums().indexOf("SERVICIO"), request.getParameter("servicio"));
+                ve.getData().set(ve.getColums().indexOf("NO_MOTOR"), request.getParameter("motor"));
+                ve.getData().set(ve.getColums().indexOf("NO_CHASIS"), request.getParameter("chasis"));
+                ve.getData().set(ve.getColums().indexOf("NO_VIN"), request.getParameter("vin"));
+                ve.getData().set(ve.getColums().indexOf("PROPIETARIO"), p.getId());
+                ve.create();
+            }
             System.out.println(p);
             //UPDATE DATA OF PERSON AND VEHICLE
-            p.update();
-            ve.update();
-        }catch(IndexOutOfBoundsException s){
-            System.out.println("Error1: "+s);
-        }
     }
 
 }
