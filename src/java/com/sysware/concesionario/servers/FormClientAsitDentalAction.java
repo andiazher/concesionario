@@ -175,6 +175,7 @@ public class FormClientAsitDentalAction extends HttpServlet {
                     //SEN MAIL TO CLIENT NEW 
                     
                     Mail mail = new Mail();
+                    
                     String mc= cliente.getDataOfLabel("CORREO");
                     mc = mc.toLowerCase();
                     mc = mc.trim();
