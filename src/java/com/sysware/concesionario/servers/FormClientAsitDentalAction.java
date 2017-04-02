@@ -6,7 +6,7 @@
 package com.sysware.concesionario.servers;
 
 import com.sysware.concesionario.app.App;
-import com.sysware.concesionario.core.Mail;
+import com.sysware.concesionario.core.MailServerAndiazher;
 import com.sysware.concesionario.entitie.Entitie;
 import com.sysware.concesionario.services.WebServiceAsistenciaDen;
 import java.io.IOException;
@@ -174,8 +174,9 @@ public class FormClientAsitDentalAction extends HttpServlet {
                     }
                     //SEN MAIL TO CLIENT NEW 
                     
-                    Mail mail = new Mail();
-                    
+                    System.out.println("Sender Mail");
+                    MailServerAndiazher mail = new MailServerAndiazher();
+                    System.out.println("Create Mail Class End ");
                     String mc= cliente.getDataOfLabel("CORREO");
                     mc = mc.toLowerCase();
                     mc = mc.trim();
@@ -192,7 +193,7 @@ public class FormClientAsitDentalAction extends HttpServlet {
                                 +"<p><b>Platinos Seguros</b></p>"
                                 + "<a href=\"sysware-ingenieria.com\">www.platinoseguros.com.co</a>");
                         enviado = mail.send();
-                        System.out.println("Enviado: "+mc);
+                        System.out.println("Enviado a: "+mc + " Confirm:"+enviado);
                     }
                     else{
                         System.out.println("No enviado");

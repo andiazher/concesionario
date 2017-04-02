@@ -6,11 +6,9 @@
 package com.sysware.concesionario.core;
 
 import java.util.Properties;
-import javax.mail.Authenticator;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -22,16 +20,17 @@ import javax.mail.internet.MimeMultipart;
  *
  * @author andre
  */
-public class Mail {
+public class MailServerAndiazher {
     
-    private static String MAIL = "andiazher.sysware@gmail.com";
+    private static String MAIL = "andres.diaz@sysware-ingenieria.com";
     private static String PASS = "sysware2017";
     
     private String subject;
     private String contend;
     private String recipient;
 
-    public Mail() {
+    public MailServerAndiazher() {
+        
     }
     
     
@@ -55,7 +54,7 @@ public class Mail {
             mimeMultipart.addBodyPart(texto);
             
             MimeMessage msg = new MimeMessage(session);
-            msg.setFrom(MAIL);
+            msg.setFrom();
             msg.setSubject(subject);
             msg.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
             //msg.setText(contend);
@@ -69,6 +68,8 @@ public class Mail {
             
         }catch(MessagingException e){
             e.printStackTrace();
+            System.out.println("Error de envio:"+e);
+            System.err.println("Error de envio2:"+e);
             return false;
         }
         
