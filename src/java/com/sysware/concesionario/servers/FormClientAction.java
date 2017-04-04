@@ -45,10 +45,10 @@ public class FormClientAction extends HttpServlet {
                 Enumeration<String> a= request.getParameterNames();
                 //1. TIPO DE INDETIFICACION
                 String ti = a.nextElement();
-                ti= request.getParameter(ti);
+                ti= request.getParameter(ti).toUpperCase();
                 //2. NUMERO DE IDENTIFICACION
                 String identificaction = a.nextElement();
-                identificaction = request.getParameter(identificaction);
+                identificaction = request.getParameter(identificaction).toUpperCase();
                 
                 Entitie propietario = new Entitie(App.TABLE_CLIENTE);
                 ArrayList<Entitie> res= new ArrayList<>();

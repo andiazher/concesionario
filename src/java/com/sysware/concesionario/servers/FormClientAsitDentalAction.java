@@ -57,18 +57,18 @@ public class FormClientAsitDentalAction extends HttpServlet {
                 String correo = null;
                 try{
                     id= request.getParameter("idservicio");
-                    ti= request.getParameter("ti");
-                    identifica= request.getParameter("identification");
-                    nombre= request.getParameter("nombre");
-                    nombre2= request.getParameter("nombres2");
-                    apellido= request.getParameter("apellidos");
-                    apellido2= request.getParameter("apellidos2");
+                    ti= request.getParameter("ti").toUpperCase();
+                    identifica= request.getParameter("identification").toUpperCase();
+                    nombre= request.getParameter("nombre").toUpperCase();
+                    nombre2= request.getParameter("nombres2").toUpperCase();
+                    apellido= request.getParameter("apellidos").toUpperCase();
+                    apellido2= request.getParameter("apellidos2").toUpperCase();
                     fechaNaci= request.getParameter("fecha");
                     plan= request.getParameter("plan");
-                    direccion= request.getParameter("direccion");
+                    direccion= request.getParameter("direccion").toUpperCase();
                     telefono= request.getParameter("telefono");
                     celular= request.getParameter("celular");
-                    correo= request.getParameter("correo");
+                    correo= request.getParameter("correo").toLowerCase();
                     
                 }catch(NullPointerException s){
                     System.out.println("Error: "+s);
