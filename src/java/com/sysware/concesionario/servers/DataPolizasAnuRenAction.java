@@ -8,7 +8,11 @@ package com.sysware.concesionario.servers;
 import com.sysware.concesionario.app.App;
 import com.sysware.concesionario.entitie.Entitie;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -72,13 +76,17 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                 }
                 
                 //PROCESO DE RENOVACION DE LAS POLIZAS
-                if(menu.equals("anular")){
+                if(menu.equals("renovar")){
                    if(servicio.equals("1")){
                        Entitie rsoat = new Entitie(App.TABLE_REGISTROSOAT);
                        try{
                            rsoat = rsoat.getEntitieParam("POLIZA", poliza).get(0);
                            rsoat.getData().set(rsoat.getColums().indexOf("ESTADOP"),"ANULADA");
                            rsoat.update();
+                           //FALTA 
+                           try (PrintWriter out = response.getWriter()) {
+                               out.println("Error al crear nueva poliza");
+                           }
                        }catch(IndexOutOfBoundsException s){
                            s.printStackTrace();
                        }
@@ -86,10 +94,42 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                    if(servicio.equals("2")){
                        Entitie ad = new Entitie(App.TABLE_ASIS_DENTAL);
                        try{
-                           ad = ad.getEntitieParam("POLIZA", poliza).get(0);
-                           ad.getData().set(ad.getColums().indexOf("ESTADO"), "3");
-                           ad.getData().set(ad.getColums().indexOf("ESTADOPOL"), "ANULADA");
-                           ad.update();
+                            ad = ad.getEntitieParam("POLIZA", poliza).get(0);
+                            ad.getData().set(ad.getColums().indexOf("ESTADO"), "3");
+                            ad.getData().set(ad.getColums().indexOf("ESTADOPOL"), "ANULADA");
+                            ad.update();
+                            ad.create();
+                            ArrayList<Entitie> asds= ad.getEntitieParam("CLIENTE", ad.getDataOfLabel("CLIENTE"));
+                            String idPoliza="";
+                            for(Entitie e: asds){
+                                idPoliza = e.getId();
+                                ad = e;
+                            }
+                            int last = Integer.parseInt(idPoliza);
+                            if(last<10){
+                                idPoliza="000000"+idPoliza;
+                            }
+                            if(last>=10 && last<100){
+                                idPoliza="00000"+idPoliza;
+                            }
+                            if(last>=100 && last<1000){
+                                idPoliza="0000"+idPoliza;
+                            }
+                            if(last>=1000 && last<10000){
+                                idPoliza="000"+idPoliza;
+                            }
+                            if(last>=10000 && last<100000){
+                                idPoliza="00"+idPoliza;
+                            }
+                            if(last>=100000 && last<1000000){
+                                idPoliza="0"+idPoliza;
+                            }
+                            Calendar fecha = new GregorianCalendar();
+                            String f= fecha.get(Calendar.YEAR) +"-"+(fecha.get(Calendar.MONTH)+1)+"-"+fecha.get(Calendar.DAY_OF_MONTH);
+                            ad.getData().set(ad.getColums().indexOf("FECHA"),f );
+                            ad.getData().set(ad.getColums().indexOf("FECHAEXP"), f);
+                            ad.getData().set(ad.getColums().indexOf("POLIZA"), "AD"+idPoliza);
+                            
                        }catch(IndexOutOfBoundsException s){
                            s.printStackTrace();
                        }
