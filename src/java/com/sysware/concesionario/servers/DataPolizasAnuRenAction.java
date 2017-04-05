@@ -129,6 +129,7 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                             ad.getData().set(ad.getColums().indexOf("FECHA"),f );
                             ad.getData().set(ad.getColums().indexOf("FECHAEXP"), f);
                             ad.getData().set(ad.getColums().indexOf("POLIZA"), "AD"+idPoliza);
+                            ad.update();
                             
                        }catch(IndexOutOfBoundsException s){
                            s.printStackTrace();
