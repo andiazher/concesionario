@@ -39,6 +39,7 @@
 
 	<!--  CSS for Demo Purpose, don't include it in your project     -->
 	<link href="css/demo.css" rel="stylesheet" />
+	<link href="css/sweetalert.css" rel="stylesheet" />
 
 	<!--  Fonts and icons  -->
 	<link href="css/font-awesome.min.css" rel="stylesheet">
@@ -280,6 +281,7 @@
 
     <!-- Sweet Alert 2 plugin -->
     <script src="js/sweetalert2.js"></script>
+    <script src="js/sweetalert.min.js"></script>
 
     <!--    Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
     <script src="js/jasny-bootstrap.min.js"></script>

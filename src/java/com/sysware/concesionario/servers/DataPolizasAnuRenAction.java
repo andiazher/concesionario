@@ -5,7 +5,12 @@
  */
 package com.sysware.concesionario.servers;
 
+import com.sysware.concesionario.app.App;
+import com.sysware.concesionario.entitie.Entitie;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +32,7 @@ public class DataPolizasAnuRenAction extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
         try{
             if(request.getSession().getAttribute("session").equals("true")){
@@ -41,9 +46,53 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                 }catch(IndexOutOfBoundsException s){
                     s.printStackTrace();
                 }
+                ///PROCESO DE ANULZACIÓN DE LAS POLIZAS
                 if(menu.equals("anular")){
                    if(servicio.equals("1")){
-                       
+                       Entitie rsoat = new Entitie(App.TABLE_REGISTROSOAT);
+                       try{
+                           rsoat = rsoat.getEntitieParam("POLIZA", poliza).get(0);
+                           rsoat.getData().set(rsoat.getColums().indexOf("ESTADOP"),"ANULADA");
+                           rsoat.update();
+                       }catch(IndexOutOfBoundsException s){
+                           s.printStackTrace();
+                       }
+                   }
+                   if(servicio.equals("2")){
+                       Entitie ad = new Entitie(App.TABLE_ASIS_DENTAL);
+                       try{
+                           ad = ad.getEntitieParam("POLIZA", poliza).get(0);
+                           ad.getData().set(ad.getColums().indexOf("ESTADO"), "3");
+                           ad.getData().set(ad.getColums().indexOf("ESTADOPOL"), "ANULADA");
+                           ad.update();
+                       }catch(IndexOutOfBoundsException s){
+                           s.printStackTrace();
+                       }
+                   }
+                }
+                
+                //PROCESO DE RENOVACION DE LAS POLIZAS
+                if(menu.equals("anular")){
+                   if(servicio.equals("1")){
+                       Entitie rsoat = new Entitie(App.TABLE_REGISTROSOAT);
+                       try{
+                           rsoat = rsoat.getEntitieParam("POLIZA", poliza).get(0);
+                           rsoat.getData().set(rsoat.getColums().indexOf("ESTADOP"),"ANULADA");
+                           rsoat.update();
+                       }catch(IndexOutOfBoundsException s){
+                           s.printStackTrace();
+                       }
+                   }
+                   if(servicio.equals("2")){
+                       Entitie ad = new Entitie(App.TABLE_ASIS_DENTAL);
+                       try{
+                           ad = ad.getEntitieParam("POLIZA", poliza).get(0);
+                           ad.getData().set(ad.getColums().indexOf("ESTADO"), "3");
+                           ad.getData().set(ad.getColums().indexOf("ESTADOPOL"), "ANULADA");
+                           ad.update();
+                       }catch(IndexOutOfBoundsException s){
+                           s.printStackTrace();
+                       }
                    }
                 }
                 
@@ -69,7 +118,11 @@ public class DataPolizasAnuRenAction extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(DataPolizasAnuRenAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -83,7 +136,11 @@ public class DataPolizasAnuRenAction extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(DataPolizasAnuRenAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

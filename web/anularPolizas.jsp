@@ -88,22 +88,54 @@
     loadtableForm();
 
     function anular(id,tipo){
-        var name="anular";
-        $.post("dataPolizasAnuRenAction", { menu:name, poliza: id, servicio:tipo }, function(data){
-            swal(
-            'No se puede anular!',
-            'No se pudo anular la poliza '+id+'',
-            'success'
-            );    
-        });   
-        
+        swal({
+              title: "Esta seguro?",
+              text: "No se puede renovar el estado de la poliza!",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#DD6B55",
+              confirmButtonText: "Si, Anular",
+              cancelButtonText: "No, Cancelar",
+              closeOnConfirm: false,
+              closeOnCancel: false
+            },
+            function(isConfirm){
+              if (isConfirm) {
+                var name="anular";
+                $.post("dataPolizasAnuRenAction", { menu:name, poliza: id, servicio:tipo }, function(data){
+                    swal("Anulada!", 'Se ha anulado la poliza '+id+'', "success");
+                    loadtableForm();
+                });   
+              } else {
+                swal("Cancelado", "Se ha cancelado la anulación :)", "error");
+              }
+        });
     }
+
+
     function renovar(id, tipo){
-        swal(
-            'No se puede renovar!',
-            'No se pudo renovar la poliza '+id+'',
-            'error'
-            );
+        swal({
+              title: "Esta seguro?",
+              text: "No se puede renovar este numero de poliza!",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#DD6B55",
+              confirmButtonText: "Si, Renovar",
+              cancelButtonText: "No, Cancelar",
+              closeOnConfirm: false,
+              closeOnCancel: false
+            },
+            function(isConfirm){
+              if (isConfirm) {
+                var name="renovar";
+                $.post("dataPolizasAnuRenAction", { menu:name, poliza: id, servicio:tipo }, function(data){
+                    swal("Renovar!", 'Se ha anulado la poliza '+id+', nuevo número de poliza es: '+data, "success");
+                    loadtableForm();
+                });   
+              } else {
+                swal("Cancelado", "Se ha cancelado la renovación :)", "error");
+              }
+        });
     }
 
 $(document).ready(function(){
