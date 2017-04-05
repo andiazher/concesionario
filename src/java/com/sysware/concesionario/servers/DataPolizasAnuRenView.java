@@ -63,20 +63,33 @@ public class DataPolizasAnuRenView extends HttpServlet {
                     try{
                         cliente=cliente.getEntitieParam("CEDULA", identificacion).get(0);
                         Entitie rsoat = new Entitie(App.TABLE_REGISTROSOAT);
-                        rsoat = rsoat.getEntitieParam("CLIENTE", cliente.getId()).get(0);
-                        Entitie e1 = new Entitie();
-                        e1.setId(rsoat.getDataOfLabel("POLIZA"));
-                        addColumns(e1);
-                        //POLIZA, FECHA, CLIENTE, SERVICIO, VALOR
-                        e1.getData().add(rsoat.getDataOfLabel("POLIZA"));
-                        e1.getData().add(rsoat.getDataOfLabel("FECHAR"));
-                        e1.getData().add(cliente.getDataOfLabel("TIPODOC")+identificacion);
-                        Entitie serv = new Entitie(App.TABLE_SERVICIOS);
-                        servicio.getEntitieID(rsoat.getDataOfLabel("DOSID"));
-                        serv.getEntitieID(servicio.getDataOfLabel("SERVICIO"));
-                        e1.getData().add(serv.getDataOfLabel("DESCRIPCION"));
-                        e1.getData().add(rsoat.getDataOfLabel("VALOR"));
-                        polizas.add(e1);
+                        ArrayList<String> params= new ArrayList<>();
+                        ArrayList<String> param2= new ArrayList<>();
+                        params.add("CLIENTE");
+                        params.add("ESTADOP");
+                        param2.add(cliente.getId());
+                        param2.add("VIGENTE");
+                        ArrayList<Entitie> registros = rsoat.getEntitieParams(params, param2);
+                        
+                        for(Entitie re: registros){
+                            Entitie e1 = new Entitie(); //THIS ENTITIE IS TEMPORAL
+                            e1.setId(re.getDataOfLabel("POLIZA"));
+                            addColumns(e1);
+                            //POLIZA, FECHA, CLIENTE, SERVICIO, VALOR
+                            e1.getData().add(re.getDataOfLabel("POLIZA"));
+                            e1.getData().add(re.getDataOfLabel("FECHAR"));
+                            e1.getData().add(cliente.getDataOfLabel("TIPODOC")+identificacion);
+                            Entitie serv = new Entitie(App.TABLE_SERVICIOS);
+                            servicio.getEntitieID(re.getDataOfLabel("DOSID"));
+                            serv.getEntitieID(servicio.getDataOfLabel("SERVICIO"));
+                            Entitie ve= new Entitie(App.TABLE_VEHICULO);
+                            ve.getEntitieID(re.getDataOfLabel("VEHICULO"));
+                            e1.getData().add(serv.getDataOfLabel("DESCRIPCION") +" - "+ve.getDataOfLabel("PLACA"));
+                            e1.getData().add(re.getDataOfLabel("VALOR"));
+                            e1.getData().add("1"); //TIPO DE POLIZA =1
+                            polizas.add(e1);
+                        }
+                        
                     }catch(IndexOutOfBoundsException s){
                         System.out.println("Error: No hay registros en Registro SOAT: " +s);
                     }
@@ -84,18 +97,28 @@ public class DataPolizasAnuRenView extends HttpServlet {
                     try{
                         cliente=cliente.getEntitieParam("CEDULA", identificacion).get(0);
                         Entitie asistenciaDental = new Entitie(App.TABLE_ASIS_DENTAL);
-                        asistenciaDental = asistenciaDental.getEntitieParam("CLIENTE",cliente.getId()).get(0);
-                        Entitie e1 = new Entitie();
-                        e1.setId(asistenciaDental.getDataOfLabel("POLIZA"));
-                        addColumns(e1);
-                        //POLIZA, FECHA, CLIENTE, SERVICIO, VALOR
-                        e1.getData().add(asistenciaDental.getDataOfLabel("POLIZA"));
-                        e1.getData().add(asistenciaDental.getDataOfLabel("FECHAEXP"));
-                        e1.getData().add(cliente.getDataOfLabel("TIPODOC")+identificacion);
-                        e1.getData().add("ASISTENCIA DENTAL PROM");
-                        //e1.getData().add(asistenciaDental.getDataOfLabel("VALOR"));
-                        e1.getData().add("0");
-                        polizas.add(e1);
+                        ArrayList<String> params= new ArrayList<>();
+                        ArrayList<String> param2= new ArrayList<>();
+                        params.add("CLIENTE");
+                        params.add("ESTADOPOL");
+                        param2.add(cliente.getId());
+                        param2.add("VIGENTE");
+                        ArrayList<Entitie> registros = asistenciaDental.getEntitieParams(params,param2);
+                        for(Entitie re: registros){
+                            Entitie e1 = new Entitie();
+                            e1.setId(re.getDataOfLabel("POLIZA"));
+                            addColumns(e1);
+                            //POLIZA, FECHA, CLIENTE, SERVICIO, VALOR
+                            e1.getData().add(re.getDataOfLabel("POLIZA"));
+                            e1.getData().add(re.getDataOfLabel("FECHAEXP"));
+                            e1.getData().add(cliente.getDataOfLabel("TIPODOC")+identificacion);
+                            e1.getData().add("ASISTENCIA DENTAL PROM");
+                            //e1.getData().add(asistenciaDental.getDataOfLabel("VALOR"));
+                            e1.getData().add("0");
+                            e1.getData().add("2");//TIPO DE POLIZA =2
+                            polizas.add(e1);
+                        }
+                        
                     }
                     catch(IndexOutOfBoundsException s){
                         System.out.println("Error: No hay registros en ASISTENCIASDEN: " +s);
@@ -136,8 +159,12 @@ public class DataPolizasAnuRenView extends HttpServlet {
                                 DecimalFormat formateador = new DecimalFormat("###,###.##");
                                 int valors= Integer.parseInt(i.getDataOfLabel("VALOR"));
                                 out.println("<td class=\"text-right\">$"+formateador.format(valors)+"</td>");
-                                out.println("<td><a href=\"#AnularPOL="+i.getId()+"\" onclick=\"anular('"+i.getId()+"')\">Anular</a></td>");
-                                out.println("<td><a href=\"#renovarPOL="+i.getId()+"\" onclick=\"renovar('"+i.getId()+"')\">Renovar</a></td>");
+                                out.println("<td><a href=\"#AnularPOL="+i.getId()+"&TIPE="+i.getDataOfLabel("TIPO")
+                                        +"\" onclick=\"anular('"+i.getId()+"','"
+                                        +i.getDataOfLabel("TIPO")+"')\">Anular</a></td>");
+                                out.println("<td><a href=\"#renovarPOL="+i.getId()+"&TIPE="+i.getDataOfLabel("TIPO")
+                                        +"\" onclick=\"renovar('"+i.getId()+"','"
+                                        +i.getDataOfLabel("TIPO")+"')\">Renovar</a></td>");
                                 out.println("</tr>");
                             }
 
@@ -210,6 +237,7 @@ public class DataPolizasAnuRenView extends HttpServlet {
         e1.getColums().add("CLIENTE");
         e1.getColums().add("SERVICIO");
         e1.getColums().add("VALOR");
+        e1.getColums().add("TIPO");
     }
 
 }

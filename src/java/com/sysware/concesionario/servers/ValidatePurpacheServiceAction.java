@@ -149,6 +149,7 @@ public class ValidatePurpacheServiceAction extends HttpServlet {
                                 registro.getData().set(registro.getColums().indexOf("POLIZA"), numeroPoliza);
                                 registro.getData().set(registro.getColums().indexOf("ASEGURADORA"), aseguradora.getId());
                                 registro.getData().set(registro.getColums().indexOf("CLIENTE"), p.getId());
+                                registro.getData().set(registro.getColums().indexOf("VEHICULO"), ve.getId());
                                 registro.getData().set(registro.getColums().indexOf("VALOR"), valor);
                                 registro.getData().set(registro.getColums().indexOf("PRIMA"), prima);
                                 registro.getData().set(registro.getColums().indexOf("RUNT"), soat.getDataOfLabel("RUNT"));

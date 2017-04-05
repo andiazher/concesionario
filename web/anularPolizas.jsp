@@ -87,14 +87,18 @@
     }
     loadtableForm();
 
-    function anular(id){
-        swal(
+    function anular(id,tipo){
+        var name="anular";
+        $.post("dataPolizasAnuRenAction", { menu:name, poliza: id, servicio:tipo }, function(data){
+            swal(
             'No se puede anular!',
             'No se pudo anular la poliza '+id+'',
-            'error'
-            );
+            'success'
+            );    
+        });   
+        
     }
-    function renovar(id){
+    function renovar(id, tipo){
         swal(
             'No se puede renovar!',
             'No se pudo renovar la poliza '+id+'',

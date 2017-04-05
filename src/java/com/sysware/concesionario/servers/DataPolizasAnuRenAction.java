@@ -5,14 +5,7 @@
  */
 package com.sysware.concesionario.servers;
 
-import com.sysware.concesionario.app.App;
-import com.sysware.concesionario.entitie.Entitie;
-import com.sysware.concesionario.services.WebServiceAsistenciaDen;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,13 +31,29 @@ public class DataPolizasAnuRenAction extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try{
             if(request.getSession().getAttribute("session").equals("true")){
-                String menu="";
+                String menu="0";
+                String servicio="";
+                String poliza= "";
+                try{
+                    menu=request.getParameter("menu");
+                    servicio= request.getParameter("servicio");
+                    poliza= request.getParameter("poliza");
+                }catch(IndexOutOfBoundsException s){
+                    s.printStackTrace();
+                }
+                if(menu.equals("anular")){
+                   if(servicio.equals("1")){
+                       
+                   }
+                }
+                
             }
             else{
                 response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales");
             }
         }catch(NullPointerException e){
             response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales");
+            e.printStackTrace();
         }
     }
 
