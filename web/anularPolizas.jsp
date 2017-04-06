@@ -127,9 +127,19 @@
             },
             function(isConfirm){
               if (isConfirm) {
+                swal({
+                      title: "Por favor esperar!",
+                      text: "Se esta procesando su solicitud....",
+                      showConfirmButton: false
+                });
                 var name="renovar";
+                $("#progressbar").html("<div class=\"progress-bar progress-bar-primary\" role=\"progressbar\" aria-valuenow=\"1\" aria-valuemin=\"0\" aria-valuemax=\"1\"  id=\"progressbarview\" style=\"width: 45%; position: fixed; height: 4px; \"></div>");
                 $.post("dataPolizasAnuRenAction", { menu:name, poliza: id, servicio:tipo }, function(data){
-                    swal("Renovar!", 'Se ha anulado la poliza '+id+', nuevo número de poliza es: '+data, "success");
+                    $("#progressbarview").css("width","40%");
+                    $("#progressbarview").addClass("progress-bar-success");
+                    $("#progressbarview").css("width","100%");
+                    $( "#form" ).append(data);
+                    $("#progressbar").html("<div></div>");
                     loadtableForm();
                 });   
               } else {
@@ -146,27 +156,6 @@ $(document).ready(function(){
                 data: $(this).serialize(),
                 success: function(data){
                     //console.log("none");
-                }
-            })
-            return false;
-    });
-    $("#form2").submit(function(){
-            $.ajax({
-                type: 'POST',
-                url: $(this).attr('action'),
-                data: $(this).serialize(),
-                success: function(data){
-                    loadtable();
-                    var formatter = new Intl.NumberFormat('en-US', {
-                      style: 'currency',
-                      currency: 'USD',
-                      minimumFractionDigits: 2,
-                    });
-                    swal(
-                      'Se ha liquidado!',
-                      'Valor liquidado es '+formatter.format(data),
-                      'success'
-                    )
                 }
             })
             return false;

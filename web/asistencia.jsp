@@ -280,6 +280,11 @@ $(document).ready(function(){
         $("#buttonsubmit").disabled=true;
         $("#buttonsent").html("");
         $("#progressbar").html("<div class=\"progress-bar progress-bar-primary\" role=\"progressbar\" aria-valuenow=\"1\" aria-valuemin=\"0\" aria-valuemax=\"1\"  id=\"progressbarview\" style=\"width: 45%; position: fixed; height: 4px; \"></div>");
+            swal({
+                      title: "Por favor esperar!",
+                      text: "Se esta procesando su solicitud....",
+                      showConfirmButton: false
+                });
             $.ajax({
                 type: 'POST',
                 url: $(this).attr('action'),

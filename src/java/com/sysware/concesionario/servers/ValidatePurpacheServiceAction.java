@@ -131,7 +131,7 @@ public class ValidatePurpacheServiceAction extends HttpServlet {
                                 aseguradora.getEntitieID(request.getParameter("aseguradora"));
                                 observaciones+=" NUMERO DE POLIZA: "+numeroPoliza+" DE "+aseguradora.getDataOfLabel("DESCRIPCION");
                                 
-                                //GUARDAR REGISTRO DE SOAT- AND ESTADO POLIZA
+                                //GUARDAR REGISTRO DE SOAT O POLIZA DE VEHICULO
                                 Entitie registro = new Entitie(App.TABLE_REGISTROSOAT);
                                 for(String ss: registro.getColums()){
                                     registro.getData().add("");
@@ -226,28 +226,31 @@ public class ValidatePurpacheServiceAction extends HttpServlet {
                         odetalle.getData().set(odetalle.getColums().indexOf("OBSERVACIONES"), observaciones);
                         odetalle.update();
                         
-                        //BOLSA VALOR
+                        //BOLSA VALOR  Y DISPERSION DE VALORES DE ACUERDO A LOS RUBROS ACORDADOS
                         if(!estado.equals("1")){
+                            //ACTUALIZCON DEL VALOR DE LA BOLSA DE BALORES PARA EL CONCESIONARIO, 
+                            //SI EL REGISTRO ES POR CONCESIONARIO.
                             Entitie concesionario = new Entitie(App.TABLE_CONCESIONARIO);
                             Entitie canal = new Entitie(App.TABLE_CANALES);
+                            
                             canal.getEntitieID(orden.getDataOfLabel("ID_CANAL"));
                             concesionario.getEntitieID(canal.getDataOfLabel("ID_CONCESIONARIO"));
                             int saldo = Integer.parseInt(concesionario.getDataOfLabel("SALDO"));
                             int valors=0;
                             try{
                                 valor.trim();
-                                System.out.println("Que pasa con el valor: "+valor);
                                 valors = Integer.parseInt(valor);
-                                System.out.println("Valor resultado: "+valors);
                                 valors = valors * -1;
                             }catch(NumberFormatException s){
                                 System.out.println("Numero invalido = "+valor);
+                                s.printStackTrace();
                             }
                             int nuevo = saldo + valors;
-                            System.out.println("Nuevo "+nuevo +" valor: "+valor+ " valorInt: "+valors+" saldo"+saldo);
                             concesionario.getData().set(concesionario.getColums().indexOf("SALDO"), nuevo+"");
                             concesionario.update();
-                            //CREATE REGISTER
+                            
+                            
+                            //CREATE REGISTER MOVIMEINTO DE VOLSA, PROCEDURE INVALIDE. 
                             Entitie reg= new Entitie(App.TABLE_REGMOVBOLSA);
                             for(String s: reg.getColums()){
                                 reg.getData().add("");
@@ -261,10 +264,17 @@ public class ValidatePurpacheServiceAction extends HttpServlet {
                             reg.getData().set(reg.getColums().indexOf("SALDO"),nuevo+"");
                             reg.create();
                             
-                            //CONTROL DISPERSION
                             
+                            /**
+                            *CONTROL DE DISPERSION DE VALORES DE ACUERDO
+                            *A LOS PARAMETROS DE CONTRO DE DISPERSION Y LOS 
+                            * RUBROS POR CADA UNO DE LOS SERVICIOS.
+                            */
+
                             Entitie cdisper = new Entitie(App.TABLE_CONTROLDIPS);
                             Entitie rdisper = new Entitie(App.TABLE_REGISTRORECEP);
+                            Entitie rubros = new Entitie(App.TABLE_RUBRODIPS);
+                            
                             for(String i: rdisper.getColums()){
                                 rdisper.getData().add("");
                             }

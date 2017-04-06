@@ -6,7 +6,9 @@
 package com.sysware.concesionario.servers;
 
 import com.sysware.concesionario.app.App;
+import com.sysware.concesionario.core.MailServerAndiazher;
 import com.sysware.concesionario.entitie.Entitie;
+import com.sysware.concesionario.services.WebServiceAsistenciaDen;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -69,6 +71,11 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                            ad.getData().set(ad.getColums().indexOf("ESTADO"), "3");
                            ad.getData().set(ad.getColums().indexOf("ESTADOPOL"), "ANULADA");
                            ad.update();
+                           //CONSUMO DEL WEB SERVICE
+                           WebServiceAsistenciaDen wsad = new WebServiceAsistenciaDen();
+                            //CANCELAR POLIZA ANTERIOR ASOCIADA AL CLIENTE
+                           String message = wsad.excluir(poliza);
+                           System.out.println("Respuesta del Servicio Cancelar: "+message);
                        }catch(IndexOutOfBoundsException s){
                            s.printStackTrace();
                        }
@@ -84,6 +91,7 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                            rsoat.getData().set(rsoat.getColums().indexOf("ESTADOP"),"ANULADA");
                            rsoat.update();
                            //FALTA 
+                           
                            try (PrintWriter out = response.getWriter()) {
                                out.println("Error al crear nueva poliza");
                            }
@@ -97,8 +105,8 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                             ad = ad.getEntitieParam("POLIZA", poliza).get(0);
                             ad.getData().set(ad.getColums().indexOf("ESTADO"), "3");
                             ad.getData().set(ad.getColums().indexOf("ESTADOPOL"), "ANULADA");
-                            ad.update();
-                            ad.create();
+                            ad.update(); //ACTUALIZAR LA POLZIA CANCELADA
+                            ad.create(); //CREAR LA NUEVA POLIZA
                             ArrayList<Entitie> asds= ad.getEntitieParam("CLIENTE", ad.getDataOfLabel("CLIENTE"));
                             String idPoliza="";
                             for(Entitie e: asds){
@@ -129,6 +137,81 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                             ad.getData().set(ad.getColums().indexOf("FECHA"),f );
                             ad.getData().set(ad.getColums().indexOf("FECHAEXP"), f);
                             ad.getData().set(ad.getColums().indexOf("POLIZA"), "AD"+idPoliza);
+                            
+                            WebServiceAsistenciaDen wsad = new WebServiceAsistenciaDen();
+                            //CANCELAR POLIZA ANTERIOR ASOCIADA AL CLIENTE
+                            String message = wsad.excluir(poliza);
+                            System.out.println("Respuesta del Servicio Cancelar: "+message);
+
+                            //REGISTRO DE NUEVA POLIZA CON EL LOS DATOS DEL CLIENTE
+                            Entitie cliente = new Entitie(App.TABLE_CLIENTE);
+                            cliente.getEntitieID(ad.getDataOfLabel("CLIENTE"));
+                            
+                            String messagge = wsad.registro(ad, cliente);
+                            System.out.println("Respuesta del Servicio Crear: "+messagge);
+                            
+                            if(messagge.equals("1")){
+                                ad.getData().set(ad.getColums().indexOf("ESTADO"), "2");
+                                ad.getData().set(ad.getColums().indexOf("ESTADOPOL"), "VIGENTE");
+                                //SEND MAIL 
+                                System.out.println("Sender Mail");
+                                MailServerAndiazher mail = new MailServerAndiazher();
+                                System.out.println("Create Mail Class End ");
+                                String mc= cliente.getDataOfLabel("CORREO");
+                                mc = mc.toLowerCase();
+                                mc = mc.trim();
+                                boolean enviado = false;
+                                System.out.println("Correo Electronico: "+mc);
+                                if(!mc.isEmpty()  && !mc.equals("") && !mc.equals(" ") && mc.contains("@") && mc.contains(".") && mc!= null){
+                                    mail.setRecipient(mc);
+                                    mail.setSubject("NUEVA POLIZA ASISTENCIA DENTAL AD"+idPoliza);
+                                    String cadena= cliente.getDataOfLabel("NOMBRE");
+                                    String nameClient = cadena.substring(0,1).toUpperCase() + cadena.substring(1).toLowerCase();
+                                    mail.setContend("<p>Hola "+nameClient+",</p><br>"
+                                            +"<p>Su número de poliza actual <b>"+poliza+"</b> ha sido reemplazado por"
+                                                    + " la poliza de asistencia dental <b>AD"+idPoliza+"</b></p>"
+                                            +"<p>Muchas Gracias por utilizar nuestros servicios</p> <br>"
+                                            +"<p><b>Platinos Seguros</b></p>"
+                                            + "<a href=\"sysware-ingenieria.com\">www.platinoseguros.com.co</a>");
+                                    enviado = mail.send();
+                                    System.out.println("Enviado a: "+mc + " Confirm:"+enviado);
+                                }
+                                else{
+                                    System.out.println("No enviado");
+                                }
+                                try (PrintWriter out = response.getWriter()) {
+                                    String msg="";
+                                    if(enviado){
+                                        msg= "Se le ha enviado una copia de la poliza al correo registrado";
+                                    }
+                                    else{
+                                        msg= "Por favor Guardar este numero de poliza.";
+                                    }
+
+                                    out.println("<script type=\"text/javascript\">\n"
+                                            + "swal(\n" +
+                                        "'Poliza Renovada!',\n" +
+                                        "'Nuevo número de Poliza AD"+idPoliza+"; "+msg+"',\n" +
+                                        "'success'\n" +
+                                        ")\n"
+                                        + "</script>");
+                                }
+                                
+                            }
+                            else{
+                                try (PrintWriter out = response.getWriter()) {
+                                    out.println("<script type=\"text/javascript\">\n"
+                                            +" swal(\n" +
+                                        "'Error al renovar!',\n" +
+                                        "'Las Polizas "+poliza+" y AD"+idPoliza+" han sido anuladas. Razon: "+messagge+" ',\n" +
+                                        "'error'\n" +
+                                        ")\n"
+                                        + "</script>");
+                                }
+                                //PASO DEL SERVICIO A NO TRAMITADO.
+                                ad.getData().set(ad.getColums().indexOf("ESTADO"), "3");
+                                ad.getData().set(ad.getColums().indexOf("ESTADOPOL"), "ANULADA");
+                            }
                             ad.update();
                             
                        }catch(IndexOutOfBoundsException s){

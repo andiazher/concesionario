@@ -114,15 +114,14 @@ public class WebServiceAsistenciaDen {
                 
                 Response response=bodyResponse(responseBody);
 
-                System.out.println(response.getValue_exitoso());
-                System.out.println(response.getMsn_error());
+                //System.out.println(response.getValue_exitoso());
+                //System.out.println(response.getMsn_error());
                 if("1".equals(response.getMsn_error())){
                     messagge= "1";
                 }
                 else{
                     messagge= response.getValue_exitoso();
                 }
-                
                 // and ensure it is fully consumed
                 EntityUtils.consume(entity2);
             } finally {
