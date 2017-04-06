@@ -85,17 +85,32 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                 //PROCESO DE RENOVACION DE LAS POLIZAS
                 if(menu.equals("renovar")){
                    if(servicio.equals("1")){
-                       Entitie rsoat = new Entitie(App.TABLE_REGISTROSOAT);
+                       Entitie registro = new Entitie(App.TABLE_REGISTROSOAT);
                        try{
-                           rsoat = rsoat.getEntitieParam("POLIZA", poliza).get(0);
-                           rsoat.getData().set(rsoat.getColums().indexOf("ESTADOP"),"ANULADA");
-                           rsoat.update();
+                           registro = registro.getEntitieParam("POLIZA", poliza).get(0);
+                           registro.getData().set(registro.getColums().indexOf("ESTADOP"),"ANULADA");
+                           registro.update();
                            //FALTA 
+                           String npoliza = request.getParameter("npoliza").toUpperCase();
+                           Calendar fecha = new GregorianCalendar();
+                           String f= fecha.get(Calendar.YEAR) +"-"+(fecha.get(Calendar.MONTH)+1)+"-"+fecha.get(Calendar.DAY_OF_MONTH);
+                           registro.getData().set(registro.getColums().indexOf("FECHAR"), f);
+                           registro.getData().set(registro.getColums().indexOf("POLIZA"), npoliza);
+                           registro.getData().set(registro.getColums().indexOf("ESTADOP"), "VIGENTE");
+                           registro.create();
                            
                            try (PrintWriter out = response.getWriter()) {
-                               out.println("Error al crear nueva poliza");
+                               out.println("<script type=\"text/javascript\">\n"
+                                            + "swal(\n" +
+                                        "'Poliza Renovada!',\n" +
+                                        "'Nuevo número de Poliza "+npoliza+" registrado',\n" +
+                                        "'success'\n" +
+                                        ")\n"
+                                        + "</script>");
                            }
                        }catch(IndexOutOfBoundsException s){
+                           s.printStackTrace();
+                       }catch(NullPointerException s){
                            s.printStackTrace();
                        }
                    }
@@ -203,7 +218,7 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                                     out.println("<script type=\"text/javascript\">\n"
                                             +" swal(\n" +
                                         "'Error al renovar!',\n" +
-                                        "'Las Polizas "+poliza+" y AD"+idPoliza+" han sido anuladas. Razon: "+messagge+" ',\n" +
+                                        "'Las Polizas "+poliza+" y AD"+idPoliza+" han sido anuladas. Razón: "+messagge+" ',\n" +
                                         "'error'\n" +
                                         ")\n"
                                         + "</script>");

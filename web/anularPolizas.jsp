@@ -90,7 +90,7 @@
     function anular(id,tipo){
         swal({
               title: "Esta seguro?",
-              text: "No se puede renovar el estado de la poliza!",
+              text: "Despues de aceptar no se puede renovar la poliza "+id,
               type: "warning",
               showCancelButton: true,
               confirmButtonColor: "#DD6B55",
@@ -116,7 +116,7 @@
     function renovar(id, tipo){
         swal({
               title: "Esta seguro?",
-              text: "No se puede renovar este numero de poliza!",
+              text: "Despues de aceptar no se puede renovar la poliza "+id,
               type: "warning",
               showCancelButton: true,
               confirmButtonColor: "#DD6B55",
@@ -127,21 +127,54 @@
             },
             function(isConfirm){
               if (isConfirm) {
-                swal({
+                if(tipo=="1"){
+                    swal({
+                      title: "Nuevo Número de Poliza",
+                      text: "Por favor ingresar el nuevo numero de Poliza de SOAT",
+                      type: "input",
+                      showCancelButton: true,
+                      closeOnConfirm: false,
+                      animation: "slide-from-top",
+                      inputPlaceholder: "Write something"
+                    },
+                    function(inputValue){
+                      if (inputValue === false) return false;
+                      
+                      if (inputValue === "") {
+                        swal.showInputError("You need to write something!");
+                        return false
+                      }
+                        $("#progressbar").html("<div class=\"progress-bar progress-bar-primary\" role=\"progressbar\" aria-valuenow=\"1\" aria-valuemin=\"0\" aria-valuemax=\"1\"  id=\"progressbarview\" style=\"width: 45%; position: fixed; height: 4px; \"></div>");  
+                        var name="renovar";
+                        $.post("dataPolizasAnuRenAction", { menu:name, poliza: id, servicio:tipo, npoliza: inputValue }, function(data){
+                            $("#progressbarview").css("width","40%");
+                            $("#progressbarview").addClass("progress-bar-success");
+                            $("#progressbarview").css("width","100%");
+                            $( "#form" ).append(data);
+                            $("#progressbar").html("<div></div>");
+                            loadtableForm();
+                        });    
+                        //swal("Nice!", "You wrote: " + inputValue, "success");
+                    });
+                }
+                if(tipo=="2"){
+                    swal({
                       title: "Por favor esperar!",
                       text: "Se esta procesando su solicitud....",
                       showConfirmButton: false
-                });
-                var name="renovar";
-                $("#progressbar").html("<div class=\"progress-bar progress-bar-primary\" role=\"progressbar\" aria-valuenow=\"1\" aria-valuemin=\"0\" aria-valuemax=\"1\"  id=\"progressbarview\" style=\"width: 45%; position: fixed; height: 4px; \"></div>");
-                $.post("dataPolizasAnuRenAction", { menu:name, poliza: id, servicio:tipo }, function(data){
-                    $("#progressbarview").css("width","40%");
-                    $("#progressbarview").addClass("progress-bar-success");
-                    $("#progressbarview").css("width","100%");
-                    $( "#form" ).append(data);
-                    $("#progressbar").html("<div></div>");
-                    loadtableForm();
-                });   
+                    });
+                    var name="renovar";
+                    $("#progressbar").html("<div class=\"progress-bar progress-bar-primary\" role=\"progressbar\" aria-valuenow=\"1\" aria-valuemin=\"0\" aria-valuemax=\"1\"  id=\"progressbarview\" style=\"width: 45%; position: fixed; height: 4px; \"></div>");
+                    $.post("dataPolizasAnuRenAction", { menu:name, poliza: id, servicio:tipo }, function(data){
+                        $("#progressbarview").css("width","40%");
+                        $("#progressbarview").addClass("progress-bar-success");
+                        $("#progressbarview").css("width","100%");
+                        $( "#form" ).append(data);
+                        $("#progressbar").html("<div></div>");
+                        loadtableForm();
+                    });    
+                }
+                   
               } else {
                 swal("Cancelado", "Se ha cancelado la renovación :)", "error");
               }
