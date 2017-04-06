@@ -6,6 +6,7 @@
 package com.sysware.concesionario.servers;
 
 import com.sysware.concesionario.app.App;
+import com.sysware.concesionario.core.DispersionValores;
 import com.sysware.concesionario.entitie.Entitie;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -43,16 +44,16 @@ public class ValidatePurpacheServiceAction extends HttpServlet {
         try{
             if(request.getSession().getAttribute("session").equals("true")){
                 Entitie orden = new Entitie(App.TABLE_OS);
-                Entitie odetalle = new Entitie(App.TABLE_DOS);
+                Entitie dos = new Entitie(App.TABLE_DOS);
                 String estado="1";
                 String numeroPoliza="0000000000000";
                 String observaciones="";
                 String valor="";
                 String optionsave= "";
                 try{
-                    odetalle.getEntitieID(request.getParameter("id"));
+                    dos.getEntitieID(request.getParameter("id"));
                     valor = request.getParameter("valor");
-                    orden.getEntitieID(odetalle.getDataOfLabel("OS"));
+                    orden.getEntitieID(dos.getDataOfLabel("OS"));
                     estado = request.getParameter("var");
                     numeroPoliza = request.getParameter("soat").toUpperCase();
                     observaciones = request.getParameter("obser").toUpperCase();
@@ -63,21 +64,18 @@ public class ValidatePurpacheServiceAction extends HttpServlet {
                 try (PrintWriter out = response.getWriter()) {
                     try{
                         if(optionsave.equals("on")){
-                            //saveDataPerOnly(orden, request, estado);
                             estado="0";
                         }
-                    }catch(NullPointerException s){
-                        System.out.println("Error2_ "+s);
-                    }
+                    }catch(NullPointerException s){}
                     
                     //start transacction
                     saveDataPerOnly(orden, request, estado);
                     if(estado.equals("2")){
                         String mensaje="Se ha tramitado el servicio";
                         try{
-                            if(odetalle.getDataOfLabel("SERVICIO").equals("1")){
+                            if(dos.getDataOfLabel("SERVICIO").equals("1")){
                                 valor = request.getParameter("valor");
-                                odetalle.getData().set(odetalle.getColums().indexOf("VALOR"), valor);
+                                dos.getData().set(dos.getColums().indexOf("VALOR"), valor);
                                 //SAVE TO COMISIONES
                                 //1. SAVE TO COMISION PLATINO
                                 Entitie soat= new Entitie(App.TABLE_SOAT);
@@ -122,8 +120,8 @@ public class ValidatePurpacheServiceAction extends HttpServlet {
                                 if(regimen.equals("S")){
                                     valorconcesionario = ((pct_soat_conce*valorcomplatino)/100)*((100-s)/100);
                                 }
-                                odetalle.getData().set(odetalle.getColums().indexOf("COM_PLATINO"), valorcomplatino+"");
-                                odetalle.getData().set(odetalle.getColums().indexOf("COM_CONCE"), valorconcesionario+"");
+                                dos.getData().set(dos.getColums().indexOf("COM_PLATINO"), valorcomplatino+"");
+                                dos.getData().set(dos.getColums().indexOf("COM_CONCE"), valorconcesionario+"");
                                 
                                 //END 1
                                 //OTROS DATOS DE SOAT
@@ -144,7 +142,7 @@ public class ValidatePurpacheServiceAction extends HttpServlet {
                                 p.getEntitieID(ve.getDataOfLabel("PROPIETARIO"));
                                 
                                 
-                                registro.getData().set(registro.getColums().indexOf("DOSID"), odetalle.getId());
+                                registro.getData().set(registro.getColums().indexOf("DOSID"), dos.getId());
                                 registro.getData().set(registro.getColums().indexOf("FECHAR"), f);
                                 registro.getData().set(registro.getColums().indexOf("POLIZA"), numeroPoliza);
                                 registro.getData().set(registro.getColums().indexOf("ASEGURADORA"), aseguradora.getId());
@@ -159,7 +157,7 @@ public class ValidatePurpacheServiceAction extends HttpServlet {
                                 
                                 mensaje= "El servicio ha sido tramitado con número de poliza "+numeroPoliza;
                             }
-                            if(odetalle.getDataOfLabel("SERVICIO").equals("2")){
+                            if(dos.getDataOfLabel("SERVICIO").equals("2")){
                                 valor = request.getParameter("valor");
                                 String factura=request.getParameter("factura");
                                 Entitie gestoria = new Entitie(App.TABLE_GESTORIASMATR);
@@ -167,7 +165,7 @@ public class ValidatePurpacheServiceAction extends HttpServlet {
                                 System.out.println("Factura: "+factura);
                                 System.out.println("ID Gestoria: "+request.getParameter("gestoria"));
                                 System.out.println("Gestoria "+gestoria);
-                                odetalle.getData().set(odetalle.getColums().indexOf("VALOR"), valor);
+                                dos.getData().set(dos.getColums().indexOf("VALOR"), valor);
                                 observaciones+="<b>FACTURA No:</b>"+factura+" <b>TRAMITE:</b> "+gestoria.getDataOfLabel("DESCRIPCION");
                                 DecimalFormat formateador = new DecimalFormat("###,###.##");
                                 mensaje="El servicio has sido tramitado por valor de $ "+formateador.format(Integer.parseInt(valor));
@@ -213,18 +211,19 @@ public class ValidatePurpacheServiceAction extends HttpServlet {
                         catch(IndexOutOfBoundsException s){
                             System.out.println("Error2 "+s);
                             estado="1";
+                            s.printStackTrace();
                         }
                         //UPDATE ESTATE WITH BASIC VALUES
-                        odetalle.getData().set(odetalle.getColums().indexOf("ESTADO"), estado);
+                        dos.getData().set(dos.getColums().indexOf("ESTADO"), estado);
                         //UPDATE REGISTER IN ORDEN DE DETALLE
                         Calendar fecha = new GregorianCalendar();
                         String f= fecha.get(Calendar.YEAR) +"-"+(fecha.get(Calendar.MONTH)+1)+"-"+fecha.get(Calendar.DAY_OF_MONTH)+
                             " "+fecha.get(Calendar.HOUR_OF_DAY)+":"+fecha.get(Calendar.MINUTE)+":"+fecha.get(Calendar.SECOND);
-                        odetalle.getData().set(odetalle.getColums().indexOf("FECHAT"), f);
-                        odetalle.getData().set(odetalle.getColums().indexOf("ESTADOL"), "PENDIENTE");
+                        dos.getData().set(dos.getColums().indexOf("FECHAT"), f);
+                        dos.getData().set(dos.getColums().indexOf("ESTADOL"), "PENDIENTE");
                         //UPDATE ANOTHER VALUES 
-                        odetalle.getData().set(odetalle.getColums().indexOf("OBSERVACIONES"), observaciones);
-                        odetalle.update();
+                        dos.getData().set(dos.getColums().indexOf("OBSERVACIONES"), observaciones);
+                        dos.update();
                         
                         //BOLSA VALOR  Y DISPERSION DE VALORES DE ACUERDO A LOS RUBROS ACORDADOS
                         if(!estado.equals("1")){
@@ -256,60 +255,20 @@ public class ValidatePurpacheServiceAction extends HttpServlet {
                                 reg.getData().add("");
                             }
                             reg.getData().set(reg.getColums().indexOf("CONCESIONARIO"), concesionario.getId());
-                            reg.getData().set(reg.getColums().indexOf("SERVICIO"), odetalle.getDataOfLabel("SERVICIO"));
-                            reg.getData().set(reg.getColums().indexOf("OS"), odetalle.getDataOfLabel("OS"));
+                            reg.getData().set(reg.getColums().indexOf("SERVICIO"), dos.getDataOfLabel("SERVICIO"));
+                            reg.getData().set(reg.getColums().indexOf("OS"), dos.getDataOfLabel("OS"));
                             reg.getData().set(reg.getColums().indexOf("FECHA"),f);
                             reg.getData().set(reg.getColums().indexOf("TIPOMOV"),"DES");
                             reg.getData().set(reg.getColums().indexOf("VALOR"),(valors)+"");
                             reg.getData().set(reg.getColums().indexOf("SALDO"),nuevo+"");
                             reg.create();
                             
-                            
                             /**
-                            *CONTROL DE DISPERSION DE VALORES DE ACUERDO
-                            *A LOS PARAMETROS DE CONTRO DE DISPERSION Y LOS 
+                            *CONTROL DE DISPERSION DE VALORES DE ACUERDO A LOS PARAMETROS DE CONTRO DE DISPERSION Y LOS 
                             * RUBROS POR CADA UNO DE LOS SERVICIOS.
                             */
-
-                            Entitie cdisper = new Entitie(App.TABLE_CONTROLDIPS);
-                            Entitie rdisper = new Entitie(App.TABLE_REGISTRORECEP);
-                            Entitie rubros = new Entitie(App.TABLE_RUBRODIPS);
+                            new DispersionValores().dispersion(valors*(-1), dos);
                             
-                            for(String i: rdisper.getColums()){
-                                rdisper.getData().add("");
-                            }
-                            ArrayList<Entitie> cdis= cdisper.getEntitieParam("SERVICIO", odetalle.getDataOfLabel("SERVICIO"));
-                            valor= odetalle.getDataOfLabel("VALOR");
-                            int valor1 = valors* -1;
-                            boolean validate= true;//isviable(cdis, valor);
-                            if(validate){
-                                for(Entitie i: cdis){
-                                    int valor2=0;
-                                    if(i.getDataOfLabel("TIPO").equals("1")){
-                                        int v =Integer.parseInt(i.getDataOfLabel("VALOR"));
-                                        valor2 = (v*valor1)/100;
-                                    }
-                                    if(i.getDataOfLabel("TIPO").equals("2")){
-                                        valor2 = (Integer.parseInt(i.getDataOfLabel("VALOR")));
-                                    }
-                                    rdisper.getData().set(rdisper.getColums().indexOf("MARCA"), i.getDataOfLabel("MARCA"));
-                                    rdisper.getData().set(rdisper.getColums().indexOf("CONCESIONARIO"), i.getDataOfLabel("CONCESIONARIO"));
-                                    rdisper.getData().set(rdisper.getColums().indexOf("SERVICIO"), i.getDataOfLabel("SERVICIO"));
-                                    rdisper.getData().set(rdisper.getColums().indexOf("RECEPTOR"), i.getDataOfLabel("RECEPTOR"));
-                                    rdisper.getData().set(rdisper.getColums().indexOf("TIPO"), i.getDataOfLabel("TIPO"));
-                                    rdisper.getData().set(rdisper.getColums().indexOf("VALORPROG"), i.getDataOfLabel("VALOR"));
-                                    rdisper.getData().set(rdisper.getColums().indexOf("VALORCALCUL"), valor2+"");
-                                    rdisper.getData().set(rdisper.getColums().indexOf("VALORBASE"), valor);
-                                    rdisper.create();
-                                }
-                            }
-                            else{
-                                //POR COMPLETAR
-                            }
-                            //SEGUNDA PARTE DE LA DISPERSION
-                            
-                            
-                            //END PROCESS
                             out.println("<script type=\"text/javascript\">\n" +
                             "    swal(\n" +
                             "        'Guardado!',\n" +
@@ -333,9 +292,9 @@ public class ValidatePurpacheServiceAction extends HttpServlet {
                         
                     }
                     if(estado.equals("3")){
-                        odetalle.getData().set(odetalle.getColums().indexOf("ESTADO"), estado);
-                        odetalle.getData().set(odetalle.getColums().indexOf("OBSERVACIONES"), observaciones);
-                        odetalle.update();
+                        dos.getData().set(dos.getColums().indexOf("ESTADO"), estado);
+                        dos.getData().set(dos.getColums().indexOf("OBSERVACIONES"), observaciones);
+                        dos.update();
                         out.println("<script type=\"text/javascript\">\n" +
                             "    swal(\n" +
                             "        'Guardado',\n" +

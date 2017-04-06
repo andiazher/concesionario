@@ -71,11 +71,10 @@ public class Informes extends HttpServlet {
                             receptor.getEntitieID(i.getDataOfLabel("RECEPTOR"));
                             out.println("<td>"+concesionario.getDataOfLabel("NOMBRE")+"</td>");
                             out.println("<td>"+receptor.getDataOfLabel("DESCRIPCION")+"</td>");
-                            osdetalle.getEntitieID(i.getDataOfLabel("SERVICIO"));
-                            orden.getEntitieID(osdetalle.getDataOfLabel("OS"));
-                            out.println("<td>"+orden.getDataOfLabel("FECHA")+"</td>");
+                            osdetalle.getEntitieID(i.getDataOfLabel("DOS"));
+                            out.println("<td>"+i.getDataOfLabel("FECHA")+"</td>");
                             servicio.getEntitieID(osdetalle.getDataOfLabel("SERVICIO"));
-                            out.println("<td>"+servicio.getDataOfLabel("DESCRIPCION")+"</td>");
+                            out.println("<td>"+servicio.getDataOfLabel("DESCRIPCION")+"/"+i.getDataOfLabel("RUBRO")+"</td>");
                             DecimalFormat formateador = new DecimalFormat("###,###.##");
                             out.println("<td class=\"text-right\">$"+formateador.format(Integer.parseInt(i.getDataOfLabel("VALORBASE")))+"</td>");
                             String ss= "%";
