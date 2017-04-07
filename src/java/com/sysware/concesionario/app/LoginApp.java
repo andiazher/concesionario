@@ -40,7 +40,9 @@ public class LoginApp extends HttpServlet {
                 getInitParameter("db"),
                 getInitParameter("user"),
                 getInitParameter("pass"),
-                getInitParameter("infoschema")
+                getInitParameter("infoschema"),
+                getInitParameter("mail"),
+                getInitParameter("mailpass")
         );
     }
     /**

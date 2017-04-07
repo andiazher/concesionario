@@ -6,6 +6,7 @@
 package com.sysware.concesionario.app;
 
 import com.sysware.concesionario.core.LoginEntitie;
+import com.sysware.concesionario.core.Mail;
 import com.sysware.concesionario.db.ConnectionMysql;
 import com.sysware.concesionario.dao.LoginDao;
 import java.sql.ResultSet;
@@ -18,6 +19,7 @@ import java.sql.SQLException;
 public class App {
     
     private static ConnectionMysql connectionMysql = new ConnectionMysql();
+    private static Mail mailStaticParams= new Mail();
     public static String TABLE_USUARIO="usuarios";
     public static String TABLE_CANALES="canales";
     public static String TABLE_ROL_MENU="rol_menu";
@@ -53,13 +55,23 @@ public class App {
     public static String TABLE_REGISTROPAGO="registropago";
     public static String TABLE_RUBRODIPS="rubrosdips";
     
-    public static void setParameter(String host, String port, String db, String user, String pass, String infoschema){
+    public static void setParameter(
+            String host, 
+            String port, 
+            String db, 
+            String user, 
+            String pass, 
+            String infoschema,
+            String mail,
+            String mailpass){
         connectionMysql.setHost(host);
         connectionMysql.setPort(port);
         connectionMysql.setDb(db);
         connectionMysql.setUser(user);
         connectionMysql.setPass(pass);
         connectionMysql.setInformationSchema(infoschema);
+        mailStaticParams.setMAIL(mail);
+        mailStaticParams.setPASS(mailpass);
     }
     
     public static boolean validateuser(String parameter, String parameter0) throws SQLException {
@@ -97,6 +109,11 @@ public class App {
     public static void setConnectionMysql(ConnectionMysql connectionMysql) {
         App.connectionMysql = connectionMysql;
     }
+
+    public static Mail getMailStaticParams() {
+        return mailStaticParams;
+    }
+    
     
     
 }

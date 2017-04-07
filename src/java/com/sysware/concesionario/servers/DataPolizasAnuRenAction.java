@@ -6,7 +6,7 @@
 package com.sysware.concesionario.servers;
 
 import com.sysware.concesionario.app.App;
-import com.sysware.concesionario.core.MailServerAndiazher;
+import com.sysware.concesionario.core.Mail;
 import com.sysware.concesionario.entitie.Entitie;
 import com.sysware.concesionario.services.WebServiceAsistenciaDen;
 import java.io.IOException;
@@ -121,6 +121,8 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                             ad.getData().set(ad.getColums().indexOf("ESTADO"), "3");
                             ad.getData().set(ad.getColums().indexOf("ESTADOPOL"), "ANULADA");
                             ad.update(); //ACTUALIZAR LA POLZIA CANCELADA
+                            int ram=(int) (Math.random()*100000);
+                            ad.getData().set(ad.getColums().indexOf("POLIZA"), "*NV*"+ram);
                             ad.create(); //CREAR LA NUEVA POLIZA
                             ArrayList<Entitie> asds= ad.getEntitieParam("CLIENTE", ad.getDataOfLabel("CLIENTE"));
                             String idPoliza="";
@@ -161,7 +163,6 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                             //REGISTRO DE NUEVA POLIZA CON EL LOS DATOS DEL CLIENTE
                             Entitie cliente = new Entitie(App.TABLE_CLIENTE);
                             cliente.getEntitieID(ad.getDataOfLabel("CLIENTE"));
-                            
                             String messagge = wsad.registro(ad, cliente);
                             System.out.println("Respuesta del Servicio Crear: "+messagge);
                             
@@ -169,14 +170,11 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                                 ad.getData().set(ad.getColums().indexOf("ESTADO"), "2");
                                 ad.getData().set(ad.getColums().indexOf("ESTADOPOL"), "VIGENTE");
                                 //SEND MAIL 
-                                System.out.println("Sender Mail");
-                                MailServerAndiazher mail = new MailServerAndiazher();
-                                System.out.println("Create Mail Class End ");
+                                Mail mail = new Mail();
                                 String mc= cliente.getDataOfLabel("CORREO");
                                 mc = mc.toLowerCase();
                                 mc = mc.trim();
                                 boolean enviado = false;
-                                System.out.println("Correo Electronico: "+mc);
                                 if(!mc.isEmpty()  && !mc.equals("") && !mc.equals(" ") && mc.contains("@") && mc.contains(".") && mc!= null){
                                     mail.setRecipient(mc);
                                     mail.setSubject("NUEVA POLIZA ASISTENCIA DENTAL AD"+idPoliza);
@@ -189,7 +187,7 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                                             +"<p><b>Platinos Seguros</b></p>"
                                             + "<a href=\"sysware-ingenieria.com\">www.platinoseguros.com.co</a>");
                                     enviado = mail.send();
-                                    System.out.println("Enviado a: "+mc + " Confirm:"+enviado);
+                                    System.out.println("Enviar a: "+mc + " Confirm:"+enviado);
                                 }
                                 else{
                                     System.out.println("No enviado");

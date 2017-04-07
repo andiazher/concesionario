@@ -42,7 +42,7 @@ public class MailTest {
     //
     @Test
     public void test() {
-        MailServerAndiazher mail = new MailServerAndiazher();
+        Mail mail = new Mail();
         mail.setRecipient("andiazher.com@gmail.com");
         mail.setSubject("Hello");
         mail.setContend("Hello Andres, This is a test message!");

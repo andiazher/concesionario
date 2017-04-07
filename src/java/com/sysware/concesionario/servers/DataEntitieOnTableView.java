@@ -75,6 +75,7 @@ public class DataEntitieOnTableView extends HttpServlet {
                         for(int j=0; j<i.getColums().size();j++){
                             Entitie object;
                             switch(i.getName()){
+                                //1. VEHICULOS
                                 case "vehiculos":
                                     switch(i.getColums().get(j)){
                                         case "PROPIETARIO":
@@ -107,6 +108,7 @@ public class DataEntitieOnTableView extends HttpServlet {
                                             break;
                                     }
                                     break;
+                                //2. ROL MENU
                                 case "rol_menu":
                                     switch(i.getColums().get(j)){
                                         case "ROL":
@@ -124,6 +126,7 @@ public class DataEntitieOnTableView extends HttpServlet {
                                             break;
                                     }
                                     break;
+                                //3. USUARIOS
                                 case "usuarios":
                                     switch(i.getColums().get(j)){
                                         case "ID_ROL":

@@ -5,6 +5,7 @@
  */
 package com.sysware.concesionario.core;
 
+import com.sysware.concesionario.app.App;
 import java.util.Properties;
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -20,16 +21,16 @@ import javax.mail.internet.MimeMultipart;
  *
  * @author andre
  */
-public class MailServerAndiazher {
+public class Mail {
     
-    private static String MAIL = "andres.diaz@sysware-ingenieria.com";
-    private static String PASS = "sysware2017";
+    private static String MAIL;
+    private static String PASS;
     
     private String subject;
     private String contend;
     private String recipient;
 
-    public MailServerAndiazher() {
+    public Mail() {
         
     }
     
@@ -61,15 +62,13 @@ public class MailServerAndiazher {
             msg.setContent(contend, "text/html");
             
             Transport t =  session.getTransport("smtp");
-            t.connect(MAIL,PASS);
+            t.connect(App.getMailStaticParams().getMAIL(),App.getMailStaticParams().getPASS());
             t.sendMessage(msg,msg.getAllRecipients());
             t.close();
             return true;
             
         }catch(MessagingException e){
             e.printStackTrace();
-            System.out.println("Error de envio:"+e);
-            System.err.println("Error de envio2:"+e);
             return false;
         }
         
@@ -97,6 +96,22 @@ public class MailServerAndiazher {
 
     public void setRecipient(String recipient) {
         this.recipient = recipient;
+    }
+
+    public String getMAIL() {
+        return MAIL;
+    }
+
+    public void setMAIL(String MAIL) {
+        this.MAIL = MAIL;
+    }
+
+    public String getPASS() {
+        return PASS;
+    }
+
+    public void setPASS(String PASS) {
+        this.PASS = PASS;
     }
     
     

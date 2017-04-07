@@ -238,11 +238,12 @@ public class TodosServiciosInform extends HttpServlet {
                 }
             }
             else{
-                response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales");
+                response.sendRedirect("app.jsp?validate=Por+favor+ingresar+credenciales");
             }
         }
         catch(NullPointerException e){
-            response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales");
+            response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales Error: "+e.getMessage());
+            e.printStackTrace();
         }
     }
 

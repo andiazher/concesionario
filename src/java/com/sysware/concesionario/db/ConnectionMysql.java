@@ -55,7 +55,8 @@ public class ConnectionMysql {
             sentencia = getConnection().createStatement();
             sentencia.executeUpdate(sql);  
         } catch (SQLException e) { 
-            System.out.print("ERROR SQL"); 
+            System.out.print("ERROR SQL");
+            e.printStackTrace();
             return false; 
         }        
         return true; 
@@ -69,6 +70,7 @@ public ResultSet consultar(String sql) throws SQLException {
             resultado = sentencia.executeQuery(); 
         } catch (SQLException e) { 
             System.out.print("ERROR SQL: "+sql); 
+            e.printStackTrace();
             return null; 
         }
        

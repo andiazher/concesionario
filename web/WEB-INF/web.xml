@@ -28,6 +28,14 @@
             <param-name>pass</param-name>
             <param-value>root</param-value>
         </init-param>
+        <init-param>
+            <param-name>mail</param-name>
+            <param-value>andres.diaz@sysware-ingenieria.com</param-value>
+        </init-param>
+        <init-param>
+            <param-name>mailpass</param-name>
+            <param-value>sysware2017</param-value>
+        </init-param>
     </servlet>
     <servlet>
         <servlet-name>NameFrame</servlet-name>
