@@ -74,6 +74,7 @@ public class Informes extends HttpServlet {
                             osdetalle.getEntitieID(i.getDataOfLabel("DOS"));
                             out.println("<td>"+i.getDataOfLabel("FECHA")+"</td>");
                             servicio.getEntitieID(osdetalle.getDataOfLabel("SERVICIO"));
+                            System.out.println(servicio);
                             out.println("<td>"+servicio.getDataOfLabel("DESCRIPCION")+"/"+i.getDataOfLabel("RUBRO")+"</td>");
                             DecimalFormat formateador = new DecimalFormat("###,###.##");
                             out.println("<td class=\"text-right\">$"+formateador.format(Integer.parseInt(i.getDataOfLabel("VALORBASE")))+"</td>");
