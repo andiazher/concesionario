@@ -144,6 +144,7 @@ public class DataEntitieOnTableView extends HttpServlet {
                                             break;
                                     }
                                     break;
+                                //4. ROLES
                                 case "roles":
                                     switch(i.getColums().get(j)){
                                         case "MENUDEF":
@@ -156,7 +157,8 @@ public class DataEntitieOnTableView extends HttpServlet {
                                             break;
                                     }
                                     break;
-                                case "concesionario":
+                                //5. CONCESIONARIO
+                                case "conce":
                                     switch(i.getColums().get(j)){
                                         case "ID_MARCA":
                                             object = new Entitie(App.TABLE_MARCA);
@@ -178,6 +180,25 @@ public class DataEntitieOnTableView extends HttpServlet {
                                             break;
                                     }
                                     break;
+                                //6. CANALES
+                                case "canales":
+                                    switch(i.getColums().get(j)){
+                                        case "ID_CIUDAD":
+                                            object = new Entitie(App.TABLE_CIUDADES);
+                                            object.getEntitieID(i.getData().get(j));
+                                            out.println("<td>"+object.getDataOfLabel("CIUDAD")+"</td>");
+                                            break;
+                                        case "ID_CONCESIONARIO":
+                                            object = new Entitie(App.TABLE_CONCESIONARIO);
+                                            object.getEntitieID(i.getData().get(j));
+                                            out.println("<td>"+object.getDataOfLabel("NOMBRE")+"</td>");
+                                            break;
+                                        default:
+                                            out.println("<td>"+i.getData().get(j)+"</td>");
+                                            break;
+                                    }
+                                    break;
+                                //DEFAUL END
                                 default:
                                     out.println("<td>"+i.getData().get(j)+"</td>");
                                     break;

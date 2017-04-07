@@ -80,6 +80,7 @@ public class EditEntitieFormView extends HttpServlet {
                                     Entitie object;
                                     ArrayList<Entitie> objects;
                                     switch(entitie.getName()){
+                                        //1. VEHICULOS
                                         case "vehiculos":
                                             switch(entitie.getColums().get(i)){
                                                 case "PROPIETARIO":
@@ -154,6 +155,7 @@ public class EditEntitieFormView extends HttpServlet {
                                                     break;
                                             }
                                             break;
+                                        //2. ROL MENU
                                         case "rol_menu":
                                             switch(entitie.getColums().get(i)){
                                                 case "ROL":
@@ -189,6 +191,7 @@ public class EditEntitieFormView extends HttpServlet {
                                                     break;
                                             }
                                             break;
+                                        //3. USUARIOS
                                         case "usuarios":
                                             switch(entitie.getColums().get(i)){
                                                 case "ID_ROL":
@@ -224,6 +227,7 @@ public class EditEntitieFormView extends HttpServlet {
                                                     break;
                                             }
                                             break;
+                                        //4. ROLES
                                         case "roles":
                                             switch(entitie.getColums().get(i)){
                                                 case "MENUDEF":
@@ -246,7 +250,8 @@ public class EditEntitieFormView extends HttpServlet {
                                                     break;
                                             }
                                             break;
-                                        case "concesionario":
+                                        //5. CONCESIONARIO
+                                        case "conce":
                                             switch(entitie.getColums().get(i)){
                                                 case "ID_MARCA":
                                                     object = new Entitie(App.TABLE_MARCA);
@@ -293,8 +298,45 @@ public class EditEntitieFormView extends HttpServlet {
                                                         + "name=\""+entitie.getColums().get(i)+"\">");
                                                     break;
                                             }
+                                            break; 
+                                        //6. CANALES
+                                        case "canales":
+                                            switch(entitie.getColums().get(i)){
+                                                
+                                                case "ID_CIUDAD":
+                                                    object = new Entitie(App.TABLE_CIUDADES);
+                                                    objects = object.getEntities();
+                                                    out.println("<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\""+entitie.getColums().get(i)+"\">");
+                                                    out.println("<option selected=\"\" value=\"0\">--SELECCIONAR--</option>");
+                                                    for(Entitie ob: objects){
+                                                        String selected= get.equals(ob.getId()) ? "selected":"";
+                                                        out.println("<option value=\""+ob.getId()+"\" "+selected+" >"
+                                                                +ob.getDataOfLabel("DEPARTAMENTO")+" - "+ob.getDataOfLabel("CIUDAD")
+                                                                + "</option>");
+                                                    }
+                                                    out.println("</select>");
+                                                    break;
+                                                case "ID_CONCESIONARIO":
+                                                    object = new Entitie(App.TABLE_CONCESIONARIO);
+                                                    objects = object.getEntities();
+                                                    out.println("<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\""+entitie.getColums().get(i)+"\">");
+                                                    out.println("<option selected=\"\" value=\"0\">--SELECCIONAR--</option>");
+                                                    for(Entitie ob: objects){
+                                                        String selected= get.equals(ob.getId()) ? "selected":"";
+                                                        out.println("<option value=\""+ob.getId()+"\" "+selected+" >"
+                                                                +ob.getDataOfLabel("NOMBRE")
+                                                                + "</option>");
+                                                    }
+                                                    out.println("</select>");
+                                                    break;
+                                                default:
+                                                    out.println("<input type=\"text\" class=\"form-control\" value=\""+get+"\" "
+                                                        + "placeholder=\""+entitie.getColums().get(i)+"\" "
+                                                        + "name=\""+entitie.getColums().get(i)+"\">");
+                                                    break;
+                                            }
                                             break;    
-                                            
+                                        //DEFAULT    
                                         default: 
                                             out.println("<input type=\"text\" class=\"form-control\" value=\""+get+"\" "
                                             + "placeholder=\""+entitie.getColums().get(i)+"\" "
