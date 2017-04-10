@@ -100,6 +100,20 @@ public class FormClientAsitDentalAction extends HttpServlet {
                 try{
                     cliente= cliente.getEntitieParam("CEDULA", identifica).get(0);
                     idCliente = cliente.getId();
+                    //ACTUALIZCION DE DATOS
+                    //cliente.getData().set(cliente.getColums().indexOf("CEDULA"), identifica);
+                    //cliente.getData().set(cliente.getColums().indexOf("TIPODOC"), ti);
+                    cliente.getData().set(cliente.getColums().indexOf("NOMBRE"), nombre);
+                    cliente.getData().set(cliente.getColums().indexOf("SNOMBRE"), nombre2);
+                    cliente.getData().set(cliente.getColums().indexOf("APELLIDO"), apellido);
+                    cliente.getData().set(cliente.getColums().indexOf("SAPELLIDO"), apellido2);
+                    cliente.getData().set(cliente.getColums().indexOf("DIRECCION"), direccion);
+                    cliente.getData().set(cliente.getColums().indexOf("TELEFONO"), telefono);
+                    cliente.getData().set(cliente.getColums().indexOf("CELULAR"), celular);
+                    cliente.getData().set(cliente.getColums().indexOf("CORREO"), correo);
+                    cliente.getData().set(cliente.getColums().indexOf("FNACIMIENTO"), fechaNaci);
+                    cliente.update();
+                    
                 }catch(IndexOutOfBoundsException s){
                     System.out.println("Error: "+s);
                 }
