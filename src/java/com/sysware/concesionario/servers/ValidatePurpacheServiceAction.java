@@ -432,6 +432,7 @@ public class ValidatePurpacheServiceAction extends HttpServlet {
             p.getData().set(p.getColums().indexOf("SAPELLIDO"),request.getParameter("sapellido").toUpperCase());
             p.getData().set(p.getColums().indexOf("DIRECCION"),request.getParameter("direccion").toUpperCase());
             p.getData().set(p.getColums().indexOf("CELULAR"),request.getParameter("celular"));
+            p.getData().set(p.getColums().indexOf("TELEFONO"),request.getParameter("telefono"));
             p.getData().set(p.getColums().indexOf("CORREO"),request.getParameter("correo").toLowerCase());
             p.getData().set(p.getColums().indexOf("TELEFONO"),request.getParameter("telefono"));
             ve.getData().set(ve.getColums().indexOf("PROPIETARIO"), p.getId());
