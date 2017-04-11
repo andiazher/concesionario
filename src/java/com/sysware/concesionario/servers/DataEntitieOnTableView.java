@@ -197,6 +197,36 @@ public class DataEntitieOnTableView extends HttpServlet {
                                             out.println("<td>"+i.getData().get(j)+"</td>");
                                             break;
                                     }
+                                //7. CONTROL DE DISPERSION
+                                case "controldispersion":
+                                    switch(i.getColums().get(j)){
+                                        case "CONCESIONARIO":
+                                            object = new Entitie(App.TABLE_CONCESIONARIO);
+                                            object.getEntitieID(i.getData().get(j));
+                                            out.println("<td>"+object.getDataOfLabel("NOMBRE")+"</td>");
+                                            break;
+                                        case "RUBRO":
+                                            object = new Entitie(App.TABLE_RUBRODIPS);
+                                            object.getEntitieID(i.getData().get(j));
+                                            out.println("<td>"+object.getDataOfLabel("NOMRUBRO")+"</td>");
+                                            break;
+                                        case "RECEPTOR":
+                                            object = new Entitie(App.TABLE_RECEPTORES);
+                                            object.getEntitieID(i.getData().get(j));
+                                            out.println("<td>"+object.getDataOfLabel("DESCRIPCION")+"</td>");
+                                            break;
+                                        case "TIPO":
+                                            if(i.getData().get(j).equals("1")){
+                                                out.println("<td>% Porcentaje</td>");
+                                            }
+                                            else{
+                                                out.println("<td>$ Fijo</td>");
+                                            }
+                                            break;    
+                                        default:
+                                            out.println("<td>"+i.getData().get(j)+"</td>");
+                                            break;
+                                    }
                                     break;
                                 //DEFAUL END
                                 default:

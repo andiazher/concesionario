@@ -139,9 +139,12 @@ public class DataFormServiceView extends HttpServlet {
                     out.println("\"vin\": \""+v.getDataOfLabel("NO_VIN")+"\",");
                     out.println("\"cedula\": \""+p.getDataOfLabel("CEDULA")+"\",");
                     out.println("\"nombre\": \""+p.getDataOfLabel("NOMBRE")+"\",");
+                    out.println("\"snombre\": \""+p.getDataOfLabel("SNOMBRE")+"\",");
                     out.println("\"apellido\": \""+p.getDataOfLabel("APELLIDO")+"\",");
+                    out.println("\"sapellido\": \""+p.getDataOfLabel("SAPELLIDO")+"\",");
                     out.println("\"direccion\": \""+p.getDataOfLabel("DIRECCION")+"\",");
                     out.println("\"celular\": \""+p.getDataOfLabel("CELULAR")+"\",");
+                    out.println("\"telefono\": \""+p.getDataOfLabel("TELEFONO")+"\",");
                     out.println("\"correo\": \""+p.getDataOfLabel("CORREO")+"\",");
                     out.println("\"total\": \""+detalle.getDataOfLabel("VALOR")+"\",");
                     out.println("\"conce\": \""+concesionario.getDataOfLabel("NOMBRE")+"\",");

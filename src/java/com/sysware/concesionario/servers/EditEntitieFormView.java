@@ -335,6 +335,79 @@ public class EditEntitieFormView extends HttpServlet {
                                                         + "name=\""+entitie.getColums().get(i)+"\">");
                                                     break;
                                             }
+                                            break; 
+                                        
+                                        //7. CONTROL DE DISPERSION
+                                        case "controldispersion":
+                                            switch(entitie.getColums().get(i)){
+                                                
+                                                case "CONCESIONARIO":
+                                                    object = new Entitie(App.TABLE_CONCESIONARIO);
+                                                    objects = object.getEntities();
+                                                    out.println("<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\""+entitie.getColums().get(i)+"\">");
+                                                    out.println("<option selected=\"\" value=\"0\">--SELECCIONAR--</option>");
+                                                    for(Entitie ob: objects){
+                                                        String selected= get.equals(ob.getId()) ? "selected":"";
+                                                        out.println("<option value=\""+ob.getId()+"\" "+selected+" >"
+                                                                +ob.getDataOfLabel("NOMBRE")
+                                                                + "</option>");
+                                                    }
+                                                    out.println("</select>");
+                                                    break;
+                                                
+                                                case "RUBRO":
+                                                    object = new Entitie(App.TABLE_RUBRODIPS);
+                                                    objects = object.getEntities();
+                                                    out.println("<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\""+entitie.getColums().get(i)+"\">");
+                                                    out.println("<option selected=\"\" value=\"0\">--SELECCIONAR--</option>");
+                                                    for(Entitie ob: objects){
+                                                        String selected= get.equals(ob.getId()) ? "selected":"";
+                                                        out.println("<option value=\""+ob.getId()+"\" "+selected+" >"
+                                                                +ob.getDataOfLabel("NOMRUBRO")
+                                                                + "</option>");
+                                                    }
+                                                    out.println("</select>");
+                                                    break;
+                                                case "RECEPTOR":
+                                                    object = new Entitie(App.TABLE_RECEPTORES);
+                                                    objects = object.getEntities();
+                                                    out.println("<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\""+entitie.getColums().get(i)+"\">");
+                                                    out.println("<option selected=\"\" value=\"0\">--SELECCIONAR--</option>");
+                                                    for(Entitie ob: objects){
+                                                        String selected= get.equals(ob.getId()) ? "selected":"";
+                                                        out.println("<option value=\""+ob.getId()+"\" "+selected+" >"
+                                                                +ob.getDataOfLabel("DESCRIPCION")
+                                                                + "</option>");
+                                                    }
+                                                    out.println("</select>");
+                                                    break;
+                                                case "TIPO":
+                                                    
+                                                    out.println("<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\""+entitie.getColums().get(i)+"\">");
+                                                    out.println("<option selected=\"\" value=\"0\">--SELECCIONAR--</option>");
+                                                    for(int is=0; is<=1; is++){
+                                                        String identi=is+"";
+                                                        String selected= get.equals(identi) ? "selected":"";
+                                                        if(identi.equals("1")){
+                                                            out.println("<option value=\""+is+"\" "+selected+" >"
+                                                                + "% Porcentaje"
+                                                                + "</option>");
+                                                        }
+                                                        else{
+                                                            out.println("<option value=\""+is+"\" "+selected+" >"
+                                                                + "$ Fijo"
+                                                                + "</option>");
+                                                        }
+                                                        
+                                                    }
+                                                    out.println("</select>");
+                                                    break;
+                                                default:
+                                                    out.println("<input type=\"text\" class=\"form-control\" value=\""+get+"\" "
+                                                        + "placeholder=\""+entitie.getColums().get(i)+"\" "
+                                                        + "name=\""+entitie.getColums().get(i)+"\">");
+                                                    break;
+                                            }
                                             break;    
                                         //DEFAULT    
                                         default: 

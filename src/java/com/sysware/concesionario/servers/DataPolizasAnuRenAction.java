@@ -49,6 +49,7 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                     menu=request.getParameter("menu");
                     servicio= request.getParameter("servicio");
                     poliza= request.getParameter("poliza");
+                    System.out.println("Poliza En Proceso: "+poliza);
                 }catch(IndexOutOfBoundsException s){
                     s.printStackTrace();
                 }

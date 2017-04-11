@@ -247,9 +247,12 @@
             $("#vin").attr("value",valores.vin);
             $("#cedula").attr("value",valores.cedula);
             $("#nombre").attr("value",valores.nombre);
+            $("#snombre").attr("value",valores.snombre);
             $("#apellido").attr("value",valores.apellido);
+            $("#sapellido").attr("value",valores.sapellido);
             $("#direccion").attr("value",valores.direccion);
             $("#celular").attr("value",valores.celular);
+            $("#telefono").attr("value",valores.telefono);
             $("#correo").attr("value",valores.correo);
             //$("#concesionario").attr("value",valores.conce);
             var total = valores.total;
