@@ -91,7 +91,6 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                            registro = registro.getEntitieParam("POLIZA", poliza).get(0);
                            registro.getData().set(registro.getColums().indexOf("ESTADOP"),"ANULADA");
                            registro.update();
-                           //FALTA 
                            String npoliza = request.getParameter("npoliza").toUpperCase();
                            Calendar fecha = new GregorianCalendar();
                            String f= fecha.get(Calendar.YEAR) +"-"+(fecha.get(Calendar.MONTH)+1)+"-"+fecha.get(Calendar.DAY_OF_MONTH);
@@ -119,9 +118,9 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                        Entitie ad = new Entitie(App.TABLE_ASIS_DENTAL);
                        try{
                             ad = ad.getEntitieParam("POLIZA", poliza).get(0);
-                            ad.getData().set(ad.getColums().indexOf("ESTADO"), "3");
-                            ad.getData().set(ad.getColums().indexOf("ESTADOPOL"), "ANULADA");
-                            ad.update(); //ACTUALIZAR LA POLZIA CANCELADA
+                            //ad.getData().set(ad.getColums().indexOf("ESTADO"), "3");
+                            //ad.getData().set(ad.getColums().indexOf("ESTADOPOL"), "ANULADA");
+                            //ad.update(); //ACTUALIZAR LA POLZIA CANCELADA
                             int ram=(int) (Math.random()*100000);
                             ad.getData().set(ad.getColums().indexOf("POLIZA"), "*NV*"+ram);
                             ad.create(); //CREAR LA NUEVA POLIZA
@@ -168,9 +167,18 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                             System.out.println("Respuesta del Servicio Crear: "+messagge);
                             
                             if(messagge.equals("1")){
+                                
                                 ad.getData().set(ad.getColums().indexOf("ESTADO"), "2");
                                 ad.getData().set(ad.getColums().indexOf("ESTADOPOL"), "VIGENTE");
                                 //SEND MAIL 
+                                try{
+                                    ad = ad.getEntitieParam("POLIZA", poliza).get(0);
+                                    ad.getData().set(ad.getColums().indexOf("ESTADO"), "3");
+                                    ad.getData().set(ad.getColums().indexOf("ESTADOPOL"), "ANULADA");
+                                    ad.update(); //ACTUALIZAR LA POLZIA CANCELADA
+                                }catch(IndexOutOfBoundsException s){
+                                    s.printStackTrace();
+                                }
                                 Mail mail = new Mail();
                                 String mc= cliente.getDataOfLabel("CORREO");
                                 mc = mc.toLowerCase();
@@ -217,7 +225,7 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                                     out.println("<script type=\"text/javascript\">\n"
                                             +" swal(\n" +
                                         "'Error al renovar!',\n" +
-                                        "'Las Polizas "+poliza+" y AD"+idPoliza+" han sido anuladas. Razón: "+messagge+" ',\n" +
+                                        "'La Poliza "+poliza+" no ha se ha renovado. Razón: "+messagge+" ',\n" +
                                         "'error'\n" +
                                         ")\n"
                                         + "</script>");
