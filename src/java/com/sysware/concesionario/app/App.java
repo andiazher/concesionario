@@ -85,7 +85,7 @@ public class App {
         return false;
     }
     
-    public static ResultSet consultar(String sql) throws SQLException{
+    public static ResultSet consult(String sql) throws SQLException{
         if(connectionMysql.getConnection()==null){
             connectionMysql.conectar();
         }

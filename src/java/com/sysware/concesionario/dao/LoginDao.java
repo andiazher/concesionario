@@ -17,7 +17,7 @@ import java.sql.SQLException;
 public class LoginDao {
 
     public static LoginEntitie getLogin(String usuario, String pass) throws SQLException {
-        ResultSet resultado=App.consultar("Select USUARIO, CLAVE from USUARIOS where USUARIO='"+usuario+"'");
+        ResultSet resultado=App.consult("Select USUARIO, CLAVE from USUARIOS where USUARIO='"+usuario+"'");
         LoginEntitie login = new LoginEntitie();
         while(resultado.next()){
             login.setUser(resultado.getString("USUARIO"));

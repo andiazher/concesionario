@@ -38,7 +38,7 @@ public class Entitie {
         sql+="SELECT COLUMN_NAME FROM "+App.getConnectionMysql().getInformationSchema()+".columns "
                 + "where table_schema ='"+App.getConnectionMysql().getDb()+"' and table_name='"+name+"'";
         try{
-            ResultSet resultSet = App.consultar(sql);
+            ResultSet resultSet = App.consult(sql);
             while(resultSet.next()){
                 String request = resultSet.getString("COLUMN_NAME");
                 if(!request.equals("ID")){
@@ -146,7 +146,7 @@ public class Entitie {
     public void getEntitieID(String id) throws SQLException{
         String sql = "";
         sql+="SELECT * FROM "+App.getConnectionMysql().getDb()+"."+ name +" where ID="+id ;
-        ResultSet query= App.consultar(sql);
+        ResultSet query= App.consult(sql);
         setId(id);
         setData(new ArrayList<>());
         while(query.next()){
@@ -175,7 +175,7 @@ public class Entitie {
             }
         }
         sql+="SELECT * FROM "+App.getConnectionMysql().getDb()+"."+ name +" where "+params+";";
-        ResultSet query= App.consultar(sql);
+        ResultSet query= App.consult(sql);
         ArrayList<Entitie> entities= new ArrayList<>();
         while(query.next()){
             Entitie entitie = new Entitie(name);
@@ -207,7 +207,7 @@ public class Entitie {
             }
         }
         sql+="SELECT * FROM "+App.getConnectionMysql().getDb()+"."+ name +" where "+params+";";
-        ResultSet query= App.consultar(sql);
+        ResultSet query= App.consult(sql);
         ArrayList<Entitie> entities= new ArrayList<>();
         while(query.next()){
             Entitie entitie = new Entitie(name);
@@ -252,7 +252,7 @@ public class Entitie {
             Otables = ", "+Otables;
         }
         sql+=" FROM "+App.getConnectionMysql().getDb()+"."+ name +Otables+"  where "+params+";";
-        ResultSet query= App.consultar(sql);
+        ResultSet query= App.consult(sql);
         ArrayList<Entitie> entities= new ArrayList<>();
         while(query.next()){
             Entitie entitie = new Entitie(name);
@@ -277,7 +277,7 @@ public class Entitie {
         String params = "";
         params+=param+"='"+param2+"'";
         sql+="SELECT * FROM "+App.getConnectionMysql().getDb()+"."+ name +" where "+params+";";
-        ResultSet query= App.consultar(sql);
+        ResultSet query= App.consult(sql);
         ArrayList<Entitie> entities= new ArrayList<>();
         while(query.next()){
             Entitie entitie = new Entitie(name);
@@ -298,7 +298,7 @@ public class Entitie {
     public ArrayList<Entitie> getEntities() throws SQLException{
         String sql = "";
         sql+="SELECT * FROM "+App.getConnectionMysql().getDb()+"."+ name + " order by ID;";
-        ResultSet query= App.consultar(sql);
+        ResultSet query= App.consult(sql);
         ArrayList<Entitie> entities= new ArrayList<>();
         while(query.next()){
             Entitie entitie = new Entitie(name);
