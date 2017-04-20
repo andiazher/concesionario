@@ -170,12 +170,13 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                                 
                                 ad.getData().set(ad.getColums().indexOf("ESTADO"), "2");
                                 ad.getData().set(ad.getColums().indexOf("ESTADOPOL"), "VIGENTE");
+                                ad.update();
                                 //SEND MAIL 
                                 try{
                                     ad = ad.getEntitieParam("POLIZA", poliza).get(0);
                                     ad.getData().set(ad.getColums().indexOf("ESTADO"), "3");
                                     ad.getData().set(ad.getColums().indexOf("ESTADOPOL"), "ANULADA");
-                                    ad.update(); //ACTUALIZAR LA POLZIA CANCELADA
+                                    ad.update(); //ACTUALIZAR LA POLIZA CANCELADA
                                 }catch(IndexOutOfBoundsException s){
                                     s.printStackTrace();
                                 }
@@ -233,8 +234,9 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                                 //PASO DEL SERVICIO A NO TRAMITADO.
                                 ad.getData().set(ad.getColums().indexOf("ESTADO"), "3");
                                 ad.getData().set(ad.getColums().indexOf("ESTADOPOL"), "ANULADA");
+                                ad.update();
                             }
-                            ad.update();
+                            
                             
                        }catch(IndexOutOfBoundsException s){
                            s.printStackTrace();

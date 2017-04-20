@@ -62,6 +62,8 @@ public class Mail {
             msg.setContent(contend, "text/html");
             
             Transport t =  session.getTransport("smtp");
+            //System.out.println("user: "+App.getMailStaticParams().getMAIL()+" pass: "
+            //        +App.getMailStaticParams().getPASS());
             t.connect(App.getMailStaticParams().getMAIL(),App.getMailStaticParams().getPASS());
             t.sendMessage(msg,msg.getAllRecipients());
             t.close();

@@ -68,7 +68,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.jsp">Sistema Ordenes de Servicio para Vehículos</a>
+                <a class="navbar-brand" href="index.jsp">Asistente de Servicios</a>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
