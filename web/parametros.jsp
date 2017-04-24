@@ -32,12 +32,11 @@
                                             <div class="col-md-10">
                                                 <div class="form-group label-floating input-group col-md-12">
                                                     <label class="control-label">Formulario o Parametro</label>
-                                                    <select class="select-with-transition" data-style="btn btn-default" name="formulario" id="formulario" required="true">
+                                                    <select class="select-with-transition" data-style="btn btn-default" name="formulario" id="formulario" required="true" onchange="loadtableForm()">
                                                         <option disabled="true">-SELECCIONAR FORMULARIO-</option>
                                                     </select>
                                                 </div>
                                             </div>    
-
                                             <div class="col-md-2">
                                                 <button type="submit" class="btn btn-success btn-fill" id="buttonsubmit" onclick="loadtableForm()">
                                                     <span class="btn-label">
@@ -46,16 +45,15 @@
                                                     Buscar
                                                 </button>
                                             </div>    
-
                                         </div>
                                     </form>
-                                    <form action="liquidar" method="post" id="form2">
+                                    <form action="#" method="post" id="form2">
                                         <div class="table-responsive" id="formViewService">
                                             <h4 class="card-title text-center" id="titleContend"> Cargando Valores, por favor espere </h4>
                                             <table class="table">
                                                 <thead class="">
                                                     <th>Id</th>
-                                                    <th>Valor2</th>
+                                                    <th>Valor1</th>
                                                     <th>Valor2</th>
                                                 </thead>
                                                 <tbody>
@@ -84,100 +82,66 @@
         loadtableForm();
     }
     function loadtableForm(){
-        
-    }
-    loadForm();
-
-    function anular(id,tipo){
-        swal({
-              title: "Esta seguro?",
-              text: "Despues de aceptar no se puede renovar la poliza "+id,
-              type: "warning",
-              showCancelButton: true,
-              confirmButtonColor: "#DD6B55",
-              confirmButtonText: "Si, Anular",
-              cancelButtonText: "No, Cancelar",
-              closeOnConfirm: false,
-              closeOnCancel: false
-            },
-            function(isConfirm){
-              if (isConfirm) {
-                var name="anular";
-                $.post("dataPolizasAnuRenAction", { menu:name, poliza: id, servicio:tipo }, function(data){
-                    swal("Anulada!", 'Se ha anulado la poliza '+id+'', "success");
-                    loadtableForm();
-                });   
-              } else {
-                swal("Cancelado", "Se ha cancelado la anulación :)", "error");
-              }
+        var tipo = "valores";
+        var form = document.getElementById('formulario').value;
+        $.post("formParametrosView", { tipof:tipo, formulario: form }, function(data){
+            $("#formViewService").html(data);
         });
     }
+    loadForm();
+    function editarV1(id){
+        editar(id, "1");
+    }
+    function editarV2(id){
+        editar(id, "2");
+    }
 
-
-    function renovar(id, tipo){
+    function editar(id, tipo){
         swal({
               title: "Esta seguro?",
-              text: "Despues de aceptar no se puede renovar la poliza "+id,
+              text: "Desea cambiar el valor"+tipo+" del parametro?",
               type: "warning",
               showCancelButton: true,
               confirmButtonColor: "#DD6B55",
-              confirmButtonText: "Si, Renovar",
+              confirmButtonText: "Si, Editar",
               cancelButtonText: "No, Cancelar",
               closeOnConfirm: false,
               closeOnCancel: false
             },
             function(isConfirm){
               if (isConfirm) {
-                if(tipo=="1"){
-                    swal({
-                      title: "Nuevo Número de Poliza",
-                      text: "Por favor ingresar el nuevo numero de Poliza de SOAT",
+                swal({
+                      title: "Nuevo valor",
+                      text: "Por favor ingresar el nuevo valor"+tipo+" del parametro ID:"+id,
                       type: "input",
                       showCancelButton: true,
                       closeOnConfirm: false,
                       animation: "slide-from-top",
-                      inputPlaceholder: "Write something"
+                      inputPlaceholder: "Nuevo valor"
                     },
                     function(inputValue){
-                      if (inputValue === false) return false;
-                      
-                      if (inputValue === "") {
-                        swal.showInputError("You need to write something!");
-                        return false
-                      }
+                        if (inputValue === false) return false;
+                        if (inputValue === "") {
+                            swal.showInputError("You need to write something!");
+                            return false;
+                        }
+                        swal({
+                          title: "Por favor esperar!",
+                          text: "Se esta procesando su solicitud....",
+                          showConfirmButton: false
+                        });
                         $("#progressbar").html("<div class=\"progress-bar progress-bar-primary\" role=\"progressbar\" aria-valuenow=\"1\" aria-valuemin=\"0\" aria-valuemax=\"1\"  id=\"progressbarview\" style=\"width: 45%; position: fixed; height: 4px; \"></div>");  
-                        var name="renovar";
-                        $.post("dataPolizasAnuRenAction", { menu:name, poliza: id, servicio:tipo, npoliza: inputValue }, function(data){
+                        $.post("formParametrosAction", { idp: id ,parametro:tipo, valor: inputValue }, function(data){
                             $("#progressbarview").css("width","40%");
                             $("#progressbarview").addClass("progress-bar-success");
                             $("#progressbarview").css("width","100%");
                             $( "#form" ).append(data);
                             $("#progressbar").html("<div></div>");
                             loadtableForm();
-                        });    
-                        //swal("Nice!", "You wrote: " + inputValue, "success");
+                        });        
                     });
-                }
-                if(tipo=="2"){
-                    swal({
-                      title: "Por favor esperar!",
-                      text: "Se esta procesando su solicitud....",
-                      showConfirmButton: false
-                    });
-                    var name="renovar";
-                    $("#progressbar").html("<div class=\"progress-bar progress-bar-primary\" role=\"progressbar\" aria-valuenow=\"1\" aria-valuemin=\"0\" aria-valuemax=\"1\"  id=\"progressbarview\" style=\"width: 45%; position: fixed; height: 4px; \"></div>");
-                    $.post("dataPolizasAnuRenAction", { menu:name, poliza: id, servicio:tipo }, function(data){
-                        $("#progressbarview").css("width","40%");
-                        $("#progressbarview").addClass("progress-bar-success");
-                        $("#progressbarview").css("width","100%");
-                        $( "#form" ).append(data);
-                        $("#progressbar").html("<div></div>");
-                        loadtableForm();
-                    });    
-                }
-                   
               } else {
-                swal("Cancelado", "Se ha cancelado la renovación :)", "error");
+                    swal("Cancelado", "Se ha cancelado la edición del parametro :)", "error");
               }
         });
     }

@@ -49,12 +49,42 @@ public class FormParametrosView extends HttpServlet {
                     ArrayList<Entitie> params = parametros.getEntities();
                     try (PrintWriter out = response.getWriter()) {
                         String param="";
+                        String selected= "selected";
                         for(Entitie p: params){
                             if(!p.getDataOfLabel("FORM").equals(param)){
                                 param= p.getDataOfLabel("FORM");
-                                out.println("<option value=\""+p.getId()+"\">"+param+"</option>");
+                                out.println("<option value=\""+p.getId()+"\" "+selected+">"+param+"</option>");
+                                selected="";
                             }
                         }
+                    }
+                }
+                if(tipo.equals("valores")){
+                    String formulario= request.getParameter("formulario");
+                    if(formulario=="" || formulario.equals("")){
+                        formulario="1";
+                    }
+                    parametros.getEntitieID(formulario);
+                    ArrayList<Entitie> params = parametros.getEntitieParam("FORM", parametros.getDataOfLabel("FORM"));
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println("<h4 class=\"card-title text-center\" id=\"titleContend\">"
+                                    + "Valores para el formulario <b>"+parametros.getDataOfLabel("FORM")+"</b></h4>");
+                        out.println("<table class=\"table\">");
+                        out.println("<thead class=\"\">");
+                        out.println("<th>Id</th>\n" +"<th>Valor1</th>\n" +"<th>Valor2</th>");
+                        out.println("</thead>");
+                        out.println("<tbody>");
+                        for(Entitie p: params){
+                            out.println("<tr>");
+                            out.println("<td>"+p.getId()+"</td>");
+                            out.println("<td>"+p.getDataOfLabel("VALUE")+" <a class=\"btn btn-success btn-xs btn-simple\""
+                                    + " onclick=\"editarV1("+p.getId()+")\">Editar</a></td>");
+                            out.println("<td>"+p.getDataOfLabel("VALUE2")+" <a class=\"btn btn-success btn-xs btn-simple\""
+                                    + " onclick=\"editarV2("+p.getId()+")\">Editar</a></td>");
+                            out.println("</tr>");
+                        }
+                        out.println("</tbody>");
+                        out.println("</table>");
                     }
                 }
             }
