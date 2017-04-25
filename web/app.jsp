@@ -4,6 +4,7 @@
     Author     : andre
 --%>
 
+<%@page import="com.sysware.concesionario.app.App"%>
 <%
     try{
         if(!session.getAttribute("session").equals("true")){
@@ -163,7 +164,11 @@
 			                        Portafolio
 			                    </a>
 			                </li>
-			                
+			                <li>
+			                    <a href="#go=andiazher.com/apps/sales/dev?app=1039&v=<%=App.getVersionApp()%>">
+			                        <%=App.getVersionApp()%>
+			                    </a>
+			                </li>
 			            </ul>
 			        </nav>
 			        <p class="copyright pull-right">

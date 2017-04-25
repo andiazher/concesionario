@@ -4,6 +4,7 @@
     Author     : andre
 --%>
 
+<%@page import="com.sysware.concesionario.app.App"%>
 <%
     String name="";
     try{
@@ -139,7 +140,7 @@
             </div>
             <footer class="footer">
                 <div class="container">
-                    <p class=" copyright pull-left"><a href="http://andiazher.com">--</a></p>
+                    <p class=" copyright pull-left"><a href="http://andiazher.com/apps/sales/dev/go?app=1039-SyswareIng&name=AsisServices&v=<%=App.getVersionApp()%>"><%=App.getVersionApp()%></a></p>
                     <p class="copyright pull-right">
                         &copy; <script>document.write(new Date().getFullYear())</script><a href="http://sysware-ingenieria.com"> Sysware Ingenieria</a>
                     </p>
