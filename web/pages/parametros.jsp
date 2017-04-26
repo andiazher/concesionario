@@ -10,11 +10,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        <script src="js/jquery-ui.min.js" type="text/javascript"></script>
-        <script src="js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="js/material.min.js" type="text/javascript"></script>
-        <script src="js/bootstrap-datetimepicker.js"></script>
-        <script src="js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
+        <script src="utils/js/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="utils/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="utils/js/material.min.js" type="text/javascript"></script>
+        <script src="utils/js/bootstrap-datetimepicker.js"></script>
+        <script src="utils/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
         
     </head>
     <body>

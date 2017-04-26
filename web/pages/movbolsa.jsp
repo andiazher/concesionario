@@ -7,7 +7,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!--  DataTables.net Plugin    -->
-<script src="js/jquery.datatables.js"></script>
+<script src="utils/js/jquery.datatables.js"></script>
 
                 <div class="container-fluid">
                     <div class="row">
