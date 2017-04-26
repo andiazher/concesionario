@@ -323,7 +323,7 @@ function load(id){
     });
     //$("#contenido").html("");
     $.post("NamePathMenu", { variable: menu }, function(data){
-    	$.post(data+".jsp", { }, function(data2){
+    	$.post("pages/"+data+".jsp", { }, function(data2){
     		$("#progressbarview").css("width","70%");
     		$("#contenido").html(data2);
     		$("#progressbarview").addClass("progress-bar-success");
