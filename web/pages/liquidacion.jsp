@@ -121,7 +121,7 @@
     function loadcanales(){
     	var menu="canales";
 		var n = document.getElementById('concesionario').value;
-		$.post("ClaseVehiculoClientView", { variable: menu, canal:n }, function(data){
+		$.post("ClaseVehiculoClientView", { variable: menu, concesionario:n }, function(data){
 	    	$("#canal").html(data);
 	    });
 	    loadtable();

@@ -56,11 +56,21 @@
                                                     });
                                                 </script>
                                             </div>
-                                            <div class="col-md-6">
+                                            <div class="col-md-3">
                                                 <div class="form-group label-floating">
-                                                    <label class="control-label">Concesionario</label>
-                                                    <select class="select-with-transition" data-style="btn btn-default" name="concesionario" id="concesionario"  onchange="loadtable()">
-                                                        <option selected="" value="">--SELECCIONAR--</option>
+                                                    <label class="control-label">Canal</label>
+                                                    <select class="select-with-transition" data-style="btn btn-default" name="canal" id="canal"  onchange="loadtable()">
+                                                        <option selected="" value="">--TODOS--</option>
+                                                    </select>                                                
+                                                </div>
+                                            </div>    
+                                            <div class="col-md-3">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Pago</label>
+                                                    <select class="select-with-transition" data-style="btn btn-default" name="pago" id="pago"  onchange="loadtable()">
+                                                        <option selected="" value="0">TODOS</option>
+                                                        <option value="1">PAGADO</option>
+                                                        <option value="2">SIN PAGAR</option>
                                                     </select>                                                
                                                 </div>
                                             </div>    
@@ -77,15 +87,17 @@
                                     </form>
                                     <form action="liquidar" method="post" id="form2">
                                         <div class="table-responsive" id="formViewService">
-                                            <h4 class="card-title text-center" id="titleContend"> Cargando Servicios, por favor espere </h4>
+                                            <h4 class="card-title text-center" id="titleContend"> Cargando Polizas, por favor espere </h4>
                                             <table class="table">
                                                 <thead class="">
-                                                    <th>Liq.</th>
-                                                    <th>Fecha</th>
+                                                    <th>N. Poliza</th>
+                                                    <th>Fecha Exp</th>
                                                     <th>Concesionario</th>
-                                                    <th>Valor</th>
-                                                    <th>P</th>
-                                                    <th>A</th>
+                                                    <th>Canal</th>
+                                                    <th>Cliente</th>
+                                                    <th>V.Prima</th>
+                                                    <th>V.Consingnar</th>
+                                                    <th>Dias</th>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
@@ -184,10 +196,11 @@
     function loadparams(){
         var f = new Date();
         var anoActual = f.getFullYear();
-        var mes= f.getMonth()+1;
+        var mes= f.getMonth();
         var dia = f.getDate();
         var fecha =anoActual+"-"+mes+"-"+dia;
         $("#fecha1").attr("placeholder",fecha);
+        $("#fecha1").attr("value",fecha);
         $("#fecha3").attr("value",fecha);
 
         var f2 = new Date();
@@ -196,9 +209,10 @@
         var dia2 = f2.getDate();
         var fecha2 =anoActual2+"-"+mes2+"-"+dia2;
         $("#fecha2").attr("placeholder",fecha2);
-        var menu="concesionarios";
+        $("#fecha2").attr("value",fecha2);
+        var menu="canalesAll";
         $.post("ClaseVehiculoClientView", { variable: menu }, function(data){
-            $("#concesionario").append(data);
+            $("#canal").html(data);
         });
         loadtableForm("", "");
         //loadtableForm(fecha, fecha2);

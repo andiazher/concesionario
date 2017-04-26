@@ -222,15 +222,32 @@ public class ClaseVehiculoClientView extends HttpServlet {
                     }
                 }
                 /**
-                 * Retorna la lista de canales
+                 * RETORNA UNA LISTA DE CANALES DE ACUERDO A UN CONCESIONARIO
+                 * COMO PARAMETRO
                  */
                 if(var.equals("canales")){
                     Entitie canal = new Entitie(App.TABLE_CANALES);
                     ArrayList<Entitie> canales = new ArrayList<>();
-                    String concesionario = request.getParameter("canal");
+                    String concesionario = request.getParameter("concesionario");
                     canales = canal.getEntitieParam("ID_CONCESIONARIO", concesionario);
                     try (PrintWriter out = response.getWriter()) {
                         out.println("<option selected=\"\" value=\"\">--SELECCIONAR--</option>");
+                        for(Entitie i: canales){
+                            out.println("<option value=\""+i.getId()+"\">" 
+                                    + i.getDataOfLabel("NOMBRE")+"</option>");
+                        }
+                    }
+                }
+                
+                /**
+                 * RETORNA UNA LISTA DE CANALES DE ACUERDO A UN CONCESIONARIO
+                 * COMO PARAMETRO
+                 */
+                if(var.equals("canalesAll")){
+                    Entitie canal = new Entitie(App.TABLE_CANALES);
+                    ArrayList<Entitie> canales = canal.getEntities();
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println("<option selected=\"\" value=\"\">--TODOS--</option>");
                         for(Entitie i: canales){
                             out.println("<option value=\""+i.getId()+"\">" 
                                     + i.getDataOfLabel("NOMBRE")+"</option>");
