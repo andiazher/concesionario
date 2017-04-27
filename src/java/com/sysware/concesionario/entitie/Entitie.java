@@ -174,7 +174,7 @@ public class Entitie {
                 params+=param.get(i)+"='"+param2.get(i)+"'";
             }
         }
-        sql+="SELECT * FROM "+App.getConnectionMysql().getDb()+"."+ name +" where "+params+";";
+        sql+="SELECT * FROM "+App.getConnectionMysql().getDb()+"."+ name +" where "+params+"";
         ResultSet query= App.consult(sql);
         ArrayList<Entitie> entities= new ArrayList<>();
         while(query.next()){
@@ -206,7 +206,7 @@ public class Entitie {
                 params+=param.get(i)+ " "+opera.get(i)+"'"+param2.get(i)+"'";
             }
         }
-        sql+="SELECT * FROM "+App.getConnectionMysql().getDb()+"."+ name +" where "+params+";";
+        sql+="SELECT * FROM "+App.getConnectionMysql().getDb()+"."+ name +" where "+params+"";
         ResultSet query= App.consult(sql);
         ArrayList<Entitie> entities= new ArrayList<>();
         while(query.next()){
@@ -251,7 +251,7 @@ public class Entitie {
         if(!Otables.equals("")){
             Otables = ", "+Otables;
         }
-        sql+=" FROM "+App.getConnectionMysql().getDb()+"."+ name +Otables+"  where "+params+";";
+        sql+=" FROM "+App.getConnectionMysql().getDb()+"."+ name +Otables+"  where "+params+"";
         ResultSet query= App.consult(sql);
         ArrayList<Entitie> entities= new ArrayList<>();
         while(query.next()){
@@ -276,7 +276,7 @@ public class Entitie {
         String sql = "";
         String params = "";
         params+=param+"='"+param2+"'";
-        sql+="SELECT * FROM "+App.getConnectionMysql().getDb()+"."+ name +" where "+params+";";
+        sql+="SELECT * FROM "+App.getConnectionMysql().getDb()+"."+ name +" where "+params+"";
         ResultSet query= App.consult(sql);
         ArrayList<Entitie> entities= new ArrayList<>();
         while(query.next()){
@@ -297,7 +297,7 @@ public class Entitie {
      */
     public ArrayList<Entitie> getEntities() throws SQLException{
         String sql = "";
-        sql+="SELECT * FROM "+App.getConnectionMysql().getDb()+"."+ name + " order by ID;";
+        sql+="SELECT * FROM "+App.getConnectionMysql().getDb()+"."+ name + " order by ID";
         ResultSet query= App.consult(sql);
         ArrayList<Entitie> entities= new ArrayList<>();
         while(query.next()){

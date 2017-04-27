@@ -153,9 +153,19 @@ public class FormClientAsitDentalAction extends HttpServlet {
                 }
                 asd.getData().set(asd.getColums().indexOf("FECHA"),f );
                 asd.getData().set(asd.getColums().indexOf("FECHAEXP"), f);
+                asd.getData().set(asd.getColums().indexOf("FECHAPAGO"), "0000-00-00");
                 asd.getData().set(asd.getColums().indexOf("POLIZA"), "AD"+idPoliza);
                 asd.getData().set(asd.getColums().indexOf("PLAN"), plan);
                 asd.getData().set(asd.getColums().indexOf("CLIENTE"), idCliente);
+                
+                String usuario =(String) request.getSession().getAttribute("user");
+                Entitie user = new Entitie(App.TABLE_USUARIO);
+                user=user.getEntitieParam("USUARIO", usuario).get(0);
+                Entitie canal = new Entitie(App.TABLE_CANALES);
+                canal.getEntitieID(user.getDataOfLabel("ID_CANAL"));
+                
+                asd.getData().set(asd.getColums().indexOf("CANAL"), canal.getId());
+                
                 //asd.update();
                 
                 //CONSUMO DE WEB SERVICE EN UN AGENTE EXTERIOR
@@ -320,6 +330,7 @@ public class FormClientAsitDentalAction extends HttpServlet {
         }
         asd.getData().set(asd.getColums().indexOf("FECHA"),"0000-00-00");
         asd.getData().set(asd.getColums().indexOf("FECHAEXP"),"0000-00-00");
+        asd.getData().set(asd.getColums().indexOf("FECHAPAGO"),"0000-00-00");
         asd.create();
         return asd;
     }

@@ -24,9 +24,9 @@
 <head>
 	<meta charset="utf-8" />
 	<link rel="apple-touch-icon" sizes="76x76" href="../../assets/img/apple-icon.png" />
-	<link rel="icon" type="image/png" href="img/favicon.ico" />
+	<link rel="icon" type="image/png" href="utils/img/favicon.ico" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
+	<script src="utils/js/jquery-3.1.1.min.js" type="text/javascript"></script>
 	<title>App Concesionarios - Sysware Ingenierias - By andiazher Inc</title>
 
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
@@ -52,7 +52,7 @@
 		<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="1"  id="progressbarview" style="width: 22%; position: fixed; height: 4px; "></div>
     </div>
 	<div class="wrapper">
-	    <div class="sidebar" data-active-color="green" data-background-color="black" data-image="img/sidebar-1.jpg">
+	    <div class="sidebar" data-active-color="green" data-background-color="black" data-image="utils/img/sidebar-1.jpg">
 	    <!--
 	        Tip 1: You can change the color of active element of the sidebar using: data-active-color="purple | blue | green | orange | red | rose"
 	        Tip 2: you can also add an image using data-image tag
@@ -74,7 +74,7 @@
 		    <div class="sidebar-wrapper">
 		        <div class="user">
 		            <div class="photo">
-		                <img src="img/default-avatar.png" />
+		                <img src="utils/img/default-avatar.png" />
 		            </div>
 		            <div class="info">
 		                <a data-toggle="collapse" href="#collapseExample" class="collapsed">

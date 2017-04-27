@@ -37,7 +37,7 @@
 <head>
     <meta charset="utf-8" />
 	<link rel="apple-touch-icon" sizes="76x76" href="https://www.google.com.co/images/branding/product/ico/googleg_lodp.ico" />
-	<link rel="icon" type="image/png" href="img/favicon.ico" />
+	<link rel="icon" type="image/png" href="utils/img/favicon.ico" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
 	<title>Login App Concesionarios - Sysware Ingenierias - By andiazher Inc</title>
@@ -89,7 +89,7 @@
 
 
     <div class="wrapper wrapper-full-page">
-        <div class="full-page login-page" filter-color="black" data-image="img/login.jpg">
+        <div class="full-page login-page" filter-color="black" data-image="utils/img/login.jpg">
         <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
             <div class="content">
                 <div class="container">

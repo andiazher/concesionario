@@ -92,7 +92,6 @@
                                                 <thead class="">
                                                     <th>N. Poliza</th>
                                                     <th>Fecha Exp</th>
-                                                    <th>Concesionario</th>
                                                     <th>Canal</th>
                                                     <th>Cliente</th>
                                                     <th>V.Prima</th>
@@ -220,8 +219,9 @@
     loadparams();
 
     function loadtableForm(fi1, ff1){
-        var concesionario1=document.getElementById('concesionario').value;
-        $.post("formPagoLiquidacion", { fi: fi1, ff: ff1, concesionario: concesionario1 }, function(data){
+        var canal1=document.getElementById('canal').value;
+        var pago1=document.getElementById('pago').value;
+        $.post("formInformPolizas", { fi: fi1, ff: ff1, canal: canal1, pago: pago1 }, function(data){
             $("#formViewService").html(data);
 
         });

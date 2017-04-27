@@ -91,6 +91,7 @@ public class App {
         if(connectionMysql.getConnection()==null){
             connectionMysql.conectar();
         }
+        sql+=" LIMIT 100";
         ResultSet resultSet = connectionMysql.consultar(sql);
         //System.out.println("SQL: "+sql);
         //connectionMysql.desconectar();
