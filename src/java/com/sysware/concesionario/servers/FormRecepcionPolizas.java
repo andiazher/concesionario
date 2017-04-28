@@ -130,8 +130,7 @@ public class FormRecepcionPolizas extends HttpServlet {
                         out.println("<td class=\"text-center\" colspan=\"2\" >TOTAL</td>");
                         DecimalFormat formateador = new DecimalFormat("###,###.##");
                         out.println("<td class=\"text-right\" colspan=\"2\" >$"+formateador.format(count)+"</td>");
-                        out.println("<td class=\"text-center\" colspan=\"2\" >"
-                                + "</td>");
+                        out.println("<td class=\"text-right\" colspan=\"2\" >$"+formateador.format(13200)+"</td>");
                     out.println("</tr>");
                     
                     out.println("</table>");
