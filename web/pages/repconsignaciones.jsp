@@ -43,6 +43,7 @@
 
                                         </div>
                                     </form>
+                                    <form id="form2" method="post" action="#sent">
                                         <div class="table-responsive" id="formViewService">
                                             <h4 class="card-title text-center" id="titleContend"> Cargando Polizas, por favor espere </h4>
                                             <table class="table">
@@ -63,6 +64,12 @@
                                                 </tbody>
                                             </table>
                                         </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-success">
+                                                CONSINGNAR
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -70,8 +77,19 @@
                 </div>
 
 <script type="text/javascript">
-    function reloadvaluePago(id){
-        
+    function reloadvaluePago(poliza){
+        var menu1="valor";
+        var tipe1="0";
+        var canal1=document.getElementById('canal').value;
+        if( $('#'+poliza).prop('checked') ) {
+            tipe1="+";
+        }
+        else{
+            tipe1="-";
+        }
+        $.post("formRecepcionPolizas", { menu:menu1, tipo:tipe1, canal:canal1, polizan:poliza}, function(data){
+            $("#total").html(data);
+        });    
     }
     
     function loadparams(){
@@ -102,7 +120,8 @@
 
     function loadtableForm(){
         var canal1=document.getElementById('canal').value;
-        $.post("formRecepcionPolizas", {  canal: canal1}, function(data){
+        var menu1="polizas";
+        $.post("formRecepcionPolizas", { menu:menu1, canal: canal1}, function(data){
             $("#formViewService").html(data);
         });
     }

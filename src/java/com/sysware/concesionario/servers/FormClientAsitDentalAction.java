@@ -153,7 +153,7 @@ public class FormClientAsitDentalAction extends HttpServlet {
                 }
                 asd.getData().set(asd.getColums().indexOf("FECHA"),f );
                 asd.getData().set(asd.getColums().indexOf("FECHAEXP"), f);
-                asd.getData().set(asd.getColums().indexOf("FECHAPAGO"), "0000-00-00");
+                asd.getData().set(asd.getColums().indexOf("FECHAPAGO"), "1900-01-01");
                 asd.getData().set(asd.getColums().indexOf("POLIZA"), "AD"+idPoliza);
                 asd.getData().set(asd.getColums().indexOf("PLAN"), plan);
                 asd.getData().set(asd.getColums().indexOf("CLIENTE"), idCliente);
@@ -328,9 +328,10 @@ public class FormClientAsitDentalAction extends HttpServlet {
         for(String s: asd.getColums()){
             asd.getData().add("0");
         }
-        asd.getData().set(asd.getColums().indexOf("FECHA"),"0000-00-00");
-        asd.getData().set(asd.getColums().indexOf("FECHAEXP"),"0000-00-00");
-        asd.getData().set(asd.getColums().indexOf("FECHAPAGO"),"0000-00-00");
+        asd.getData().set(asd.getColums().indexOf("FECHA"),"1900-01-01");
+        asd.getData().set(asd.getColums().indexOf("FECHAEXP"),"1900-01-01");
+        asd.getData().set(asd.getColums().indexOf("FECHAPAGO"),"1900-01-01");
+        asd.getData().set(asd.getColums().indexOf("ESTADOPAGO"),"PORPAGAR");
         asd.create();
         return asd;
     }
