@@ -136,7 +136,7 @@ public class FormInformPolizas extends HttpServlet {
                             out.println("<td>"+conce.getDataOfLabel("NOMBRE")+"</td>");
                             Entitie cliente = new Entitie(App.TABLE_CLIENTE);
                             cliente.getEntitieID(i.getDataOfLabel("CLIENTE"));
-                            out.println("<td>"+cliente.getDataOfLabel("TIPODOC")+cliente.getDataOfLabel("CEDULA")+"</td>");
+                            out.println("<td>"+cliente.getDataOfLabel("NOMBRE")+" "+cliente.getDataOfLabel("APELLIDO")+"</td>");
                             DecimalFormat formateador = new DecimalFormat("###,###.##");
                             int valors= Integer.parseInt(i.getDataOfLabel("VALORPRIMA"));
                             int valors2= Integer.parseInt(i.getDataOfLabel("PAGOCANAL"));
