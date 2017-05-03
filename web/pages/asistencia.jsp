@@ -12,6 +12,13 @@
 
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+        <script src="utils/js/jquery-3.1.1.min.js" type="text/javascript"></script>
+        <script src="utils/js/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="utils/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="utils/js/material.min.js" type="text/javascript"></script>
+        <script src="utils/js/bootstrap-datetimepicker.js"></script>
+        <script src="utils/js/perfect-scrollbar.jquery.min.js" type="text/javascript"></script>
+
 <body>
                 <div class="container-fluid" >
                     <div class="row">

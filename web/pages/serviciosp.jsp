@@ -68,14 +68,14 @@
         var idService= service;
         $("#windowsinit").attr("name","OS"+idService);
         $("#windowsinit").attr("href","#OS"+idService);
-        $.post("html/formViewServiceHTML.jsp", { variable: service, variablem : menu }, function(data){
+        $.post("pages/complement/formViewServiceHTML.jsp", { variable: service, variablem : menu }, function(data){
             $("#formViewService").html(data);
             $("#windowsinit2").attr("name","OS"+idService);
             $("#windowsinit2").attr("href","#OS"+idService);
         });
     }
     function openViewServiceSpecial(id){
-        $.post("asistencia.jsp", { idservicio: id }, function(data){
+        $.post("pages/asistencia.jsp", { idservicio: id }, function(data){
             $("#contenido").html(data);
         });
     }
