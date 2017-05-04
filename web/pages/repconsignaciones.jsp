@@ -43,7 +43,7 @@
 
                                         </div>
                                     </form>
-                                    <form id="form2" method="post" action="#sent">
+                                    <form id="form2" method="post" action="formRecepcionPolizasAction#sent">
                                         <div class="table-responsive" id="formViewService">
                                             <h4 class="card-title text-center" id="titleContend"> Cargando Polizas, por favor espere </h4>
                                             <table class="table">
@@ -158,7 +158,7 @@
                     html+="<td><em><b>"+r.cliente+"</b></em></td>";
                     html+="<td class=\"text-right\">"+formatter.format(r.prima)+"</td>";
                     html+="<td class=\"text-right\">"+formatter.format(r.pago)+"</td>";
-                    html+="<td>"+r.dias+"</td>";
+                    html+="<td class=\"text-center\">"+r.dias+"</td>";
                     html+="</tr>";
                     var c1=parseInt(r.prima);
                     var c2=parseInt(r.pago);
@@ -188,6 +188,18 @@ $(document).ready(function(){
                 data: $(this).serialize(),
                 success: function(data){
                     //console.log("none");
+                }
+            })
+            return false;
+    });
+    $("#form2").submit(function(){
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function(data){
+                    $("#form2").append(data);
+                    loadtableForm();
                 }
             })
             return false;
