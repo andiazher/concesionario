@@ -6,6 +6,7 @@
 package com.sysware.concesionario.servers;
 
 import com.sysware.concesionario.app.App;
+import com.sysware.concesionario.core.DispersionValores;
 import com.sysware.concesionario.core.Mail;
 import com.sysware.concesionario.entitie.Entitie;
 import com.sysware.concesionario.services.WebServiceAsistenciaDen;
@@ -186,6 +187,27 @@ public class FormClientAsitDentalAction extends HttpServlet {
                     //PASO DEL SERVICIO A TRAMITADO
                     asd.getData().set(asd.getColums().indexOf("ESTADO"), "2");
                     asd.getData().set(asd.getColums().indexOf("ESTADOPOL"), "VIGENTE");
+                    //Configuracion del Rubro;
+                    try{    
+                        DispersionValores disp= new DispersionValores();
+                        Entitie param = new Entitie(App.TABLE_PARAMETROSFORMS);
+                        param.getEntitieID(asd.getDataOfLabel("PLAN"));
+                        int valor = Integer.parseInt(param.getDataOfLabel("VALUE2"));
+                        asd.getData().set(asd.getColums().indexOf("VALORPRIMA"), valor+"");
+                        
+                        //CALCULO DE VALORES BASE
+                        Entitie paramdis= new Entitie(App.TABLE_CONTROLDIPS);
+                        double plataforma = 0;
+                        double base = plataforma/(1.19);
+                        double retplataforma = base * (0.04);
+                        double retproduct = base * (0.04);
+                        double retcanal = base * (0.04);
+                        double ingresosPlatinos = 0;
+                        
+                        disp.dispersion(valor, dos);
+                    }catch(Exception s){
+                        s.printStackTrace();
+                    }
                     if(id != null && !"0".equals(id)){
                         try{
                             dos.getData().set(dos.getColums().indexOf("ESTADO"), "2");
@@ -194,7 +216,6 @@ public class FormClientAsitDentalAction extends HttpServlet {
                         catch(IndexOutOfBoundsException s){
                             //System.out.println("Error al actualizar dos: "+s);
                         }
-                        
                     }
                     
                     //SEN MAIL TO CLIENT NEW 
