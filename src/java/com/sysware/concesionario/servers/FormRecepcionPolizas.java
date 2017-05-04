@@ -86,123 +86,38 @@ public class FormRecepcionPolizas extends HttpServlet {
                         operation.add("=");
                         polizas = polizaAS.getEntitieParams(param1, param2, operation);
                     }
-
+                    Entitie conce = new Entitie(App.TABLE_CANALES);
+                    Entitie cliente = new Entitie(App.TABLE_CLIENTE);
                     try (PrintWriter out = response.getWriter()) {
-                        String idOrder="-1";
-                        out.println("<h4 class=\"card-title text-center\" id=\"titleContend\"> <b> "+name+" </b> </h4>");
-                        out.println("<table class=\"table\">");
-                        out.println("<thead class=\"\">\n" +
-                            "<th></th>\n" +
-                            "<th>N. Poliza</th>\n" +
-                            "<th>Fecha Exp</th>\n" +
-                            "<th>Canal</th>\n" +
-                            "<th>Cliente</th>\n" +
-                            "<th>V.Prima</th>\n" +
-                            "<th>V.Consingnar</th>\n" +
-                            "<th>Dias</th>"+
-                            "</thead>");
-                        out.println("<tbody>");
-                        int count=0, count2=0;
+                        out.println("{");
+                        out.println("\"title\": \""+name+"\",");
+                        out.println("\"info\": {");
+                        out.println("   \"row\": [");
                         for(Entitie i: polizas){
-                            if(!idOrder.equals(i.getId())){
-                                String danger = "text-danger";
-                                danger = "";
-                                out.println("<tr class=\""+danger+"\" >");
-                                out.println("<td><input type=\"checkbox\" name=\""+i.getDataOfLabel("POLIZA")+"\""
-                                        + " id=\""+i.getDataOfLabel("POLIZA")+"\" checked "
-                                        + "onchange=\"reloadvaluePago('"+i.getDataOfLabel("POLIZA")+"')\"></td>");
-                                out.println("<td>"+i.getDataOfLabel("POLIZA")+"</td>");
-                                out.println("<td>"+i.getDataOfLabel("FECHA")+"</td>");
-                                Entitie conce = new Entitie(App.TABLE_CANALES);
-                                conce.getEntitieID(i.getDataOfLabel("CANAL"));
-                                out.println("<td>"+conce.getDataOfLabel("NOMBRE")+"</td>");
-                                Entitie cliente = new Entitie(App.TABLE_CLIENTE);
-                                cliente.getEntitieID(i.getDataOfLabel("CLIENTE"));
-                                out.println("<td>"+cliente.getDataOfLabel("NOMBRE")+" "+cliente.getDataOfLabel("APELLIDO")+"</td>");
-                                DecimalFormat formateador = new DecimalFormat("###,###.##");
-                                int valors= Integer.parseInt(i.getDataOfLabel("VALORPRIMA"));
-                                count+=valors;
-                                int valors2= Integer.parseInt(i.getDataOfLabel("PAGOCANAL"));
-                                count2+=valors2;
-                                out.println("<td class=\"text-right\">$"+formateador.format(valors)+"</td>");
-                                out.println("<td class=\"text-right\">$"+formateador.format(valors2)+"</td>");
-                                out.println("<td class=\"text-center\">"+formateador.format(0)+"</td>");
-                                out.println("</tr>");
-                            }
-
+                            out.println("       {");
+                            out.println("       \"poliza\": \""+i.getDataOfLabel("POLIZA")+"\",");
+                            out.println("       \"fecha\": \""+i.getDataOfLabel("FECHA")+"\",");
+                            conce.getEntitieID(i.getDataOfLabel("CANAL"));
+                            out.println("       \"canal\": \""+conce.getDataOfLabel("NOMBRE")+"\",");
+                            cliente.getEntitieID(i.getDataOfLabel("CLIENTE"));
+                            out.println("       \"cliente\": \""+cliente.getDataOfLabel("NOMBRE")+" "+cliente.getDataOfLabel("APELLIDO")+"\",");
+                            int prima= Integer.parseInt(i.getDataOfLabel("VALORPRIMA"));
+                            int pago= Integer.parseInt(i.getDataOfLabel("PAGOCANAL"));
+                            out.println("       \"prima\": \""+prima+"\",");
+                            out.println("       \"pago\": \""+pago+"\",");
+                            out.println("       \"dias\": \""+0+"\"");
+                            out.println("       }, ");
                         }
-                        out.println("</tbody>");
-                        out.println("<tr id=\"total\" >");
-                            out.println("<td class=\"text-center\" colspan=\"5\" >TOTAL</td>");
-                            DecimalFormat formateador = new DecimalFormat("###,###.##");
-                            out.println("<td class=\"text-right\" colspan=\"1\" >$"+formateador.format(count)+"</td>");
-                            out.println("<td class=\"text-right\" colspan=\"1\" >$"+formateador.format(count2)+"</td>");
-                        out.println("</tr>");
-
-                        out.println("</table>");
+                            out.println("       {");
+                            out.println("       \"poliza\": \"0\"");
+                            out.println("       } ");
+                        out.println("       ]");
+                        out.println("   },");
+                        out.println("\"andiazher\": \"andiazher.com\"");
+                        out.println("}");
+                        
                     }
                     //END
-                }
-                if(menu.equals("valor")){
-                    ArrayList<Entitie> polizas = new ArrayList<>();
-                    String canal="";
-                    String tipo="", poliza="";
-                    try{
-                        canal= request.getParameter("canal");
-                        tipo=request.getParameter("tipo");
-                        poliza=request.getParameter("polizan");
-                    }catch(NullPointerException s){
-                        System.out.println("Error: "+s);
-                    }
-                    Entitie polizaAS = new Entitie(App.TABLE_ASIS_DENTAL); //POLIZAS DE ASISTENCIA DENTAL
-                    boolean nada = false;
-                    ArrayList<String> param1=new ArrayList<>();
-                    ArrayList<String> param2=new ArrayList<>();
-                    ArrayList<String> operation=new ArrayList<>();
-
-                    if(!canal.equals("")){
-                        param1.add("CANAL");
-                        param2.add(canal);
-                        operation.add("=");
-                        nada=true;
-                    }
-
-                    if(param1.isEmpty() && param2.isEmpty() && operation.isEmpty() && nada==false){
-                        String pago="PORPAGAR";
-                        param1.add("ESTADOPAGO");
-                        param2.add(pago);
-                        operation.add("=");
-                        polizas = polizaAS.getEntitieParams(param1, param2, operation);
-                    }
-                    else{
-                        String pago="PORPAGAR";
-                        param1.add("ESTADOPAGO");
-                        param2.add(pago);
-                        operation.add("=");
-                        polizas = polizaAS.getEntitieParams(param1, param2, operation);
-                    }
-
-                    try (PrintWriter out = response.getWriter()) {
-                        String idOrder="-1";
-                        int count=0, count2=0;
-                        for(Entitie i: polizas){
-                            if(!idOrder.equals(i.getId())){
-                                int valors= Integer.parseInt(i.getDataOfLabel("VALORPRIMA"));
-                                int valors2= Integer.parseInt(i.getDataOfLabel("PAGOCANAL"));
-                                if(poliza.equals(i.getDataOfLabel("POLIZA")) && tipo.equals("-")){
-                                }
-                                else{
-                                    count+=valors;
-                                    count2+=valors2;
-                                }
-                            }
-                        }
-                        out.println("<td class=\"text-center\" colspan=\"5\" >TOTAL</td>");
-                        DecimalFormat formateador = new DecimalFormat("###,###.##");
-                        out.println("<td class=\"text-right\" colspan=\"1\" >$"+formateador.format(count)+"</td>");
-                        out.println("<td class=\"text-right\" colspan=\"1\" >$"+formateador.format(count2)+"</td>");
-                    }
-                    //END2
                 }
             }
             else{

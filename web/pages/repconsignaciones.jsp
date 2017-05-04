@@ -57,7 +57,7 @@
                                                     <th>V.Consingnar</th>
                                                     <th>Dias</th>
                                                 </thead>
-                                                <tbody>
+                                                <tbody id="tbody">
                                                     <tr>
                                                         
                                                     </tr>
@@ -78,17 +78,31 @@
 
 <script type="text/javascript">
     function reloadvaluePago(poliza){
-        var menu1="valor";
-        var tipe1="0";
         var canal1=document.getElementById('canal').value;
-        if( $('#'+poliza).prop('checked') ) {
-            tipe1="+";
-        }
-        else{
-            tipe1="-";
-        }
-        $.post("formRecepcionPolizas", { menu:menu1, tipo:tipe1, canal:canal1, polizan:poliza}, function(data){
-            $("#total").html(data);
+        var menu1="polizas";
+        var counter1=0;
+        var counter2=0;
+        var formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 2,
+            });                
+        $.post("formRecepcionPolizas", { menu:menu1, canal: canal1}, function(data){
+            var cadena = data;
+            var valores = JSON.parse(cadena);
+            for(i in valores.info.row){
+                var r = valores.info.row[i];
+                if (r.poliza!="0") {
+                    if( $('#'+r.poliza).prop('checked') ) {
+                        var c1=parseInt(r.prima);
+                        var c2=parseInt(r.pago);
+                        counter1=counter1+c1;
+                        counter2=counter2+c2
+                    }
+                }
+            }
+        $("#prima").html(formatter.format(counter1));
+        $("#pago").html(formatter.format(counter2));
         });    
     }
     
@@ -122,7 +136,43 @@
         var canal1=document.getElementById('canal').value;
         var menu1="polizas";
         $.post("formRecepcionPolizas", { menu:menu1, canal: canal1}, function(data){
-            $("#formViewService").html(data);
+            var cadena = data;
+            var valores = JSON.parse(cadena);
+            $("#titleContend").html("<b>"+valores.title+"</b>");
+            var formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 2,
+            });
+            var html="";
+            var counter1=0;
+            var counter2=0;                
+            for(i in valores.info.row){
+                var r = valores.info.row[i];
+                if (r.poliza!="0") {
+                    html+="<tr>";
+                    html+="<td><input type=\"checkbox\" name=\""+r.poliza+"\""+ " id=\""+r.poliza+"\" checked "+ "onchange=\"reloadvaluePago('"+r.poliza+"')\"></td>";
+                    html+="<td>"+r.poliza+"</td>";
+                    html+="<td>"+r.fecha+"</td>";
+                    html+="<td>"+r.canal+"</td>";
+                    html+="<td><em><b>"+r.cliente+"</b></em></td>";
+                    html+="<td class=\"text-right\">"+formatter.format(r.prima)+"</td>";
+                    html+="<td class=\"text-right\">"+formatter.format(r.pago)+"</td>";
+                    html+="<td>"+r.dias+"</td>";
+                    html+="</tr>";
+                    var c1=parseInt(r.prima);
+                    var c2=parseInt(r.pago);
+                    counter1=counter1+c1;
+                    counter2=counter2+c2
+                }
+            }
+            html+="<tr  >";
+            html+="<td class=\"text-center\" colspan=\"5\" >TOTAL</td>";
+            html+="<td class=\"text-right\" colspan=\"1\" id=\"prima\" >"+formatter.format(counter1)+"</td>";
+            html+="<td class=\"text-right\" colspan=\"1\" id=\"pago\">"+formatter.format(counter1)+"</td>";
+            html+="<td class=\"text-right\" colspan=\"1\" >--</td>";
+            html+="</tr>";
+            $("#tbody").html(html);
         });
     }
 
