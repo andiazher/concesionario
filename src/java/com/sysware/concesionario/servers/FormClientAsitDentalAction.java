@@ -191,12 +191,59 @@ public class FormClientAsitDentalAction extends HttpServlet {
                     try{    
                         DispersionValores disp= new DispersionValores();
                         Entitie param = new Entitie(App.TABLE_PARAMETROSFORMS);
+                        Entitie pd= new Entitie(App.TABLE_CONTROLDIPS);
                         param.getEntitieID(asd.getDataOfLabel("PLAN"));
                         int valor = Integer.parseInt(param.getDataOfLabel("VALUE2"));
                         asd.getData().set(asd.getColums().indexOf("VALORPRIMA"), valor+"");
                         
-                        //CALCULO DE VALORES BASE
-                        Entitie paramdis= new Entitie(App.TABLE_CONTROLDIPS);
+                        /**
+                         * @TITLE = CALCULO DE VALORES BASE.
+                         * 
+                         * PARAMETROS PARA SABER CUAL DE LOS DOS PLANE SE DEBE ESCOJER
+                         * IDS DE DISPERSION DE VALORES (CONTROLDISPERSION) ES FIJO, NO MODIFICAR EN LA BASE DE DATOS
+                         * @RESERVADOS LAS FILAS CON 
+                         * @ID= 3 HASTA 10
+                         *
+                         * @PARAM SOAT IS SOAT WITH
+                         * @PARAM FONDO IS FONDO
+                         * 
+                         */
+                        String paramPlan=param.getDataOfLabel("VALUE");
+                        if(paramPlan.contains("SOAT")){
+                            /**
+                             * ID'S RESEVARDOS
+                             * @ID=3 COSTO DE PLATAFORMA | % | % | - |
+                             * @ID=5 COSTO DE PRODUCTO   | % | % | - |
+                             * @ID=7 CANAL DE DISTRIBUCI | % | - | - |
+                             * @ID=9 ADMIN PLATINOS SEGU | % | - | % |
+                             */
+                            //1. PLATAFORMA
+                            //2. PRODUCTO
+                            //3. CANAL
+                            pd.getEntitieID("7");
+                            int valorCanal = Integer.parseInt( pd.getDataOfLabel("VALOR"));
+                            valorCanal = valor-valorCanal;
+                            asd.getData().set(asd.getColums().indexOf("PAGOCANAL"), valorCanal+"");
+                            //4. ADMIN PLATINOS SEGUROS
+                        }
+                        if(paramPlan.contains("FONDO")){
+                            /**
+                             * ID'S RESEVARDOS
+                             * @ID=4  COSTO DE PLATAFORMA | % | % | - |
+                             * @ID=6  COSTO DE PRODUCTO   | % | % | - |
+                             * @ID=8  CANAL DE DISTRIBUCI | % | - | - |
+                             * @ID=10 ADMIN PLATINOS SEGU | % | - | % |
+                             */
+                            //1. PLATAFORMA
+                            //2. PRODUCTO
+                            //3. CANAL
+                            pd.getEntitieID("8");
+                            int valorCanal = Integer.parseInt( pd.getDataOfLabel("VALOR"));
+                            valorCanal = valor-valorCanal;
+                            asd.getData().set(asd.getColums().indexOf("PAGOCANAL"), valorCanal+"");
+                            //4. ADMIN PLATINOS SEGUROS
+                        }
+                        
                         double plataforma = 0;
                         double base = plataforma/(1.19);
                         double retplataforma = base * (0.04);
@@ -205,6 +252,7 @@ public class FormClientAsitDentalAction extends HttpServlet {
                         double ingresosPlatinos = 0;
                         
                         disp.dispersion(valor, dos);
+                        
                     }catch(Exception s){
                         s.printStackTrace();
                     }

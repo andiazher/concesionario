@@ -169,7 +169,7 @@
             html+="<tr  >";
             html+="<td class=\"text-center\" colspan=\"5\" >TOTAL</td>";
             html+="<td class=\"text-right\" colspan=\"1\" id=\"prima\" >"+formatter.format(counter1)+"</td>";
-            html+="<td class=\"text-right\" colspan=\"1\" id=\"pago\">"+formatter.format(counter1)+"</td>";
+            html+="<td class=\"text-right\" colspan=\"1\" id=\"pago\">"+formatter.format(counter2)+"</td>";
             html+="<td class=\"text-right\" colspan=\"1\" >--</td>";
             html+="</tr>";
             $("#tbody").html(html);
