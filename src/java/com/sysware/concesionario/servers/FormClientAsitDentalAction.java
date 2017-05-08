@@ -177,9 +177,7 @@ public class FormClientAsitDentalAction extends HttpServlet {
                  * de concesionarios, este se debe tramitar el servicio si la transaccion es exitosa. 
                  * Si la transaccion falla, se debe pasar a orden no tramitada. 
                  */
-                WebServiceAsistenciaDen wsad = new WebServiceAsistenciaDen();
-                        
-                System.out.println("Client2"+cliente);
+                WebServiceAsistenciaDen wsad = new WebServiceAsistenciaDen();                
                 String messagge = wsad.registro(asd, cliente);
                 System.out.println("Respuesta del Servicio: "+messagge);
                 
@@ -187,6 +185,46 @@ public class FormClientAsitDentalAction extends HttpServlet {
                     //PASO DEL SERVICIO A TRAMITADO
                     asd.getData().set(asd.getColums().indexOf("ESTADO"), "2");
                     asd.getData().set(asd.getColums().indexOf("ESTADOPOL"), "VIGENTE");
+                    //CREACION DE ORDEN DE SERVICIO JUNTO A UNA DETALLE DE ORDEN DE SERVICIO
+                    if(dos.getId().equals("0")){
+                       Entitie os = new Entitie(App.TABLE_OS);
+                       for(String i: os.getColums()){
+                           os.getData().add("");
+                       }
+                       System.out.println("Client2"+os);
+                       os.getData().set(os.getColums().indexOf("PROPIETARIO"), cliente.getId());
+                       os.getData().set(os.getColums().indexOf("VEHICULO"), "0");
+                       os.getData().set(os.getColums().indexOf("FECHA"), f);
+                       os.getData().set(os.getColums().indexOf("ID_CANAL"), canal.getId());
+                       os.create();
+                       ArrayList<Entitie> ordenes = os.getEntitieParam("PROPIETARIO", cliente.getId());
+                       String ultimo="";
+                       for(Entitie o: ordenes){
+                            ultimo= o.getId();
+                       }
+                       os.getEntitieID(ultimo);
+                       for(String i: dos.getColums()){
+                           dos.getData().add("");
+                       }
+                       dos.getData().set(dos.getColums().indexOf("OS"), ultimo);
+                       dos.getData().set(dos.getColums().indexOf("SERVICIO"), "3");
+                       Entitie param = new Entitie(App.TABLE_PARAMETROSFORMS);
+                       param.getEntitieID(asd.getDataOfLabel("PLAN"));
+                       dos.getData().set(dos.getColums().indexOf("VALOR"), param.getDataOfLabel("VALUE2"));
+                       dos.getData().set(dos.getColums().indexOf("ESTADO"), "2");
+                       dos.getData().set(dos.getColums().indexOf("COM_PLATINO"), "0");
+                       dos.getData().set(dos.getColums().indexOf("COM_CONCE"), "0");
+                       dos.getData().set(dos.getColums().indexOf("LIQUIDACION"), "0");
+                       dos.getData().set(dos.getColums().indexOf("ESTADOL"), "0");
+                       dos.getData().set(dos.getColums().indexOf("FECHAT"), f);
+                       dos.create();
+                       String iddos="0";
+                       ArrayList<Entitie> doss = dos.getEntitieParam("OS", ultimo);
+                       for(Entitie o: doss){
+                           iddos=o.getId();
+                       }
+                       dos.getEntitieID(iddos);
+                    }
                     //Configuracion del Rubro;
                     try{    
                         DispersionValores disp= new DispersionValores();

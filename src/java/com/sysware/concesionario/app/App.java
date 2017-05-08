@@ -18,7 +18,7 @@ import java.sql.SQLException;
  */
 public class App {
     
-    public final static String versionCompilation="V1.049";
+    public final static String versionCompilation="V1.050";
     
     private static ConnectionMysql connectionMysql = new ConnectionMysql();
     private static Mail mailStaticParams= new Mail();
