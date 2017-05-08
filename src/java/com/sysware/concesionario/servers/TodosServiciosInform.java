@@ -54,7 +54,7 @@ public class TodosServiciosInform extends HttpServlet {
                     concesionario= request.getParameter("concesionario");
                     os= request.getParameter("os");
                 }catch(NullPointerException s){
-                    System.out.println("Error: "+s);
+                    s.printStackTrace();
                 }
                 Entitie servicio = new Entitie(App.TABLE_OS);
                 name= "RESULTADOS PARA";
@@ -207,6 +207,11 @@ public class TodosServiciosInform extends HttpServlet {
                                         +propietario.getDataOfLabel("CEDULA")+"</a></td>");
                                 Entitie vehiculo = new Entitie(App.TABLE_VEHICULO);
                                 vehiculo.getEntitieID(i.getDataOfLabel("VEHICULO"));
+                                if(vehiculo.getId().equals("0")){
+                                    for(String s: vehiculo.getColums()){
+                                        vehiculo.getData().add("--");
+                                    }
+                                }
                                 out.println("<td><a href=\"#vehiculoOpen\" onclick=\"window.open('formEditableEntidad?variable=9&entidad="+vehiculo.getId()+"','ventana'"
                                         + ",'width=640,height=480,scrollbars=NO,menubar=NO,resizable=NO"
                                         + ",titlebar=NO,status=NO');\">"
@@ -227,7 +232,7 @@ public class TodosServiciosInform extends HttpServlet {
                                 out.println("</tr>");
                                 idOrder = i.getId();
                             }catch(IndexOutOfBoundsException s){
-                                System.out.println("Error:"+s);
+                                s.printStackTrace();
                             }
                             
                         }

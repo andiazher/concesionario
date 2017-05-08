@@ -47,20 +47,31 @@ public class DetailsOrdenServiceView extends HttpServlet {
                 String name="Sin nombre";
                 String menu ="0";
                 String get ="";
-                
                 ArrayList<Entitie> servicios = new ArrayList<>();
                 try{
                     orden.getEntitieID(request.getParameter("variable"));                    
                     menu = request.getParameter("variablem");
                     servicios = ordendetalle.getEntitieParam("OS", orden.getId());
+                    
                     vehiculo.getEntitieID(orden.getDataOfLabel("VEHICULO"));
+                    if(vehiculo.getId().equals("0")){
+                        for(String s: vehiculo.getColums()){
+                            vehiculo.getData().add("--");
+                        }
+                    }
                     propietario.getEntitieID(orden.getDataOfLabel("PROPIETARIO"));
                     
-                }catch(NullPointerException s){}
+                }catch(NullPointerException s){
+                    s.printStackTrace();
+                }catch(IndexOutOfBoundsException s){
+                    s.printStackTrace();
+                }
                 try (PrintWriter out = response.getWriter()) {
+                    
                     out.println("<h4 class=\"card-title text-center\" id=\"titleContend\"> Servicios para la orden No. <b>"+orden.getId()+"</b> Placa:"
                             + " <b>"+vehiculo.getDataOfLabel("PLACA")+"</b> Cliente: <b>"
                             +propietario.getDataOfLabel("TIPODOC")+propietario.getDataOfLabel("CEDULA")+"</b></h4>");
+                    
                     out.println("<div class=\"table-responsive\">");
                     out.println("<table class=\"table\">");
                     out.println("<thead class=\"\">");
