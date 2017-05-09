@@ -98,6 +98,9 @@ public class FormInformPolizas extends HttpServlet {
                         operation.add("=");
                         nada=true;
                     }
+                    param1.add("ESTADOPOL");
+                    param2.add("VIGENTE");
+                    operation.add("=");
                 }
                 if(param1.isEmpty() && param2.isEmpty() && operation.isEmpty() && nada==false){
                     polizas = polizaAS.getEntities();

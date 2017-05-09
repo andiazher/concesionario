@@ -76,6 +76,9 @@ public class FormRecepcionPolizas extends HttpServlet {
                         param1.add("ESTADOPAGO");
                         param2.add(pago);
                         operation.add("=");
+                        param1.add("ESTADOPOL");
+                        param2.add("VIGENTE");
+                        operation.add("=");
                         polizas = polizaAS.getEntitieParams(param1, param2, operation);
                         name="LISTADO DE TODAS LAS POLIZAS";
                     }
@@ -83,6 +86,9 @@ public class FormRecepcionPolizas extends HttpServlet {
                         String pago="PORPAGAR";
                         param1.add("ESTADOPAGO");
                         param2.add(pago);
+                        operation.add("=");
+                        param1.add("ESTADOPOL");
+                        param2.add("VIGENTE");
                         operation.add("=");
                         polizas = polizaAS.getEntitieParams(param1, param2, operation);
                     }
