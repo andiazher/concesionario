@@ -263,9 +263,11 @@ public class ClaseVehiculoClientView extends HttpServlet {
                     Entitie servicio = new Entitie(App.TABLE_SERVICIOS);
                     ArrayList<Entitie> servicios = servicio.getEntities();
                     try (PrintWriter out = response.getWriter()) {
+                        String selected= "selected";
                         for(Entitie i: servicios){
-                            out.println("<option value=\""+i.getId()+"\">" 
+                            out.println("<option value=\""+i.getId()+"\" "+selected+">" 
                                     + i.getDataOfLabel("DESCRIPCION")+"</option>");
+                            selected="";
                         }
                     }
                 }
