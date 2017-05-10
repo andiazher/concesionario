@@ -20,8 +20,7 @@ public class DispersionValores {
     
     //TABLE OF PAREMETERS
     Entitie disp = new Entitie(App.TABLE_CONTROLDIPS);
-    Entitie rubros = new Entitie(App.TABLE_RUBRODIPS);
-    
+    Entitie rubro = new Entitie(App.TABLE_RUBRODIPS);
     //TABLE OF REGISTER
     Entitie rdisper = new Entitie(App.TABLE_REGISTRORECEP);
     
@@ -31,22 +30,37 @@ public class DispersionValores {
             rdisper.getData().add("");
         }
     }
-    
-    public void dispersion(int vb, Entitie dos) throws SQLException{
+    public void dispersion(int valor, Entitie dos) throws SQLException{
+        ArrayList<Entitie> rbsxServicio = rubro.getEntitieParam("SERVICIO", dos.getDataOfLabel("SERVICIO"));
+        for(Entitie rb: rbsxServicio){
+            dispersion(valor, rb, dos);
+        }
+    }
+    public void dispersion(int valor, Entitie rb, Entitie dos) throws SQLException{
         try{
-            ArrayList<Entitie> rps = rubros.getEntitieParam("SERVICIO", dos.getDataOfLabel("SERVICIO"));
-            for(Entitie rb: rps){
-                ArrayList<Entitie> rbrosd = disp.getEntitieParam("RUBRO", rb.getId());
-                for(Entitie dis: rbrosd){
+            ArrayList<Entitie> rbrosd = disp.getEntitieParam("RUBRO", rb.getId());
+            int total=0;
+            for(Entitie dis: rbrosd){
                     disp = dis;
                     //CALCULAR EL VALOR DEL PORCENTAGE
-                    int valor2=0;
+                    int valorDispersar=0;
                     if(disp.getDataOfLabel("TIPO").equals("1")){
                         int v =Integer.parseInt(disp.getDataOfLabel("VALOR"));
-                        valor2 = (v*vb)/100;
+                        if(v==0){
+                            valorDispersar= valor -total;
+                        }
+                        else{
+                            valorDispersar = (v*valor)/100;
+                        }
                     }
                     else{
-                        valor2 = (Integer.parseInt(disp.getDataOfLabel("VALOR")));
+                        valorDispersar = (Integer.parseInt(disp.getDataOfLabel("VALOR")));
+                    }
+                    if(total+valorDispersar <= valor+1){
+                        total+=valorDispersar;
+                    }
+                    else{
+                        valorDispersar=0;
                     }
                     Calendar fecha = new GregorianCalendar();
                     String f= fecha.get(Calendar.YEAR) +"-"+(fecha.get(Calendar.MONTH)+1)+"-"+fecha.get(Calendar.DAY_OF_MONTH)+
@@ -58,14 +72,37 @@ public class DispersionValores {
                     rdisper.getData().set(rdisper.getColums().indexOf("RECEPTOR"), disp.getDataOfLabel("RECEPTOR"));
                     rdisper.getData().set(rdisper.getColums().indexOf("TIPO"), disp.getDataOfLabel("TIPO"));
                     rdisper.getData().set(rdisper.getColums().indexOf("VALORPROG"), disp.getDataOfLabel("VALOR"));
-                    rdisper.getData().set(rdisper.getColums().indexOf("VALORCALCUL"), valor2+"");
-                    rdisper.getData().set(rdisper.getColums().indexOf("VALORBASE"), vb+"");
+                    rdisper.getData().set(rdisper.getColums().indexOf("VALORCALCUL"), valorDispersar+"");
+                    rdisper.getData().set(rdisper.getColums().indexOf("VALORBASE"), valor+"");
                     rdisper.create();
-                }
             }
         }catch( IndexOutOfBoundsException s){
+            s.printStackTrace();
+        }catch( NullPointerException s){
             s.printStackTrace();
         }
     }
     
+    public void dispersion(int valor, String idrb, String iddos) throws SQLException{
+        try{
+            Entitie dos = new Entitie(App.TABLE_DOS);
+            dos.getEntitieID(iddos);
+            rubro.getEntitieID(idrb);
+            dispersion(valor, rubro, dos);
+        }catch( IndexOutOfBoundsException s){
+            s.printStackTrace();
+        }catch( NullPointerException s){
+            s.printStackTrace();
+        }
+    }
+    public void dispersion(int valor, String idrb, Entitie dos) throws SQLException{
+        try{
+            rubro.getEntitieID(idrb);
+            dispersion(valor, rubro, dos);
+        }catch( IndexOutOfBoundsException s){
+            s.printStackTrace();
+        }catch( NullPointerException s){
+            s.printStackTrace();
+        }
+    }
 }

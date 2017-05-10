@@ -248,6 +248,8 @@ public class FormClientAsitDentalAction extends HttpServlet {
                          */
                         String paramPlan=param.getDataOfLabel("VALUE");
                         if(paramPlan.contains("SOAT")){
+                            //DISPERSAR AL RUBRO ID=1
+                            disp.dispersion(valor,"1", dos);
                             /**
                              * ID'S RESEVARDOS
                              * @ID=3 COSTO DE PLATAFORMA | % | % | - |
@@ -265,6 +267,8 @@ public class FormClientAsitDentalAction extends HttpServlet {
                             //4. ADMIN PLATINOS SEGUROS
                         }
                         if(paramPlan.contains("FONDO")){
+                            //DISPERSAR AL RUBRO ID=2
+                            disp.dispersion(valor,"2", dos);
                             /**
                              * ID'S RESEVARDOS
                              * @ID=4  COSTO DE PLATAFORMA | % | % | - |
@@ -288,8 +292,6 @@ public class FormClientAsitDentalAction extends HttpServlet {
                         double retproduct = base * (0.04);
                         double retcanal = base * (0.04);
                         double ingresosPlatinos = 0;
-                        
-                        disp.dispersion(valor, dos);
                         
                     }catch(Exception s){
                         s.printStackTrace();

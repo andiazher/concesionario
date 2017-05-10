@@ -27,15 +27,21 @@
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Concesionario</label>
                                                     <select class="select-with-transition" data-style="btn btn-default" name="concesionarios" id="concesionarios"  onchange="loadtable()">
-                                                        <option selected="" value="">--TODOS--</option>
+                                                    </select>                                                
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Servicios</label>
+                                                    <select class="select-with-transition" data-style="btn btn-default" name="servicios" id="servicios"  onchange="loadtable()">
                                                     </select>                                                
                                                 </div>
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="form-group label-floating">
-                                                    <label class="control-label">Servicios</label>
-                                                    <select class="select-with-transition" data-style="btn btn-default" name="servicios" id="servicios"  onchange="loadtable()">
-                                                        <option selected="" value="">--TODOS--</option>
+                                                    <label class="control-label">Formulario</label>
+                                                    <select class="select-with-transition" data-style="btn btn-default" name="sform" id="sform"  onchange="loadtable()">
+                                                        <option selected="" value="">PREDETERMIANDO</option>
                                                     </select>                                                
                                                 </div>
                                             </div>
@@ -43,18 +49,11 @@
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Rubros</label>
                                                     <select class="select-with-transition" data-style="btn btn-default" name="rubros" id="rubros"  onchange="loadtable()">
-                                                        <option selected="" value="">--TODOS--</option>
+                                                        <option selected="" value="">--SELECIONAR--</option>
                                                     </select>                                                
                                                 </div>
                                             </div>        
-                                            <div class="col-md-2">
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Formulario</label>
-                                                    <select class="select-with-transition" data-style="btn btn-default" name="sform" id="sform"  onchange="loadtable()">
-                                                        <option selected="" value="">--TODOS--</option>
-                                                    </select>                                                
-                                                </div>
-                                            </div>   
+                                               
                                             <div class="col-md-2">
                                                 <button type="submit" class="btn btn-success btn-fill" id="buttonsubmit" onclick="loadtable()">
                                                     <span class="btn-label">
@@ -66,7 +65,7 @@
 
                                         </div>
                                     </form>
-                                    <form id="form2" method="post" action="formRecepcionPolizasAction#sent">
+                                    <form id="form2" method="post" action="#sent">
                                         <div class="table-responsive" id="formViewService">
                                             <h4 class="card-title text-center" id="titleContend"> Cargando Parametros, por favor espere </h4>
                                             <table class="table">
@@ -108,7 +107,11 @@
         $.post("ClaseVehiculoClientView", { variable: menu }, function(data){
             $("#concesionarios").append(data);
         });
-        
+        var menu2="serviciosr";
+        $.post("ClaseVehiculoClientView", { variable: menu2 }, function(data){
+            $("#servicios").append(data);
+        });
+
     }
     loadparams();
 

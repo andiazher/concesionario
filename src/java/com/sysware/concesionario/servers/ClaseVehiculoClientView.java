@@ -255,6 +255,21 @@ public class ClaseVehiculoClientView extends HttpServlet {
                     }
                 }
                 
+                /**
+                 * RETORNA UNA LISTADO DE LOS SERVICIOS REGITRADOS
+                 * COMO PARAMETRO
+                 */
+                if(var.equals("serviciosr")){
+                    Entitie servicio = new Entitie(App.TABLE_SERVICIOS);
+                    ArrayList<Entitie> servicios = servicio.getEntities();
+                    try (PrintWriter out = response.getWriter()) {
+                        for(Entitie i: servicios){
+                            out.println("<option value=\""+i.getId()+"\">" 
+                                    + i.getDataOfLabel("DESCRIPCION")+"</option>");
+                        }
+                    }
+                }
+                
             }
             else{
                 /**
