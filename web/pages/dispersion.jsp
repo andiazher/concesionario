@@ -130,6 +130,7 @@
                     );
     }
     
+    
     function loadparams(){
         var menu="concesionarios";
         $.post("ClaseVehiculoClientView", { variable: menu }, function(data){
@@ -142,6 +143,20 @@
         loadRubros();
     }
     loadparams();
+
+    function edit(id){
+        var menu="rowdispersion";
+        $.post("formParametrosDispersionV", { variable: menu, idp:id }, function(data){
+            var cod="<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\"receptor\" id=\"ss\">";
+            cod+="";
+            cod+="</select>";
+            $("#"+id+"receptor").html(cod);
+            $("#"+id+"prim").html("Guardar");
+        });
+
+        
+
+    }
 
     function loadtableForm(data){
         var cadena = data;
@@ -158,21 +173,21 @@
                 if (r.id!="0") {
                     html+="<tr>";
                     html+="<td>"+r.id+"</td>";
-                    html+="<td>"+r.receptor+"</td>";
+                    html+="<td id=\""+r.id+"receptor\">"+r.receptor+"</td>";
                     if(r.tipo=="1"){
                         if(r.valor=="0"){
-                            html+="<td class=\"text-center\">% REST</td>";        
+                            html+="<td class=\"text-center\" id=\""+r.id+"tipo\">% REST</td>";        
                         }
                         else{
-                            html+="<td class=\"text-center\">"+r.valor+"%</td>";    
+                            html+="<td class=\"text-center\" id=\""+r.id+"tipo\">"+r.valor+"%</td>";    
                         }
                     }
                     else{
-                        html+="<td class=\"text-right\">"+formatter.format(r.valor)+"</td>";
+                        html+="<td class=\"text-right\" id=\""+r.id+"tipo\">"+formatter.format(r.valor)+"</td>";
                     }
-                    html+="<td class=\"text-center\">"+r.retencion+"%</td>";
-                    html+="<td class=\"text-center\">"+r.impdeclara+"%</td>";
-                    html+="<td class=\"text-center\"><button class=\"btn btn-primary btn-xs\" onclick=\"r()\">Editar</button> <button class=\"btn btn-danger btn-xs\" onclick=\"r()\">Borrar</button></td>";
+                    html+="<td class=\"text-center\" id=\""+r.id+"retencion\">"+r.retencion+"%</td>";
+                    html+="<td class=\"text-center\" id=\""+r.id+"impodeclara\">"+r.impdeclara+"%</td>";
+                    html+="<td class=\"text-center\"><a class=\"btn btn-primary btn-xs\" href=\"#edit\" id=\""+r.id+"prim\" onclick=\"edit("+r.id+")\">Editar</a> <button class=\"btn btn-danger btn-xs\" onclick=\"r()\">Borrar</button></td>";
                     html+="</tr>";
                 }
             }

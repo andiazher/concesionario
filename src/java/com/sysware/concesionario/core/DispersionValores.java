@@ -44,10 +44,14 @@ public class DispersionValores {
                     disp = dis;
                     //CALCULAR EL VALOR DEL PORCENTAGE
                     int valorDispersar=0;
+                    int valorRetencion=0;
+                    int valorImpDeclara=0;
                     if(disp.getDataOfLabel("TIPO").equals("1")){
                         int v =Integer.parseInt(disp.getDataOfLabel("VALOR"));
                         if(v==0){
                             valorDispersar= valor -total;
+                            int porcent =  (valorDispersar *100)/valor;
+                            disp.getData().set(disp.getColums().indexOf("VALOR"), porcent+"");
                         }
                         else{
                             valorDispersar = (v*valor)/100;
@@ -58,6 +62,10 @@ public class DispersionValores {
                     }
                     if(total+valorDispersar <= valor+1){
                         total+=valorDispersar;
+                        int pret= Integer.parseInt(disp.getDataOfLabel("RETENCION"));
+                        int pimp= Integer.parseInt(disp.getDataOfLabel("IMPDECLARA"));
+                        valorRetencion= (valorDispersar*pret)/100;
+                        valorImpDeclara = (valorDispersar*pimp)/100;
                     }
                     else{
                         valorDispersar=0;
@@ -74,6 +82,10 @@ public class DispersionValores {
                     rdisper.getData().set(rdisper.getColums().indexOf("VALORPROG"), disp.getDataOfLabel("VALOR"));
                     rdisper.getData().set(rdisper.getColums().indexOf("VALORCALCUL"), valorDispersar+"");
                     rdisper.getData().set(rdisper.getColums().indexOf("VALORBASE"), valor+"");
+                    rdisper.getData().set(rdisper.getColums().indexOf("PRENT"), disp.getDataOfLabel("RETENCION"));
+                    rdisper.getData().set(rdisper.getColums().indexOf("VRENT"), valorRetencion+"");
+                    rdisper.getData().set(rdisper.getColums().indexOf("PIMP"), disp.getDataOfLabel("IMPDECLARA"));
+                    rdisper.getData().set(rdisper.getColums().indexOf("VIMP"), valorImpDeclara+"");
                     rdisper.create();
             }
         }catch( IndexOutOfBoundsException s){

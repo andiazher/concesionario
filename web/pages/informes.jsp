@@ -21,13 +21,14 @@
                                     <div class="table-responsive">
                                         <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
                                             <thead class="">
-                                                <th>Concesionario</th>
-                                                <th>Receptor</th>
+                                                <th>Conce</th>
+                                                <th>Recep.</th>
                                                 <th>Fecha</th>
-                                                <th>Servicio</th>
-                                                <th>ValorBase</th>
-                                                <th></th>
-                                                <th>ValorPago</th>
+                                                <th>Serv.</th>
+                                                <th>V.Base</th>
+                                                <th>Valor</th>
+                                                <th>V.Ret</th>
+                                                <th>V.Imp</th>
                                             </thead>
                                             <tbody id="serviciostable">
                                                 <tr>
@@ -37,6 +38,8 @@
                                                     <td>--</td>
                                                     <td>$00</td>
                                                     <td>0%0</td>
+                                                    <td>$00</td>
+                                                    <td>$00</td>
                                                     <td>$00</td>
                                                 </tr>
                                             </tbody>

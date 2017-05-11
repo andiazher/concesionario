@@ -74,19 +74,36 @@ public class Informes extends HttpServlet {
                             osdetalle.getEntitieID(i.getDataOfLabel("DOS"));
                             out.println("<td>"+i.getDataOfLabel("FECHA")+"</td>");
                             servicio.getEntitieID(osdetalle.getDataOfLabel("SERVICIO"));
-                            System.out.println(servicio);
                             out.println("<td>"+servicio.getDataOfLabel("DESCRIPCION")+"/"+i.getDataOfLabel("RUBRO")+"</td>");
                             DecimalFormat formateador = new DecimalFormat("###,###.##");
                             out.println("<td class=\"text-right\">$"+formateador.format(Integer.parseInt(i.getDataOfLabel("VALORBASE")))+"</td>");
-                            String ss= "%";
+                            String ss= "";
                             if(i.getDataOfLabel("TIPO").equals("1")){
-                                ss="("+i.getDataOfLabel("VALORPROG")+"%)";
+                                String valor = i.getDataOfLabel("VALORPROG");
+                                if(valor.equals("0")){
+                                    int vbase = Integer.parseInt(i.getDataOfLabel("VALORBASE"));
+                                    int vcal = Integer.parseInt(i.getDataOfLabel("VALORCALCUL"));
+                                    int vpor = (vcal*100)/vbase;
+                                    valor= vpor+"";
+                                }
+                                ss="("+valor+"%)";
+                            }
+                            //out.println("<td class=\"text-right\">"+ss+"</td>");
+                            out.println("<td class=\"text-right\">"+ss+"<b>$"+formateador.format(Integer.parseInt(i.getDataOfLabel("VALORCALCUL")))+"</b></td>");
+                            if(i.getDataOfLabel("PRENT").equals("0")){
+                                out.println("<td class=\"text-center\">--</td>");
                             }
                             else{
-                                ss="--";
+                                out.println("<td class=\"text-right\">("+
+                                    i.getDataOfLabel("PRENT")+"%)$"+formateador.format(Integer.parseInt(i.getDataOfLabel("VRENT")))+"</td>");
                             }
-                            out.println("<td class=\"text-right\">"+ss+"</td>");
-                            out.println("<td class=\"text-right\">$"+formateador.format(Integer.parseInt(i.getDataOfLabel("VALORCALCUL")))+"</td>");
+                            
+                            if(i.getDataOfLabel("PIMP").equals("0")){
+                                out.println("<td class=\"text-center\">--</td>");
+                            }else{
+                                out.println("<td class=\"text-right\">("+
+                                    i.getDataOfLabel("PIMP")+"%)$"+formateador.format(Integer.parseInt(i.getDataOfLabel("VIMP")))+"</td>");
+                            }
                             out.println("</tr>");
                         }
                     }

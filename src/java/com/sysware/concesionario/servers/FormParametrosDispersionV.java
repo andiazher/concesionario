@@ -66,6 +66,9 @@ public class FormParametrosDispersionV extends HttpServlet {
                         out.println("}");
                     }
                 }
+                /**
+                 * 
+                 */
                 if(var.equals("controldisper")){
                     Entitie conDisp= new Entitie(App.TABLE_CONTROLDIPS);
                     Entitie rubroE=new Entitie(App.TABLE_RUBRODIPS);
@@ -113,6 +116,43 @@ public class FormParametrosDispersionV extends HttpServlet {
                             out.println("       } ");
                         out.println("       ]");
                         out.println("   },");
+                        out.println("\"andiazher\": \"andiazher.com\"");
+                        out.println("}");
+                    }
+                }
+                /**
+                 * 
+                 */
+                if(var.equals("rowdispersion")){
+                    Entitie conDisp= new Entitie(App.TABLE_CONTROLDIPS);
+                    Entitie receptor = new Entitie(App.TABLE_RECEPTORES);
+                    ArrayList<Entitie> receptores = receptor.getEntities();
+                    try{
+                        String id = request.getParameter("idp");
+                        conDisp.getEntitieID(id);
+                    }catch(NullPointerException s){s.printStackTrace();}
+                    catch(IndexOutOfBoundsException s){s.printStackTrace();}
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println("{");
+                        out.println("\"receptor\": {");
+                        out.println("   \"option\": [");
+                        String idReceptor = conDisp.getDataOfLabel("RECEPTOR");
+                        for(Entitie t : receptores){
+                            if(idReceptor.equals(t.getId())){
+                                out.println("       {\"value\": \""+t.getId()+"\",\"name\": \""+t.getDataOfLabel("DESCRIPCION")+"\"}, \"selected\":\"selected\" ");
+                            }
+                            else{
+                                out.println("       {\"value\": \""+t.getId()+"\",\"name\": \""+t.getDataOfLabel("DESCRIPCION")+"\"}, ");
+                            }
+                        }
+                        out.println("       {\"value\": \"0\",\"name\": \"--\"}");
+                        out.println("       ]");
+                        out.println("   },");
+                        out.println("\"tipo\": \""+conDisp.getDataOfLabel("TIPO")+"\",");
+                        out.println("\"valor\": \""+conDisp.getDataOfLabel("VALOR")+"\",");
+                        out.println("\"valor\": \""+conDisp.getDataOfLabel("VALOR")+"\",");
+                        out.println("\"vr\": \""+conDisp.getDataOfLabel("RETENCION")+"\",");
+                        out.println("\"vr\": \""+conDisp.getDataOfLabel("IMPDECLARA")+"\",");
                         out.println("\"andiazher\": \"andiazher.com\"");
                         out.println("}");
                     }
