@@ -139,7 +139,7 @@ public class FormParametrosDispersionV extends HttpServlet {
                         String idReceptor = conDisp.getDataOfLabel("RECEPTOR");
                         for(Entitie t : receptores){
                             if(idReceptor.equals(t.getId())){
-                                out.println("       {\"value\": \""+t.getId()+"\",\"name\": \""+t.getDataOfLabel("DESCRIPCION")+"\"}, \"selected\":\"selected\" ");
+                                out.println("       {\"value\": \""+t.getId()+"\",\"name\": \""+t.getDataOfLabel("DESCRIPCION")+"\", \"selected\":\"selected\"},");
                             }
                             else{
                                 out.println("       {\"value\": \""+t.getId()+"\",\"name\": \""+t.getDataOfLabel("DESCRIPCION")+"\"}, ");
@@ -150,14 +150,20 @@ public class FormParametrosDispersionV extends HttpServlet {
                         out.println("   },");
                         out.println("\"tipo\": \""+conDisp.getDataOfLabel("TIPO")+"\",");
                         out.println("\"valor\": \""+conDisp.getDataOfLabel("VALOR")+"\",");
-                        out.println("\"valor\": \""+conDisp.getDataOfLabel("VALOR")+"\",");
                         out.println("\"vr\": \""+conDisp.getDataOfLabel("RETENCION")+"\",");
-                        out.println("\"vr\": \""+conDisp.getDataOfLabel("IMPDECLARA")+"\",");
+                        out.println("\"vi\": \""+conDisp.getDataOfLabel("IMPDECLARA")+"\",");
                         out.println("\"andiazher\": \"andiazher.com\"");
                         out.println("}");
                     }
                 }
+                /**
+                 * 
+                 */
+                if(var.equals("save")){
+                    
+                }
             }
+            
             else{
                 /**
                  * En caso de ser invalida la session se envia a la pagina de login
@@ -165,15 +171,8 @@ public class FormParametrosDispersionV extends HttpServlet {
                 response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales");
             }
         } catch(NullPointerException a){
-            try (PrintWriter out = response.getWriter()) {
-                out.println("<script type=\"text/javascript\">\n" +
-                    "    swal(\n" +
-                    "        'Error:',\n" +
-                    "        'No se puede cargar el contenido',\n" +
-                    "        'error'\n" +
-                    "    )\n" +
-                    "</script>");
-            }
+            a.printStackTrace();
+            response.sendRedirect("login.jsp?validate=Por+favor+ingresar+credenciales");
         }
     }
 

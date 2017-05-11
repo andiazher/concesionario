@@ -53,6 +53,7 @@
                                                         <option selected="" value="">PREDETER</option>
                                                     </select>                                                
                                                 </div>
+                                                <input type="hidden" name="variable" value="controldisper">
                                             </div>   
                                             <div class="col-md-2">
                                                 <button type="submit" class="btn btn-success btn-fill" id="buttonsubmit" onclick="loadtable()">
@@ -65,31 +66,32 @@
 
                                         </div>
                                     </form>
-                                    <form id="form2" method="post" action="#sent">
+                                    <form method="post" action="formParametrosDispersionV#save" id="form2">
+                                        <input type="hidden" name="variable" value="save">";
                                         <div class="table-responsive" id="formViewService">
-                                            <h4 class="card-title text-center" id="titleContend"> Por favor seleccionar los parmetros de busqueda </h4>
-                                            <table class="table">
-                                                <thead class="">
-                                                    <th></th>
-                                                    <th>Receptor</th>
-                                                    <th>Valor</th>
-                                                    <th>Ret</th>
-                                                    <th>Imp</th>
-                                                    <th>Action</th>
-                                                </thead>
-                                                <tbody id="tbody">
-                                                    <tr>
-                                                        
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="text-center">
-                                            <button type="submit" class="btn btn-success" onclick="r()">
-                                                Agragar Entidad para Dispersar
-                                            </button>
+                                                <h4 class="card-title text-center" id="titleContend"> Por favor seleccionar los parmetros de busqueda </h4>
+                                                <table class="table">
+                                                    <thead class="">
+                                                        <th></th>
+                                                        <th>Receptor</th>
+                                                        <th>Valor</th>
+                                                        <th>Ret</th>
+                                                        <th>Imp</th>
+                                                        <th>Action</th>
+                                                    </thead>
+                                                    <tbody id="tbody">
+                                                        <tr>
+                                                            
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                         </div>
                                     </form>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-success" onclick="r()">
+                                            Agragar Entidad para Dispersar
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -117,12 +119,12 @@
                 }
             }
             $("#rubros").html(content);
+            loadtable();
         });
-        loadtable();
+        
     }
 
     function r(){
-        
                     swal(
                     'Error:',
                     'Función no habilitada',
@@ -139,23 +141,53 @@
         var menu2="serviciosr";
         $.post("ClaseVehiculoClientView", { variable: menu2 }, function(data){
             $("#servicios").append(data);
+            loadRubros();
         });
-        loadRubros();
+        
     }
     loadparams();
 
     function edit(id){
+        //loadtable();
         var menu="rowdispersion";
         $.post("formParametrosDispersionV", { variable: menu, idp:id }, function(data){
-            var cod="<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\"receptor\" id=\"ss\">";
-            cod+="";
-            cod+="</select>";
-            $("#"+id+"receptor").html(cod);
-            $("#"+id+"prim").html("Guardar");
+            var cadena = data;
+            var v = JSON.parse(cadena);
+            var content="<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\"receptor\">";
+            for(i in v.receptor.option){
+                var r = v.receptor.option[i];
+                if (r.value!="0") {
+                    content+="<option";
+                    content+=" value=\""+r.value+"\" "+r.selected+" >" +r.name;
+                    content+="</option>";
+                }
+            }
+            content+="</select>";
+            $("#"+id+"receptor").html(content);
+            content="<input type=\"text\" value=\""+v.valor+"\" size=\"7\">";
+            content+="<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\"tipo\">";
+            content+="<option";
+            var selected="";
+            var selected2="";
+            if(v.tipo==1){
+                selected="selected";
+            }
+            else{
+                selected2="selected";   
+            }
+            content+=" value=\"1\" "+selected+" >%";
+            content+="</option>";
+            content+="<option";
+            content+=" value=\"0\" "+selected2+" >$";
+            content+="</option>";
+            content+="</select>";
+            $("#"+id+"tipo").html(content);
+            content="<input class\"form-control\" type=\"text\" value=\""+v.vr+"\" maxlength=\"3\" size=\"3\" max=\"100\" >";
+            $("#"+id+"retencion").html(content);
+            content="<input class\"form-control\" type=\"text\" value=\""+v.vi+"\" maxlength=\"3\" size=\"3\" max=\"100\">";
+            $("#"+id+"impodeclara").html(content);
+            $("#"+id+"prim").html("<button class=\"btn btn-primary btn-xs\" type=\"submit\" href=\"#edit\" onclick=\"edit("+r.id+")\">Guardar</button> <a class=\"btn btn-danger btn-xs\" href=\"#delete\" onclick=\"r()\">Borrar</a>");
         });
-
-        
-
     }
 
     function loadtableForm(data){
@@ -187,7 +219,7 @@
                     }
                     html+="<td class=\"text-center\" id=\""+r.id+"retencion\">"+r.retencion+"%</td>";
                     html+="<td class=\"text-center\" id=\""+r.id+"impodeclara\">"+r.impdeclara+"%</td>";
-                    html+="<td class=\"text-center\"><a class=\"btn btn-primary btn-xs\" href=\"#edit\" id=\""+r.id+"prim\" onclick=\"edit("+r.id+")\">Editar</a> <button class=\"btn btn-danger btn-xs\" onclick=\"r()\">Borrar</button></td>";
+                    html+="<td class=\"text-center\" id=\""+r.id+"prim\"><a class=\"btn btn-primary btn-xs\" href=\"#edit\" onclick=\"edit("+r.id+")\">Editar</a> <a class=\"btn btn-danger btn-xs\" href=\"#delete\" onclick=\"r()\">Borrar</a></td>";
                     html+="</tr>";
                 }
             }
