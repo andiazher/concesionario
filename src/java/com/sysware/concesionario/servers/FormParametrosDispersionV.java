@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -160,7 +161,29 @@ public class FormParametrosDispersionV extends HttpServlet {
                  * 
                  */
                 if(var.equals("save")){
+                    Enumeration<String> a= request.getParameterNames();
+                    a.nextElement();
+                    String receptor = a.nextElement();
+                    receptor= request.getParameter(receptor);
+                    String id = a.nextElement();
+                    id= request.getParameter(id);
+                    String valor = a.nextElement();
+                    valor= request.getParameter(valor);
+                    String tipo = a.nextElement();
+                    tipo= request.getParameter(tipo);
+                    String valorR = a.nextElement();
+                    valorR= request.getParameter(valorR);
+                    String valorIm = a.nextElement();
+                    valorIm= request.getParameter(valorIm);
                     
+                    Entitie re= new Entitie(App.TABLE_CONTROLDIPS);
+                    re.getEntitieID(id);
+                    re.getData().set(re.getColums().indexOf("RECEPTOR"), receptor);
+                    re.getData().set(re.getColums().indexOf("TIPO"), tipo);
+                    re.getData().set(re.getColums().indexOf("VALOR"), valor);
+                    re.getData().set(re.getColums().indexOf("RETENCION"), valorR);
+                    re.getData().set(re.getColums().indexOf("IMPDECLARA"), valorIm);
+                    re.update();
                 }
             }
             

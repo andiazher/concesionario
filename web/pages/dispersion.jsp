@@ -164,7 +164,8 @@
             }
             content+="</select>";
             $("#"+id+"receptor").html(content);
-            content="<input type=\"text\" value=\""+v.valor+"\" size=\"7\">";
+            content="<input type=\"hidden\" value=\""+id+"\" name=\"id"+id+"\">";
+            content+="<input type=\"text\" value=\""+v.valor+"\" name=\"valor\" size=\"7\">";
             content+="<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\"tipo\">";
             content+="<option";
             var selected="";
@@ -182,11 +183,11 @@
             content+="</option>";
             content+="</select>";
             $("#"+id+"tipo").html(content);
-            content="<input class\"form-control\" type=\"text\" value=\""+v.vr+"\" maxlength=\"3\" size=\"3\" max=\"100\" >";
+            content="<input class\"form-control\" type=\"text\" name=\"valorR\" value=\""+v.vr+"\" maxlength=\"3\" size=\"3\" max=\"100\" >";
             $("#"+id+"retencion").html(content);
-            content="<input class\"form-control\" type=\"text\" value=\""+v.vi+"\" maxlength=\"3\" size=\"3\" max=\"100\">";
+            content="<input class\"form-control\" type=\"text\" name=\"valorI\" value=\""+v.vi+"\" maxlength=\"3\" size=\"3\" max=\"100\">";
             $("#"+id+"impodeclara").html(content);
-            $("#"+id+"prim").html("<button class=\"btn btn-primary btn-xs\" type=\"submit\" href=\"#edit\" onclick=\"edit("+r.id+")\">Guardar</button> <a class=\"btn btn-danger btn-xs\" href=\"#delete\" onclick=\"r()\">Borrar</a>");
+            $("#"+id+"prim").html("<button class=\"btn btn-primary btn-xs\" type=\"submit\" href=\"#edit\" onclick=\"save("+r.id+")\">Guardar</button> <a class=\"btn btn-danger btn-xs\" href=\"#delete\" onclick=\"r()\">Borrar</a>");
         });
     }
 
