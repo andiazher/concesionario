@@ -87,8 +87,8 @@
                                                 </table>
                                         </div>
                                     </form>
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-success" onclick="r()">
+                                    <div class="text-center" id="buttonAddRow2">
+                                        <button type="submit" class="btn btn-success" disabled id="buttonAddRow" onclick="addRow(0,0)">
                                             Agragar Entidad para Dispersar
                                         </button>
                                     </div>
@@ -187,10 +187,58 @@
             $("#"+id+"retencion").html(content);
             content="<input class\"form-control\" type=\"text\" name=\"valorI\" value=\""+v.vi+"\" maxlength=\"3\" size=\"3\" max=\"100\">";
             $("#"+id+"impodeclara").html(content);
-            $("#"+id+"prim").html("<button class=\"btn btn-primary btn-xs\" type=\"submit\" href=\"#edit\" onclick=\"save("+r.id+")\">Guardar</button> <a class=\"btn btn-danger btn-xs\" href=\"#delete\" onclick=\"r()\">Borrar</a>");
+            $("#"+id+"prim").html("<button class=\"btn btn-primary btn-xs\" type=\"submit\" href=\"#edit\">Guardar</button> <a class=\"btn btn-danger btn-xs\" href=\"#delete\" onclick=\"r()\">Borrar</a>");
+            $("#buttonAddRow").attr("disabled","");
         });
     }
+    function addRow(conce, rubro){
+        var menu="receptores";
+        $.post("formParametrosDispersionV", { variable: menu}, function(data){
+            var cadena = data;
+            var v = JSON.parse(cadena);
+            var content="<tr>";
+            content+="<td>ID</td>";
+            content+="<td>";
+                content+="<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\"receptor\">";
+                for(i in v.receptor.option){
+                    var r = v.receptor.option[i];
+                    if (r.value!="0") {
+                        content+="<option";
+                        content+=" value=\""+r.value+"\" "+r.selected+" >" +r.name;
+                        content+="</option>";
+                    }
+                }
+                content+="</select>";
+            content+="</td>";
+            content+="<td>";
+                content+="<input type=\"hidden\" value=\"0\" name=\"id0\">";
+                content+="<input type=\"text\" value=\"0\" name=\"valor\" size=\"7\">";
+                content+="<select class=\"select-with-transition\" data-style=\"btn btn-default\" name=\"tipo\">";
+                    content+="<option";
+                    content+=" value=\"1\">%";
+                    content+="</option>";
+                    content+="<option";
+                    content+=" value=\"0\">$";
+                    content+="</option>";
+                content+="</select>";
+            content+="</td>";
+            content+="<td>";
+                content+="<input class\"form-control\" type=\"text\" name=\"valorR\" value=\"0\" maxlength=\"3\" size=\"3\" max=\"100\" >";
+            content+="</td>";
+            content+="<td>";
+                content+="<input class\"form-control\" type=\"text\" name=\"valorI\" value=\"0\" maxlength=\"3\" size=\"3\" max=\"100\">";
+            content+="</td>";
+            content+="<td>";
+                content+="<input type=\"hidden\" value=\""+conce+"\" name=\"conce0\">";
+                content+="<input type=\"hidden\" value=\""+rubro+"\" name=\"rubro0\">";
+                content+="<button class=\"btn btn-success btn-xs\" type=\"submit\" href=\"#edit\">Guardar</button>";
+            content+="</td>";
+            content+="</tr>";
+            $("#tbody").append(content);
+            $("#buttonAddRow").attr("disabled","");  
+        });
 
+    }
     function loadtableForm(data){
         var cadena = data;
         var valores = JSON.parse(cadena);
@@ -223,7 +271,17 @@
                     html+="<td class=\"text-center\" id=\""+r.id+"prim\"><a class=\"btn btn-primary btn-xs\" href=\"#edit\" onclick=\"edit("+r.id+")\">Editar</a> <a class=\"btn btn-danger btn-xs\" href=\"#delete\" onclick=\"r()\">Borrar</a></td>";
                     html+="</tr>";
                 }
-            }
+        }
+
+        if(valores.noerror=="0"){
+            $("#buttonAddRow").removeAttr("disabled");
+            $("#buttonAddRow").attr("onclick","addRow("+valores.conce+","+valores.rubro+")");        
+            //$("#buttonAddRow2").html("<button type=\"submit\" class=\"btn btn-success\" id=\"buttonAddRow\" onclick=\"addRow(0,0)\">Agragar Entidad para Dispersar</button>");        
+        }
+        else{
+            $("#buttonAddRow").attr("disabled","");       
+        }
+
         $("#tbody").html(html);
     }
 

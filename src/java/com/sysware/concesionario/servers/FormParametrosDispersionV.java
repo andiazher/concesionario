@@ -76,12 +76,17 @@ public class FormParametrosDispersionV extends HttpServlet {
                     Entitie receptor = new Entitie(App.TABLE_RECEPTORES);
                     ArrayList<Entitie> rubros = new ArrayList<>();
                     String name="Resultados";
+                    String error="1";
+                    String servicio ="";
+                    String concesionario="";
+                    String rubro="";
+                    String form="";
                     ArrayList<Entitie> parametros = new ArrayList<>();
                     try{
-                        String servicio = request.getParameter("servicio");
-                        String concesionario = request.getParameter("concesionario");
-                        String rubro = request.getParameter("rubro");
-                        String form = request.getParameter("form");
+                        servicio = request.getParameter("servicio");
+                        concesionario = request.getParameter("concesionario");
+                        rubro = request.getParameter("rubro");
+                        form = request.getParameter("form");
                         rubroE.getEntitieID(rubro);
                         name+=" para el rubro <b>"+rubroE.getDataOfLabel("NOMRUBRO")+"</b>";
                         ArrayList<String> param1 = new ArrayList<>();
@@ -91,12 +96,15 @@ public class FormParametrosDispersionV extends HttpServlet {
                         param2.add(concesionario);
                         param2.add(rubro);
                         parametros = conDisp.getEntitieParams(param1, param2);
-                        
+                        error="0";
                     }catch(NullPointerException s){s.printStackTrace();}
                     catch(IndexOutOfBoundsException s){s.printStackTrace();}
                     
                     try (PrintWriter out = response.getWriter()) {
                         out.println("{");
+                        out.println("\"noerror\": \""+error+"\",");
+                        out.println("\"conce\": \""+concesionario+"\",");
+                        out.println("\"rubro\": \""+rubro+"\",");
                         out.println("\"title\": \""+name+"\",");
                         out.println("\"info\": {");
                         out.println("   \"row\": [");
@@ -178,12 +186,47 @@ public class FormParametrosDispersionV extends HttpServlet {
                     
                     Entitie re= new Entitie(App.TABLE_CONTROLDIPS);
                     re.getEntitieID(id);
+                    if(id.equals("0")){
+                        for(String i: re.getColums()){
+                            re.getData().add("0");
+                        }
+                        String conce = a.nextElement();
+                        conce= request.getParameter(conce);
+                        String rubro = a.nextElement();
+                        rubro= request.getParameter(rubro);
+                        re.getData().set(re.getColums().indexOf("CONCESIONARIO"), conce);
+                        re.getData().set(re.getColums().indexOf("RUBRO"), rubro);
+                    }
                     re.getData().set(re.getColums().indexOf("RECEPTOR"), receptor);
                     re.getData().set(re.getColums().indexOf("TIPO"), tipo);
                     re.getData().set(re.getColums().indexOf("VALOR"), valor);
                     re.getData().set(re.getColums().indexOf("RETENCION"), valorR);
                     re.getData().set(re.getColums().indexOf("IMPDECLARA"), valorIm);
-                    re.update();
+                    if(id.equals("0")){
+                        re.create();
+                    }else{
+                        re.update();
+                    }
+                }
+                /**
+                 * 
+                 */
+                if(var.equals("receptores")){
+                    Entitie receptor = new Entitie(App.TABLE_RECEPTORES);
+                    ArrayList<Entitie> receptores = receptor.getEntities();
+                    try (PrintWriter out = response.getWriter()) {
+                        out.println("{");
+                        out.println("\"receptor\": {");
+                        out.println("   \"option\": [");
+                        for(Entitie t : receptores){
+                            out.println("       {\"value\": \""+t.getId()+"\",\"name\": \""+t.getDataOfLabel("DESCRIPCION")+"\"}, ");
+                        }
+                        out.println("       {\"value\": \"0\",\"name\": \"--\"}");
+                        out.println("       ]");
+                        out.println("   },");
+                        out.println("\"andiazher\": \"andiazher.com\"");
+                        out.println("}");
+                    }
                 }
             }
             
