@@ -271,6 +271,21 @@ public class ClaseVehiculoClientView extends HttpServlet {
                         }
                     }
                 }
+                /**
+                 * RETORNA LISTADOS DE RECEPTORES REGISTRADOS
+                 */
+                if(var.equals("AllReceptores")){
+                    Entitie canal = new Entitie(App.TABLE_RECEPTORES);
+                    ArrayList<Entitie> canales = canal.getEntities();
+                    try (PrintWriter out = response.getWriter()) {
+                        String selected="selected";
+                        for(Entitie i: canales){
+                            out.println("<option value=\""+i.getId()+"\" "+selected+" >" 
+                                    + i.getDataOfLabel("DESCRIPCION")+"</option>");
+                            selected="";
+                        }
+                    }
+                }
                 
             }
             else{
