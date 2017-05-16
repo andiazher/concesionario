@@ -51,11 +51,12 @@ public class InformesDispersionByReceptor extends HttpServlet {
                     ArrayList<Entitie> registros = new ArrayList<>();
                     String receptor="";
                     try{
-                        receptor= request.getParameter("canal");
                         fi= request.getParameter("fi");
                         ff= request.getParameter("ff");
+                        receptor= request.getParameter("canal");
                     }catch(NullPointerException s){
                         System.out.println("Error: "+s);
+                        System.out.println("Receptor vacio");
                     }
                     Entitie regDispersion = new Entitie(App.TABLE_REGISTRORECEP); //REGISTROS DISPERSION
                     name= "REGISTROS";
@@ -80,7 +81,7 @@ public class InformesDispersionByReceptor extends HttpServlet {
                         operation.add("<=");
                         nada=true;
                     }
-                    if(!receptor.equals("0")){
+                    if(!receptor.equals("")){
                         Entitie can = new Entitie(App.TABLE_RECEPTORES);
                         can.getEntitieID(receptor);
                         if(nada){
@@ -94,11 +95,11 @@ public class InformesDispersionByReceptor extends HttpServlet {
                     }
 
                     if(param1.isEmpty() && param2.isEmpty() && operation.isEmpty() && nada==false){
-                        registros = regDispersion.getEntities();
+                        registros = regDispersion.getEntitieParams(param1, param2, operation, " ORDER BY RECEPTOR","");
                         name="TODOS LOS REGISTROS DE DISPERSION";
                     }
                     else{
-                        registros = regDispersion.getEntitieParams(param1, param2, operation);
+                        registros = regDispersion.getEntitieParams(param1, param2, operation, " ORDER BY RECEPTOR","");
                     }
                     Entitie conce = new Entitie(App.TABLE_CONCESIONARIO);
                     Entitie recep = new Entitie(App.TABLE_RECEPTORES);
@@ -116,6 +117,7 @@ public class InformesDispersionByReceptor extends HttpServlet {
                             out.println("       \"conce\": \""+conce.getDataOfLabel("NOMBRE")+"\",");
                             recep.getEntitieID(i.getDataOfLabel("RECEPTOR"));
                             out.println("       \"receptor\": \""+recep.getDataOfLabel("DESCRIPCION")+"\",");
+                            out.println("       \"receptorId\": \""+i.getDataOfLabel("RECEPTOR")+"\",");
                             out.println("       \"fecha\": \""+i.getDataOfLabel("FECHA")+"\",");
                             dos.getEntitieID(i.getDataOfLabel("DOS"));
                             servicio.getEntitieID(dos.getDataOfLabel("SERVICIO"));
@@ -132,7 +134,8 @@ public class InformesDispersionByReceptor extends HttpServlet {
                             out.println("       }, ");
                         }
                             out.println("       {");
-                            out.println("       \"id\": \"0\"");
+                            out.println("       \"id\": \"0\",");
+                            out.println("       \"receptorId\": \"0\"");
                             out.println("       } ");
                         out.println("       ]");
                         out.println("   },");

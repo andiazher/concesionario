@@ -51,13 +51,17 @@
                                                     });
                                                 </script>
                                             </div>
+                                            <!--
                                             <div class="col-md-5">
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Receptor</label>
                                                     <select class="select-with-transition" data-style="btn btn-default" name="receptor" id="receptor" onchange="loadtable()">
-                                                        <option selected="" value="">--TODOS--</option>
+                                                        <option selected="" value="">TODOS</option>
                                                     </select>                                                
                                                 </div>
+                                            </div>    
+                                            -->
+                                            <div class="col-md-5">
                                             </div>    
                                             <div class="col-md-2">
                                                 <button type="submit" class="btn btn-success btn-fill" id="buttonsubmit" onclick="loadtable()">
@@ -72,17 +76,16 @@
                                     </form>
                                         <div class="table-responsive" id="formViewService">
                                             <h4 class="card-title text-center" id="titleContend"> Cargando Polizas, por favor espere </h4>
-                                            <table class="table">
+                                            <table class="table" id="tableAll">
                                                 <thead class="">
-                                                    <th>Conce</th>
-                                                    <th>Fecha</th>
+                                                    <th>Receptor</th>
                                                     <th>Serv.</th>
                                                     <th>V.Base</th>
                                                     <th>Valor</th>
                                                     <th>V.Ret</th>
                                                     <th>V.Imp</th>
                                                 </thead>
-                                                <tbody id="tbody">
+                                                <tbody>
                                                     <tr>
                                                         
                                                     </tr>
@@ -124,8 +127,10 @@
     }
     loadparams();
 
-    function loadtableForm(fi1, ff1){
-        var canal1=document.getElementById('receptor').value;
+    function loadtableFormDetail(receptor){
+        var fi1 = document.getElementById('fecha1').value;
+        var ff1 = document.getElementById('fecha2').value;
+        var canal1=receptor;
         var menu1="getData";
         $.post("InformesDispersionByReceptor", { fi: fi1, ff: ff1, canal: canal1, menu: menu1}, function(data){
             var cadena = data;
@@ -136,7 +141,7 @@
                 currency: 'USD',
                 minimumFractionDigits: 0,
             });
-            var html="";
+            var html="<thead><th>Conce</th><th>Fecha</th><th>Serv.</th><th>V.Base</th><th>Valor</th><th>V.Ret</th><th>V.Imp</th></thead><tbody>";
             var counter1=0;
             var counter2=0;                
             for(i in valores.info.row){
@@ -179,8 +184,100 @@
             html+="<td class=\"text-right\" colspan=\"1\" id=\"pago\">"+formatter.format(counter2)+"</td>";
             html+="<td class=\"text-right\" colspan=\"1\" >--</td>";
             html+="<td class=\"text-right\" colspan=\"1\" >--</td>";
-            html+="</tr>";
-            $("#tbody").html(html);
+            html+="</tr></tbody>";
+            $("#tableAll").html(html);
+        });
+    }    
+
+    function loadtableForm(fi1, ff1){
+        var canal1="";
+        var menu1="getData";
+        $.post("InformesDispersionByReceptor", { fi: fi1, ff: ff1, canal: canal1, menu: menu1}, function(data){
+            var cadena = data;
+            var valores = JSON.parse(cadena);
+            $("#titleContend").html("<b>"+valores.title+"</b>");
+            var formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+            });
+            var html="<thead><th>Receptor</th><th>Serv.</th><th>V.Base</th><th>Valor</th><th>V.Ret</th><th>V.Imp</th></thead><tbody>";
+            var counter1=0;
+            var counter2=0;
+            var counter3=0;
+            var counter4=0;
+            var contador=0;
+            var isFirts=true;
+            var receptor = "";
+            var receptor2 = "";
+            for(i in valores.info.row){
+                var r = valores.info.row[i];
+                if(r.id!=0){
+                    if(isFirts){
+                        receptor=r.receptorId;
+                        isFirts=false;
+                    }
+                    if(receptor==r.receptorId){
+                        contador++;
+                        var c1=parseInt(r.base);
+                        var c2=parseInt(r.valorpag);
+                        var c3=parseInt(r.vrent);
+                        var c4=parseInt(r.vimp);
+                        counter1=counter1+c1;
+                        counter2=counter2+c2;
+                        counter3=counter3+c3;
+                        counter4=counter4+c4;
+                        receptor2 = r.receptor;    
+                    }
+                    if(receptor!=r.receptorId){
+                        html+="<tr>";
+                        html+="<td><a href=\"#openReceptor="+receptor+"\" onclick=\"loadtableFormDetail("+receptor+")\">"+receptor2+"<a></td>";
+                        html+="<td>"+contador+"</td>";
+                        html+="<td class=\"text-right\">"+formatter.format(counter1)+"</td>";
+                        html+="<td class=\"text-right\">"+formatter.format(counter2)+"</td>";
+                        html+="<td class=\"text-right\">"+formatter.format(counter3)+"</td>";
+                        html+="<td class=\"text-right\">"+formatter.format(counter4)+"</td>";
+                        html+="</tr>";
+                        receptor = r.receptorId;
+                        contador=0;
+                        counter1=0;
+                        counter2=0;
+                        counter3=0;
+                        counter4=0;
+                        contador++;
+                        var c1=parseInt(r.base);
+                        var c2=parseInt(r.valorpag);
+                        var c3=parseInt(r.vrent);
+                        var c4=parseInt(r.vimp);
+                        counter1=counter1+c1;
+                        counter2=counter2+c2;
+                        counter3=counter3+c3;
+                        counter4=counter4+c4;
+                        receptor2 = r.receptor;
+                    }
+                }
+                else{
+                    html+="<tr>";
+                    html+="<td><a href=\"#openReceptor="+receptor+"\" onclick=\"loadtableFormDetail("+receptor+")\">"+receptor2+"<a></td>";
+                    html+="<td>"+contador+"</td>";
+                    html+="<td class=\"text-right\">"+formatter.format(counter1)+"</td>";
+                    html+="<td class=\"text-right\">"+formatter.format(counter2)+"</td>";
+                    html+="<td class=\"text-right\">"+formatter.format(counter3)+"</td>";
+                    html+="<td class=\"text-right\">"+formatter.format(counter4)+"</td>";
+                    html+="</tr>";
+                }
+            }
+            html+="<tr  >";
+            /*
+            html+="<td class=\"text-center\" colspan=\"3\" >TOTAL</td>";
+            html+="<td class=\"text-right\" colspan=\"1\" id=\"prima\" >"+formatter.format(counter1)+"</td>";
+            html+="<td class=\"text-right\" colspan=\"1\" id=\"pago\">"+formatter.format(counter2)+"</td>";
+            html+="<td class=\"text-right\" colspan=\"1\" >--</td>";
+            html+="<td class=\"text-right\" colspan=\"1\" >--</td>";
+            */
+            html+="</tr></tbody>";
+
+            $("#tableAll").html(html);
         });
     }
 
