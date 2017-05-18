@@ -53,9 +53,9 @@
 
                 // Delete a record
                 table.on('click', '.remove', function(e) {
-                    $tr = $(this).closest('tr');
-                    table.row($tr).remove().draw();
-                    e.preventDefault();
+                    //$tr = $(this).closest('tr');
+                    //table.row($tr).remove().draw();
+                    //e.preventDefault();
                 });
 
                 //Like record
@@ -72,6 +72,32 @@
 </script>
 
 <script type="text/javascript">
+    function borrar(q){
+        var menu="<%=session.getAttribute("menu")%>";
+        swal({
+              title: "Esta seguro?",
+              text: "Deseas borrar la Entidad?",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#DD6B55",
+              confirmButtonText: "Si, Editar",
+              cancelButtonText: "No, Cancelar",
+              closeOnConfirm: false,
+              closeOnCancel: false
+            },
+            function(isConfirm){
+                if (isConfirm) {
+                    $.post("deleteEntitie", { id: q, variable: menu }, function(data){
+                        $("#datatables").append(data);
+                        loadTable();
+                    });
+                }
+                else {
+                    swal("Cancelado", "Se ha cancelado :)", "error");
+                }
+            });
+    }
+
     function loadTable(){
         var menu="<%=session.getAttribute("menu")%>";
 

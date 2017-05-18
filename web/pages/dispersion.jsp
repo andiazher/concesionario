@@ -124,12 +124,30 @@
         
     }
 
-    function r(){
-                    swal(
-                    'Error:',
-                    'Función no habilitada',
-                    'error'
-                    );
+    function borrar(q){
+        swal({
+              title: "Esta seguro?",
+              text: "Deseas borrar el parametro?",
+              type: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#DD6B55",
+              confirmButtonText: "Si, Editar",
+              cancelButtonText: "No, Cancelar",
+              closeOnConfirm: false,
+              closeOnCancel: false
+            },
+            function(isConfirm){
+                if (isConfirm) {
+                    var menu="delete";
+                    $.post("formParametrosDispersionV", { variable: menu, id: q }, function(data){
+                        $("#tbody").append(data);
+                        loadtable();
+                    });
+                }
+                else {
+                    swal("Cancelado", "Se ha cancelado :)", "error");
+                }
+            });
     }
     
     
@@ -187,7 +205,7 @@
             $("#"+id+"retencion").html(content);
             content="<input class\"form-control\" type=\"text\" name=\"valorI\" value=\""+v.vi+"\" maxlength=\"3\" size=\"3\" max=\"100\">";
             $("#"+id+"impodeclara").html(content);
-            $("#"+id+"prim").html("<button class=\"btn btn-primary btn-xs\" type=\"submit\" href=\"#edit\">Guardar</button> <a class=\"btn btn-danger btn-xs\" href=\"#delete\" onclick=\"r()\">Borrar</a>");
+            $("#"+id+"prim").html("<button class=\"btn btn-primary btn-xs\" type=\"submit\" href=\"#edit\">Guardar</button> <a class=\"btn btn-danger btn-xs\" href=\"#delete\" onclick=\"borrar("+r.id+")\">Borrar</a>");
             $("#buttonAddRow").attr("disabled","");
         });
     }
@@ -268,7 +286,7 @@
                     }
                     html+="<td class=\"text-center\" id=\""+r.id+"retencion\">"+r.retencion+"%</td>";
                     html+="<td class=\"text-center\" id=\""+r.id+"impodeclara\">"+r.impdeclara+"%</td>";
-                    html+="<td class=\"text-center\" id=\""+r.id+"prim\"><a class=\"btn btn-primary btn-xs\" href=\"#edit\" onclick=\"edit("+r.id+")\">Editar</a> <a class=\"btn btn-danger btn-xs\" href=\"#delete\" onclick=\"r()\">Borrar</a></td>";
+                    html+="<td class=\"text-center\" id=\""+r.id+"prim\"><a class=\"btn btn-primary btn-xs\" href=\"#edit\" onclick=\"edit("+r.id+")\">Editar</a> <a class=\"btn btn-danger btn-xs\" href=\"#delete\" onclick=\"borrar("+r.id+")\">Borrar</a></td>";
                     html+="</tr>";
                 }
         }

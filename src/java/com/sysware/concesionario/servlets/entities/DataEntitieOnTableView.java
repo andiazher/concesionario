@@ -58,7 +58,6 @@ public class DataEntitieOnTableView extends HttpServlet {
                         out.println("<button type=\"button\"  class=\"btn btn-success btn-round\" onclick=\"addForm(-1)\">");
                         out.println("<i class=\"material-icons\">add_circle</i></button>");
                     out.println("</div>");
-                    out.println("<script src=\"js/jquery.datatables.js\"></script>");
                     out.println("<div class=\"material-datatables\">");
                     out.println("<table id=\"datatables\" class=\"table table-striped table-no-bordered table-hover\" cellspacing=\"0\" width=\"100%\" style=\"width:100%\">");
                     out.println("<thead><tr>");
@@ -239,7 +238,8 @@ public class DataEntitieOnTableView extends HttpServlet {
                                 + " onclick=\"addForm('"+i.getId()+"')\">" +
 "                                                            <i class=\"material-icons\">edit</i>\n" +
 "                                                        </button>");
-                        out.println("<button type=\"button\" rel=\"tooltip\" class=\"btn btn-danger btn-round remove\">\n" +
+                        out.println("<button type=\"button\" rel=\"tooltip\" class=\"btn btn-danger btn-round remove\" "
+                                + " onclick=\"borrar('"+i.getId()+"')\">" +
 "                                                            <i class=\"material-icons\">close</i>\n" +
 "                                                        </button>");
                         out.println("</td>");

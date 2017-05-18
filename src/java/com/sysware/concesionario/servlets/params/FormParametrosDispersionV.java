@@ -228,6 +228,40 @@ public class FormParametrosDispersionV extends HttpServlet {
                         out.println("}");
                     }
                 }
+                /**
+                 * Delete the Parametro de dispersion
+                 * @param id
+                 * @return true if is delete and false if not is delete
+                 */
+                if(var.equals("delete")){
+                    Entitie conDisp= new Entitie(App.TABLE_CONTROLDIPS);
+                    String id="0";
+                    try{
+                        id = request.getParameter("id");
+                        conDisp.getEntitieID(id);
+                    }catch(NullPointerException s){s.printStackTrace();}
+                    catch(IndexOutOfBoundsException s){s.printStackTrace();}
+                    try (PrintWriter out = response.getWriter()) {
+                        if(conDisp.delete()){
+                            out.println("<script type=\"text/javascript\">\n"
+                                + "swal(\n" +
+                            "'Borrado!',\n" +
+                            "'El registro con ID="+id+" ha sido borrado',\n" +
+                            "'success'\n" +
+                            ")\n"
+                            + "</script>");
+                        }else{
+                            out.println("<script type=\"text/javascript\">\n"
+                                +" swal(\n" +
+                            "'Error!',\n" +
+                            "'El registro con ID="+id+" NO ha sido borrado',\n" +
+                            "'error'\n" +
+                            ")\n"
+                            + "</script>");
+                        }
+                        
+                    }
+                }
             }
             
             else{
