@@ -317,6 +317,7 @@ public class FormClientAsitDentalAction extends HttpServlet {
                     boolean enviado = false;
                     System.out.println("Correo Electronico: "+mc);
                     if(!mc.isEmpty()  && !mc.equals("") && !mc.equals(" ") && mc.contains("@") && mc.contains(".") && mc!= null){
+                        
                         mail.setRecipient(mc);
                         mail.setSubject("POLIZA ASISTENCIA DENTAL AD"+idPoliza);
                         String cadena= cliente.getDataOfLabel("NOMBRE");
