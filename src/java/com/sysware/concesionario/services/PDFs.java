@@ -39,7 +39,7 @@ public class PDFs {
         
         document.open();
         
-        Anchor anchorTarget = new Anchor("POLIZA DE ASISTENCIA DENTAL NUMERO "+asd.getDataOfLabel("POLIZA"));
+        Anchor anchorTarget = new Anchor("POLIZA N. "+asd.getDataOfLabel("POLIZA"));
         anchorTarget.setName("BackToTop");
         Paragraph paragraph1 = new Paragraph();
         paragraph1.setSpacingBefore(50);

@@ -60,7 +60,7 @@ public class Mail {
 
             MimeMultipart mimeMultipart= new MimeMultipart();
 
-            mimeMultipart.addBodyPart(texto);
+            mimeMultipart.addBodyPart(texto); //TEXTO DE MENSAGE
             mimeMultipart.addBodyPart(adjunto);
             
             MimeMessage msg = new MimeMessage(session);
