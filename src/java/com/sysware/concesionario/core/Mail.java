@@ -6,7 +6,10 @@
 package com.sysware.concesionario.core;
 
 import com.sysware.concesionario.app.App;
+import com.sysware.concesionario.entitie.Entitie;
 import java.util.Properties;
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -16,6 +19,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -23,8 +27,8 @@ import javax.mail.internet.MimeMultipart;
  */
 public class Mail {
     
-    private static String MAIL;
-    private static String PASS;
+    private static String MAIL="andres.diaz@sysware-ingenieria.com";
+    private static String PASS="sysware2017";
     
     private String subject;
     private String contend;
@@ -36,7 +40,7 @@ public class Mail {
     
     
     
-    public boolean send(){
+    public boolean send(HttpServletRequest request , Entitie asd){
         try{
             Properties p = new Properties();
             p.put("mail.smtp.host", "smtp.gmail.com");
@@ -47,19 +51,24 @@ public class Mail {
             Session session = Session.getInstance(p, null);
             BodyPart texto=new MimeBodyPart();
             texto.setText(contend);
+            
             BodyPart adjunto = new MimeBodyPart();
-
+            adjunto.setDataHandler(new DataHandler(new FileDataSource(
+                    request.getSession().getServletContext().getRealPath("/attach")+"/POL "+asd.getDataOfLabel("POLIZA")+".pdf"
+            )));
+            adjunto.setFileName("POLIZA "+asd.getDataOfLabel("POLIZA")+".pdf");
 
             MimeMultipart mimeMultipart= new MimeMultipart();
 
             mimeMultipart.addBodyPart(texto);
+            mimeMultipart.addBodyPart(adjunto);
             
             MimeMessage msg = new MimeMessage(session);
             msg.setFrom();
             msg.setSubject(subject);
             msg.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
             //msg.setText(contend);
-            msg.setContent(contend, "text/html");
+            msg.setContent(mimeMultipart, "text/html");
             
             Transport t =  session.getTransport("smtp");
             //System.out.println("user: "+App.getMailStaticParams().getMAIL()+" pass: "

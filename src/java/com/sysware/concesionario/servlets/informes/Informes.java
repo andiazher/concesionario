@@ -172,7 +172,7 @@ public class Informes extends HttpServlet {
                             out.println("<th class=\"text-right\">--</td>");
                             out.println("</tr>");
                     }
-                    try (FileOutputStream fileOut = new FileOutputStream("matriculas.xls")) {
+                    try (FileOutputStream fileOut = new FileOutputStream( request.getSession().getServletContext().getRealPath("/attach")+"/matriculas.xls")) {
                         HSSFWorkbook workbook = new HSSFWorkbook();
                         HSSFSheet worksheet = workbook.createSheet("MATRICULAS");
                         

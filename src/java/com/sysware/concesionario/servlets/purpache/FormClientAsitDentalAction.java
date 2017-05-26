@@ -5,11 +5,14 @@
  */
 package com.sysware.concesionario.servlets.purpache;
 
+import com.itextpdf.text.DocumentException;
 import com.sysware.concesionario.app.App;
 import com.sysware.concesionario.core.DispersionValores;
 import com.sysware.concesionario.core.Mail;
 import com.sysware.concesionario.entitie.Entitie;
+import com.sysware.concesionario.services.PDFs;
 import com.sysware.concesionario.services.WebServiceAsistenciaDen;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -39,7 +42,7 @@ public class FormClientAsitDentalAction extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException, SQLException, FileNotFoundException, DocumentException {
         response.setContentType("text/html;charset=UTF-8");
         try{
             if(request.getSession().getAttribute("session").equals("true")){
@@ -185,6 +188,7 @@ public class FormClientAsitDentalAction extends HttpServlet {
                     //PASO DEL SERVICIO A TRAMITADO
                     asd.getData().set(asd.getColums().indexOf("ESTADO"), "2");
                     asd.getData().set(asd.getColums().indexOf("ESTADOPOL"), "VIGENTE");
+                    
                     //CREACION DE ORDEN DE SERVICIO JUNTO A UNA DETALLE DE ORDEN DE SERVICIO
                     if(dos.getId().equals("0")){
                        Entitie os = new Entitie(App.TABLE_OS);
@@ -225,6 +229,7 @@ public class FormClientAsitDentalAction extends HttpServlet {
                        }
                        dos.getEntitieID(iddos);
                     }
+                    
                     //Configuracion del Rubro;
                     try{    
                         DispersionValores disp= new DispersionValores();
@@ -286,16 +291,12 @@ public class FormClientAsitDentalAction extends HttpServlet {
                             //4. ADMIN PLATINOS SEGUROS
                         }
                         
-                        double plataforma = 0;
-                        double base = plataforma/(1.19);
-                        double retplataforma = base * (0.04);
-                        double retproduct = base * (0.04);
-                        double retcanal = base * (0.04);
-                        double ingresosPlatinos = 0;
-                        
                     }catch(Exception s){
                         s.printStackTrace();
                     }
+                    //END CONFIG RUBROS AND DISPERSION
+                    
+                    //
                     if(id != null && !"0".equals(id)){
                         try{
                             dos.getData().set(dos.getColums().indexOf("ESTADO"), "2");
@@ -305,6 +306,8 @@ public class FormClientAsitDentalAction extends HttpServlet {
                             //System.out.println("Error al actualizar dos: "+s);
                         }
                     }
+                    
+                    
                     
                     //SEN MAIL TO CLIENT NEW 
                     
@@ -322,12 +325,13 @@ public class FormClientAsitDentalAction extends HttpServlet {
                         mail.setSubject("POLIZA ASISTENCIA DENTAL AD"+idPoliza);
                         String cadena= cliente.getDataOfLabel("NOMBRE");
                         String nameClient = cadena.substring(0,1).toUpperCase() + cadena.substring(1).toLowerCase();
-                        mail.setContend("<p>Hola "+nameClient+",</p><br>"
-                                +"<p>Su número de poliza de asistencia dental es <b>AD"+idPoliza+"</b></p>"
-                                +"<p>Muchas Gracias por utilizar nuestros servicios</p> <br>"
-                                +"<p><b>Platinos Seguros</b></p>"
-                                + "<a href=\"sysware-ingenieria.com\">www.platinoseguros.com.co</a>");
-                        enviado = mail.send();
+                        mail.setContend("Hola "+nameClient+". "+
+                                 "Su número de poliza de asistencia dental es AD" + idPoliza + ".");
+                        //CREATE PDF
+                        PDFs ss = new PDFs();
+                        ss.createPDFPoliza(request, cliente, asd);
+                        //send
+                        enviado = mail.send(request, asd);
                         System.out.println("Enviado a: "+mc + " Confirm:"+enviado);
                     }
                     else{
@@ -386,24 +390,6 @@ public class FormClientAsitDentalAction extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(FormClientAsitDentalAction.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -415,10 +401,12 @@ public class FormClientAsitDentalAction extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, FileNotFoundException {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
+            Logger.getLogger(FormClientAsitDentalAction.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (DocumentException ex) {
             Logger.getLogger(FormClientAsitDentalAction.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -442,6 +430,8 @@ public class FormClientAsitDentalAction extends HttpServlet {
         asd.getData().set(asd.getColums().indexOf("FECHAEXP"),"1900-01-01");
         asd.getData().set(asd.getColums().indexOf("FECHAPAGO"),"1900-01-01");
         asd.getData().set(asd.getColums().indexOf("ESTADOPAGO"),"PORPAGAR");
+        
+        asd.getData().set(asd.getColums().indexOf("POLIZA"),""+(int) (Math.random()*1000000000));
         asd.create();
         return asd;
     }

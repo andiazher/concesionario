@@ -196,7 +196,7 @@ public class DataPolizasAnuRenAction extends HttpServlet {
                                             +"<p>Muchas Gracias por utilizar nuestros servicios</p> <br>"
                                             +"<p><b>Platinos Seguros</b></p>"
                                             + "<a href=\"sysware-ingenieria.com\">www.platinoseguros.com.co</a>");
-                                    enviado = mail.send();
+                                    enviado = mail.send(request, ad);
                                     System.out.println("Enviar a: "+mc + " Confirm:"+enviado);
                                 }
                                 else{
