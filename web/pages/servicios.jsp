@@ -166,7 +166,7 @@
     function loadparams(){
         var f = new Date();
         var anoActual = f.getFullYear();
-        var mes= f.getMonth()+1;
+        var mes= f.getMonth();
         var dia = f.getDate();
         var fecha =anoActual+"-"+mes+"-"+dia;
         $("#fecha1").attr("value",fecha);

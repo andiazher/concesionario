@@ -33,6 +33,7 @@ public class PDFs {
     public void createPDFPoliza(HttpServletRequest request, Entitie cliente, Entitie asd) throws FileNotFoundException, DocumentException {
         Document document = new Document(PageSize.A4, 50, 50, 50, 50);
         System.out.println("CREADO PDF");
+        System.out.println("DIR REAL: "+request.getSession().getServletContext().getRealPath("/attach"));
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(
                 request.getSession().getServletContext().getRealPath("/attach")+"/POL "+asd.getDataOfLabel("POLIZA")+".pdf"
                 ));

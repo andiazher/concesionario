@@ -7,6 +7,7 @@ package com.sysware.concesionario.servlets.informes;
 
 import com.sysware.concesionario.app.App;
 import com.sysware.concesionario.entitie.Entitie;
+import com.sysware.concesionario.services.XLSFile;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -172,11 +173,20 @@ public class Informes extends HttpServlet {
                             out.println("<th class=\"text-right\">--</td>");
                             out.println("</tr>");
                     }
+                    //FILE
+                    System.out.println("File");
+                    XLSFile file = new XLSFile(request.getSession().getServletContext().getRealPath("/attach")+"/matriculas");
+                    file.createWorksheet("MATRICULAS");
+                    file.generateInformXLS(new ArrayList<String>(), "INFORME DE MATRICULAS");
+                    System.out.println("File3");
+                    file.closeReport();
+                    /**
                     try (FileOutputStream fileOut = new FileOutputStream( request.getSession().getServletContext().getRealPath("/attach")+"/matriculas.xls")) {
                         HSSFWorkbook workbook = new HSSFWorkbook();
                         HSSFSheet worksheet = workbook.createSheet("MATRICULAS");
                         
                         //TITULO
+                        
                         HSSFRow row1 = worksheet.createRow((short) 0);
                         HSSFCell cellA1 = row1.createCell((short) 0);
                         cellA1.setCellValue("Hello");
@@ -205,7 +215,7 @@ public class Informes extends HttpServlet {
                         fileOut.flush();
                         System.out.println("Archivo creado");
                     }
-                    
+                    */
                 }
                 if(entidad.contains("movimientos")){
                     Entitie registroR = new Entitie(App.TABLE_REGMOVBOLSA);
