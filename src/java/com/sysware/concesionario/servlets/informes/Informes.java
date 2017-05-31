@@ -13,12 +13,16 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.util.CellRangeAddress;
 
 
 /**
@@ -104,6 +108,31 @@ public class Informes extends HttpServlet {
                 if(entidad.contains("matricula")){
                     Entitie registroR = new Entitie(App.TABLE_REGISTROMATRICULA);
                     ArrayList<Entitie> resgistros = registroR.getEntities();
+                    
+                    //FILE
+                    ArrayList<String> names=new ArrayList<>();
+                    names.add("Id");
+                    names.add("Factura");
+                    names.add("Fecha");
+                    names.add("Propietario");
+                    names.add("Placa");
+                    names.add("Clase");
+                    names.add("Gestoria");
+                    names.add("Matricula");
+                    names.add("Runt");
+                    names.add("Papelera");
+                    names.add("Mensajeria");
+                    names.add("Impuestos");
+                    names.add("Otros");
+                    names.add("Retefuente");
+                    names.add("Honorarios");
+                    names.add("Total");
+                    names.add("Saldo");
+                    
+                    XLSFile file = new XLSFile(request.getSession().getServletContext().getRealPath("/attach")+"/matriculas");
+                    file.createWorksheet("MATRICULAS");
+                    file.generateInformXLS( names , "INFORME DE MATRICULAS");
+                    
                     try (PrintWriter out = response.getWriter()) {
                         int matricula = 0;
                         int runt = 0;
@@ -116,23 +145,74 @@ public class Informes extends HttpServlet {
                         int total = 0;
                         for(Entitie i: resgistros){
                             out.println("<tr>");
+                            file.createRow();
+                            
                             out.println("<td>"+i.getId()+"</td>");
+                            file.createCell();
+                            file.getCell().setCellValue(Double.parseDouble(i.getId()));
+                            
                             out.println("<td>"+i.getDataOfLabel("FACTURA")+"</td>");
+                            file.createCell();
+                            file.getCell().setCellValue(i.getDataOfLabel("FACTURA"));
+                            
                             out.println("<td>"+i.getDataOfLabel("FECHA")+"</td>");
+                            file.createCell();
+                            file.getCell().setCellValue(i.getDataOfLabel("FECHA"));
+                            
                             out.println("<td>"+i.getDataOfLabel("PROPIETARIO")+"</td>");
+                            file.createCell();
+                            file.getCell().setCellValue(i.getDataOfLabel("PROPIETARIO"));
+                            
                             out.println("<td>"+i.getDataOfLabel("PLACA")+"</td>");
+                            file.createCell();
+                            file.getCell().setCellValue(i.getDataOfLabel("PLACA"));
+                            
                             out.println("<td>"+i.getDataOfLabel("CLASE")+"</td>");
+                            file.createCell();
+                            file.getCell().setCellValue(i.getDataOfLabel("CLASE"));
+                            
                             out.println("<td>"+i.getDataOfLabel("GESTORIA")+"</td>");
+                            file.createCell();
+                            file.getCell().setCellValue(i.getDataOfLabel("GESTORIA"));
                             
                             matricula+=Integer.parseInt(i.getDataOfLabel("MATRICULA"));
+                            file.createCell();
+                            file.getCell().setCellValue(Integer.parseInt(i.getDataOfLabel("MATRICULA")));
+                            
                             runt+=Integer.parseInt(i.getDataOfLabel("RUNT"));
+                            file.createCell();
+                            file.getCell().setCellValue(Integer.parseInt(i.getDataOfLabel("RUNT")));
+                            
                             papeleria+=Integer.parseInt(i.getDataOfLabel("PAPELERIA"));
+                            file.createCell();
+                            file.getCell().setCellValue(Integer.parseInt(i.getDataOfLabel("PAPELERIA")));
+                            
                             mensajeria+=Integer.parseInt(i.getDataOfLabel("MENSAJERIA"));
+                            file.createCell();
+                            file.getCell().setCellValue(Integer.parseInt(i.getDataOfLabel("MENSAJERIA")));
+                            
                             impuestos+=Integer.parseInt(i.getDataOfLabel("IMPUESTOS"));
+                            file.createCell();
+                            file.getCell().setCellValue(Integer.parseInt(i.getDataOfLabel("IMPUESTOS")));
+                            
                             otros+=Integer.parseInt(i.getDataOfLabel("OTROS"));
+                            file.createCell();
+                            file.getCell().setCellValue(Integer.parseInt(i.getDataOfLabel("OTROS")));
+                            
                             retefuente+=Integer.parseInt(i.getDataOfLabel("RETEFUENTE"));
+                            file.createCell();
+                            file.getCell().setCellValue(Integer.parseInt(i.getDataOfLabel("RETEFUENTE")));
+                            
                             honorario+=Integer.parseInt(i.getDataOfLabel("HONORARIO"));
+                            file.createCell();
+                            file.getCell().setCellValue(Integer.parseInt(i.getDataOfLabel("HONORARIO")));
+                            
                             total+=Integer.parseInt(i.getDataOfLabel("TOTAL"));
+                            file.createCell();
+                            file.getCell().setCellValue(Integer.parseInt(i.getDataOfLabel("TOTAL")));
+                            
+                            file.createCell();
+                            file.getCell().setCellValue(Integer.parseInt(i.getDataOfLabel("SALDO")));
                             
                             DecimalFormat formateador = new DecimalFormat("###,###.##");
                             out.println("<td class=\"text-right\">$"+formateador.format(Integer.parseInt(i.getDataOfLabel("MATRICULA")))+"</td>");
@@ -148,29 +228,65 @@ public class Informes extends HttpServlet {
                             out.println("</tr>");
                         }
                         // TOTAL
-                            out.println("<tr>");
-                            out.println("<th colspan=\"7\" class=\"text-center \">TOTAL</th>");
+                        out.println("<tr>");
+                        file.createRow();
+                        int ri= file.getCell().getRowIndex()+1;
+                        file.createCell();
+                        file.getCell().setCellValue("TOTAL");
+                        file.addCellStyleTo();
+                        file.getCell().getRow().getSheet().addMergedRegion(new CellRangeAddress(ri,ri,0,6));
+                        file.createCell();file.createCell();file.createCell();file.createCell();file.createCell();
+                        file.createCell();
+                        file.restartStyle();
+                        file.getCellStyle().setFillForegroundColor(HSSFColor.LIGHT_YELLOW.index);
+                        file.getCellStyle().setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+                        
+                        out.println("<th colspan=\"7\" class=\"text-center \">TOTAL</th>");
                             
-                            
-                            DecimalFormat formateador = new DecimalFormat("###,###.##");
-                            out.println("<th class=\"text-right\">$"+formateador.format(matricula)+"</th>");
-                            out.println("<th class=\"text-right\">$"+formateador.format(runt)+"</th>");
-                            out.println("<th class=\"text-right\">$"+formateador.format(papeleria)+"</th>");
-                            out.println("<th class=\"text-right\">$"+formateador.format(mensajeria)+"</th>");
-                            out.println("<th class=\"text-right\">$"+formateador.format(impuestos)+"</th>");
-                            out.println("<th class=\"text-right\">$"+formateador.format(otros)+"</th>");
-                            out.println("<th class=\"text-right\">$"+formateador.format(retefuente)+"</th>");
-                            out.println("<th class=\"text-right\">$"+formateador.format(honorario)+"</th>");
-                            out.println("<th class=\"text-right\">$"+formateador.format(total)+"</th>");
-                            out.println("<th class=\"text-right\">--</td>");
-                            out.println("</tr>");
+                        DecimalFormat formateador = new DecimalFormat("###,###.##");
+                        out.println("<th class=\"text-right\">$"+formateador.format(matricula)+"</th>");
+                        file.createCell(); file.addCellStyleTo();
+                        file.getCell().setCellValue(matricula);
+                        
+                        out.println("<th class=\"text-right\">$"+formateador.format(runt)+"</th>");
+                        file.createCell(); file.addCellStyleTo();
+                        file.getCell().setCellValue(runt);
+                        
+                        out.println("<th class=\"text-right\">$"+formateador.format(papeleria)+"</th>");
+                        file.createCell(); file.addCellStyleTo();
+                        file.getCell().setCellValue(papeleria);
+                        
+                        out.println("<th class=\"text-right\">$"+formateador.format(mensajeria)+"</th>");
+                        file.createCell(); file.addCellStyleTo();
+                        file.getCell().setCellValue(mensajeria);
+                        
+                        out.println("<th class=\"text-right\">$"+formateador.format(impuestos)+"</th>");
+                        file.createCell(); file.addCellStyleTo();
+                        file.getCell().setCellValue(impuestos);
+                        
+                        out.println("<th class=\"text-right\">$"+formateador.format(otros)+"</th>");
+                        file.createCell(); file.addCellStyleTo();
+                        file.getCell().setCellValue(otros);
+                        
+                        out.println("<th class=\"text-right\">$"+formateador.format(retefuente)+"</th>");
+                        file.createCell(); file.addCellStyleTo();
+                        file.getCell().setCellValue(retefuente);
+                        
+                        out.println("<th class=\"text-right\">$"+formateador.format(honorario)+"</th>");
+                        file.createCell(); file.addCellStyleTo();
+                        file.getCell().setCellValue(honorario);
+                        
+                        out.println("<th class=\"text-right\">$"+formateador.format(total)+"</th>");
+                        file.createCell(); file.addCellStyleTo();
+                        file.getCell().setCellValue(total);
+                        
+                        out.println("<th class=\"text-right\">--</td>");
+                        file.createCell(); file.addCellStyleTo();
+                        file.getCell().setCellValue("--");
+                        
+                        out.println("</tr>");
+                        
                     }
-                    //FILE
-                    System.out.println("File");
-                    XLSFile file = new XLSFile(request.getSession().getServletContext().getRealPath("/attach")+"/matriculas");
-                    file.createWorksheet("MATRICULAS");
-                    file.generateInformXLS(new ArrayList<String>(), "INFORME DE MATRICULAS");
-                    System.out.println("File3");
                     file.closeReport();
                     /**
                     try (FileOutputStream fileOut = new FileOutputStream( request.getSession().getServletContext().getRealPath("/attach")+"/matriculas.xls")) {

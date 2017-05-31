@@ -18,6 +18,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 /**
@@ -91,9 +92,21 @@ public class XLSFile {
         cellActive.setCellValue(nameReport);
         cellStyle.setFillForegroundColor(HSSFColor.LIGHT_ORANGE.index);
         cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
         addCellStyleTo();
         worksheet.addMergedRegion(new CellRangeAddress(0,0,0,16));
         createRow();
+        restartStyle();
+        
+        cellStyle.setFillForegroundColor(HSSFColor.LIGHT_YELLOW.index);
+        cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        cellStyle.setAlignment(HorizontalAlignment.CENTER);
+        for(String s: nameCols){
+            createCell();
+            cellActive.setCellValue(s);
+            addCellStyleTo();
+        }
+        
     }
     public void closeReport() throws IOException{
         workbook.write(fileOut);
